@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.env
+node_modules/
+.ipynb_checkpoints/
+.DS_Store
+*.log
+data/**/*.tmp
