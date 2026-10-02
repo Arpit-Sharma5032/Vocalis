@@ -1,0 +1,155 @@
+aiohappyeyeballs==2.7.1
+aiohttp==3.14.3
+aiosignal==1.4.0
+alembic==1.20.0
+annotated-types @ file:///C:/Users/task_HC8bELSzQYSqy_0/croot/annotated-types_1783681208923/work
+antlr4-python3-runtime==4.9.3
+anyio @ file:///C:/Users/task_179007487920171/croot/anyio_1790075303713/work
+archspec @ file:///C:/Users/task_178170346034980/croot/archspec_1781703536595/work
+asteroid-filterbanks==0.4.0
+attrs==26.1.0
+audioread==3.1.0
+av==18.1.0
+backports.zstd @ file:///C:/Users/task_177317794620856/croot/backports.zstd_1773178399676/work
+boltons @ file:///C:/b/abs_e2_iokhxbp/croot/boltons_1751383740243/work
+brotlicffi @ file:///C:/Users/task_178644394889731/croot/brotlicffi_1786444036817/work
+build @ file:///C:/Users/task_Yih_Di4DRie4C_0/croot/python-build_1784730401656/work
+certifi @ file:///C:/Users/task_DuwerqRfSL2rb_0/croot/certifi_1785412607861/work/certifi
+cffi @ file:///C:/Users/task_178669710197536/croot/cffi_1786697249889/work
+charset-normalizer @ file:///C:/Users/task_cU6cRRWFQl6Bt_0/croot/charset-normalizer_1782917499173/work
+click==8.5.0
+cloudpickle==3.1.2
+colorama @ file:///C:/ci_311/colorama_1676422310965/work
+colorlog==6.12.0
+conda @ file:///C:/Users/task_178706816172625/croot/conda_1787069029860/work/conda-src
+conda-libmamba-solver @ file:///home/task_Cr-3rYb_Svu0h_0/croot/conda-libmamba-solver_1784135307254/work/src
+conda-lockfiles @ file:///C:/Users/task_179016588759098/croot/conda-lockfiles_1790166030706/work
+conda-package-handling @ file:///C:/Users/task_178893549069815/croot/conda-package-handling_1788936330312/work
+conda-pypi @ file:///C:/Users/task_179070491694034/croot/conda-pypi_1790704995749/work
+conda-rattler-solver @ file:///C:/Users/task_179036639478635/croot/conda-rattler-solver_1790366476994/work
+conda-self @ file:///C:/Users/task_179010272355375/croot/conda-self_1790103305975/work
+conda_index @ file:///C:/Users/task_178844603504355/croot/conda-index_1788446556802/work
+conda_package_streaming @ file:///C:/Users/task_178173115093800/croot/conda-package-streaming_1781731262312/work
+contourpy==1.3.3
+ctranslate2==4.8.2
+cycler==0.12.1
+decorator==5.3.1
+defusedxml==0.7.1
+distro @ file:///C:/b/abs_71xr36ua5r/croot/distro_1714488282676/work
+einops==0.8.2
+faster-whisper==1.2.1
+filelock==4.0.9
+flatbuffers==25.12.19
+fonttools==4.66.1
+frozendict @ file:///C:/Users/task_JGHEYoXnTdKnD_0/croot/frozendict_1782910298477/work
+frozenlist==1.8.0
+fsspec==2026.9.0
+googleapis-common-protos==1.75.5
+grpcio==1.84.0
+h11 @ file:///C:/miniconda3/conda-bld/h11_1761931279881/work
+httpcore @ file:///C:/b/abs_25m7_xthp6/croot/httpcore_1748526065845/work
+httpx @ file:///C:/miniconda3/conda-bld/httpx_1760447374704/work
+huggingface_hub==0.36.2
+idna @ file:///C:/Users/task_178056140082204/croot/idna_1780561467236/work
+installer @ file:///C:/Users/task_JAJ8zOTFT7agy_0/croot/python-installer_1783936202059/work
+Jinja2 @ file:///C:/Users/task_178782650289977/croot/jinja2_1787826584596/work
+joblib==1.6.0
+julius==0.2.8
+kiwisolver==1.5.1
+lazy-loader==0.6
+libmambapy @ file:///C:/Users/task_177670022408782/croot/mamba-split_1776700396523/work/libmambapy
+librosa==0.11.0
+lightning==2.6.6
+lightning-utilities==0.15.3
+llvmlite==0.50.0
+Mako==1.4.3
+markdown-it-py==4.2.0
+MarkupSafe @ file:///C:/Users/task_178239072175843/croot/markupsafe_1782390848574/work
+matplotlib==3.11.2
+mdurl==0.1.2
+menuinst @ file:///C:/Users/task_ZzzRmjcQTd23-_0/croot/menuinst_1784297587686/work
+mpmath==1.3.0
+msgpack @ file:///C:/Users/task_178239934692086/croot/msgpack-python_1782399433891/work
+multidict==6.9.1
+narwhals==2.26.0
+networkx==3.6.1
+nltk==3.10.3
+numba==0.68.0
+numpy==2.4.6
+omegaconf==2.3.1
+onnxruntime==1.30.0
+opentelemetry-api==1.45.0
+opentelemetry-exporter-http-transport==0.66b0
+opentelemetry-exporter-otlp==1.45.0
+opentelemetry-exporter-otlp-common==0.66b0
+opentelemetry-exporter-otlp-proto-common==1.45.0
+opentelemetry-exporter-otlp-proto-grpc==1.45.0
+opentelemetry-exporter-otlp-proto-http==1.45.0
+opentelemetry-proto==1.45.0
+opentelemetry-sdk==1.45.0
+opentelemetry-semantic-conventions==0.66b0
+optuna==5.0.0
+packaging==26.3
+pandas==3.0.6
+pillow==12.3.0
+platformdirs @ file:///C:/Users/task_MgUXk_4JQdS1W_0/croot/platformdirs_1785312169022/work
+pluggy @ file:///C:/Users/task_177697290055079/croot/pluggy_1776973027598/work
+pooch==1.9.0
+praat-parselmouth==0.4.7
+primePy==1.3
+propcache==0.5.4
+protobuf==7.36.2
+py-rattler @ file:///C:/Users/task_178965627341974/croot/py-rattler-split_1789656588355/work/py-rattler/target/wheels/py_rattler-0.26.0-cp310-abi3-win_amd64.whl#sha256=2b225821fcb425c85dc782ed091f63faa7244516e26f0a2fe9e94d9908c71756
+pyannote-audio==4.0.7
+pyannote-core==6.0.1
+pyannote-database==6.1.1
+pyannote-metrics==4.1
+pyannote-pipeline==4.0.0
+pyannoteai-sdk==0.4.0
+pycosat @ file:///C:/b/abs_18nblzzn70/croot/pycosat_1736868434419/work
+pycparser @ file:///C:/Users/task_177495971060608/croot/pycparser_1774959807716/work
+pydantic @ file:///C:/Users/task_179025787773249/croot/pydantic_1790258340934/work
+pydantic_core @ file:///C:/Users/task_179023710332534/croot/pydantic-core_1790237184950/work
+Pygments==2.21.0
+pyparsing==3.3.3
+pyproject_hooks @ file:///C:/Users/task_179059994348136/croot/pyproject_hooks_1790600124456/work
+PySocks @ file:///C:/Users/task_179002186912327/croot/pysocks_1790022025292/work
+python-dateutil==2.9.0.post0
+pytorch-lightning==2.6.6
+pytorch-metric-learning==2.9.0
+PyYAML==6.0.3
+regex==2026.9.29
+requests @ file:///C:/Users/task_178034870851729/croot/requests_1780348781727/work
+rich==15.0.0
+ruamel.yaml @ file:///C:/miniconda3/conda-bld/ruamel.yaml_1762535972213/work
+ruamel.yaml.clib @ file:///C:/miniconda3/conda-bld/ruamel.yaml.clib_1762530209866/work
+safetensors==0.8.0
+scikit-learn==1.9.1
+scipy==1.17.1
+six==1.17.0
+sortedcontainers==2.4.0
+soundfile==0.14.0
+soxr==1.1.0
+SQLAlchemy==2.1.2
+sympy==1.14.0
+threadpoolctl==3.7.0
+tokenizers==0.22.2
+tomli_w @ file:///croot/tomli-w_1738351312774/work
+torch==2.8.0
+torch-audiomentations==0.12.0
+torch_pitch_shift==1.2.5
+torchaudio==2.8.0
+torchcodec==0.7.0
+torchmetrics==1.9.0
+torchvision==0.23.0
+tqdm @ file:///C:/Users/task_178696930439736/croot/tqdm_1786969400198/work
+transformers==4.57.6
+truststore @ file:///C:/Users/task_177860002438319/croot/truststore_1778600105103/work
+typing-inspection @ file:///C:/Users/task_178653446338429/croot/typing-inspection_1786534545073/work
+typing_extensions @ file:///C:/Users/task_XGSspINPRKGcP_0/croot/typing_extensions_1784101076376/work
+tzdata==2026.4
+unearth @ file:///C:/Users/task_O_e0eGMhTCCcN_1/croot/unearth_1783061388861/work
+urllib3 @ file:///C:/Users/task_179070034242986/croot/urllib3_1790701139334/work
+whisperx==3.8.6
+win_inet_pton @ file:///C:/miniconda3/conda-bld/win_inet_pton_1761746278197/work
+yarl==1.25.1
