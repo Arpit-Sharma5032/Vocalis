@@ -6,6 +6,7 @@ import pytest
 from dataset_builder.perturb import (
     SEVERITY,
     SR,
+    STUMBLE_GAP_S,
     apply_gain,
     apply_monotone,
     apply_pace,
@@ -56,9 +57,16 @@ def test_pace_label_end_matches_output_length():
 def test_stumble_label_covers_original_plus_repeats():
     audio = np.ones(SR * 3, dtype=np.float32) * 0.1
     out, (a, b) = apply_stumble(audio, 1.0, 1.4, repeats=2)
-    expected_extra = 2 * (0.4 + 0.10)
+    expected_extra = 2 * (0.4 + STUMBLE_GAP_S)
     assert len(out) == pytest.approx(len(audio) + expected_extra * SR, abs=2)
     assert (a, b) == pytest.approx((1.0, 1.4 + expected_extra), abs=0.001)
+
+
+def test_stumble_inserts_audible_silent_gap_before_repeat():
+    audio = np.ones(SR * 3, dtype=np.float32) * 0.1
+    out, _ = apply_stumble(audio, 1.0, 1.4, repeats=1)
+    mid_gap = int((1.4 + STUMBLE_GAP_S / 2) * SR)
+    assert out[mid_gap] == 0.0
 
 
 def test_monotone_reduces_pitch_variation_inside_region_only():
