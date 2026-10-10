@@ -26,7 +26,7 @@ from parselmouth.praat import call
 
 SR = 16000
 FADE_S = 0.01  # crossfade length used when splicing processed audio back in
-STUMBLE_GAP_S = 0.10  # short silence between a word and its repeat
+STUMBLE_GAP_S = 0.25  # silence between a word and each repeat (audible hesitation)
 
 # Severity -> parameter. Larger distance from "normal" = more obviously wrong.
 SEVERITY = {
@@ -150,7 +150,12 @@ def apply_stumble(
     The label covers the original word plus all repeats.
     """
     s, e = int(start * SR), int(end * SR)
-    unit = audio[s:e]
+    unit = audio[s:e].copy()
+    fade = min(int(FADE_S * SR), len(unit) // 4)  # soften the cut edges to avoid clicks
+    if fade > 0:
+        ramp = np.linspace(0.0, 1.0, fade, dtype=unit.dtype)
+        unit[:fade] *= ramp
+        unit[-fade:] *= ramp[::-1]
     gap = np.zeros(int(STUMBLE_GAP_S * SR), dtype=audio.dtype)
     inserted = np.concatenate([np.concatenate([gap, unit]) for _ in range(repeats)])
     out = np.concatenate([audio[:e], inserted, audio[e:]])
