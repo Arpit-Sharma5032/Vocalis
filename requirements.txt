@@ -51,6 +51,7 @@ httpcore @ file:///C:/b/abs_25m7_xthp6/croot/httpcore_1748526065845/work
 httpx @ file:///C:/miniconda3/conda-bld/httpx_1760447374704/work
 huggingface_hub==0.36.2
 idna @ file:///C:/Users/task_178056140082204/croot/idna_1780561467236/work
+iniconfig==2.3.1
 installer @ file:///C:/Users/task_JAJ8zOTFT7agy_0/croot/python-installer_1783936202059/work
 Jinja2 @ file:///C:/Users/task_178782650289977/croot/jinja2_1787826584596/work
 joblib==1.6.0
@@ -114,6 +115,7 @@ Pygments==2.21.0
 pyparsing==3.3.3
 pyproject_hooks @ file:///C:/Users/task_179059994348136/croot/pyproject_hooks_1790600124456/work
 PySocks @ file:///C:/Users/task_179002186912327/croot/pysocks_1790022025292/work
+pytest==9.1.1
 python-dateutil==2.9.0.post0
 pytorch-lightning==2.6.6
 pytorch-metric-learning==2.9.0
