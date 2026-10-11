@@ -7,3 +7,7 @@ node_modules/
 .DS_Store
 *.log
 data/**/*.tmp
+# Generated flawed audio (rebuild with: python -m dataset_builder.build_dataset)
+data/perturbed/
+
+

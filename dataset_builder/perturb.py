@@ -21,11 +21,13 @@ from pathlib import Path
 import librosa
 import numpy as np
 import parselmouth
+import parselmouth.praat
 import soundfile as sf
 from parselmouth.praat import call
 
 SR = 16000
 FADE_S = 0.01  # crossfade length used when splicing processed audio back in
+PRAAT_SEED = 42  # Praat resynthesis uses random numbers; seeding makes output repeatable
 STUMBLE_GAP_S = 0.25  # silence between a word and each repeat (audible hesitation)
 
 # Severity -> parameter. Larger distance from "normal" = more obviously wrong.
@@ -50,12 +52,18 @@ class FlawLabel:
     parameter: float
 
 
+def _seed_praat() -> None:
+    """Seed Praat's random generator so PSOLA output is identical on every run."""
+    parselmouth.praat.run(f"random_initializeWithSeedUnsafelyButPredictably({PRAAT_SEED})")
+
+
 def _psola_stretch(region: np.ndarray, rate: float) -> np.ndarray:
     """Time-stretch speech by `rate` (>1 faster) using Praat PSOLA, pitch preserved.
 
     PSOLA works on individual pitch periods, so speech stays far more natural
     than with a phase vocoder, especially at high rates.
     """
+    _seed_praat()
     snd = parselmouth.Sound(region.astype(np.float64), sampling_frequency=SR)
     manip = call(snd, "To Manipulation", 0.01, 75, 500)
     duration_tier = call("Create DurationTier", "stretch", 0.0, snd.xmax)
@@ -117,6 +125,7 @@ def apply_monotone(
     domain: new = median * (f0 / median) ** (1 - strength). strength=1 is fully
     flat; strength=0 leaves the pitch unchanged. Uses Praat's PSOLA resynthesis.
     """
+    _seed_praat()
     snd = parselmouth.Sound(audio.astype(np.float64), sampling_frequency=SR)
     manip = call(snd, "To Manipulation", 0.01, 75, 500)
     tier = call(manip, "Extract pitch tier")

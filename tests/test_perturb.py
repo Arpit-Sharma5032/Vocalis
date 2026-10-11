@@ -90,3 +90,13 @@ def test_severity_is_monotonic_for_every_flaw():
 def test_inject_rejects_unknown_flaw():
     with pytest.raises(ValueError):
         inject(np.zeros(SR, dtype=np.float32), "whisper", "subtle", 0.0, 1.0)
+
+
+def test_pace_and_monotone_are_deterministic():
+    audio = _voiced_signal(3.0)
+    first, _ = apply_pace(audio, 0.5, 2.5, rate=1.5)
+    second, _ = apply_pace(audio, 0.5, 2.5, rate=1.5)
+    assert np.array_equal(first, second)
+    first, _ = apply_monotone(audio, 0.5, 2.5, strength=0.7)
+    second, _ = apply_monotone(audio, 0.5, 2.5, strength=0.7)
+    assert np.array_equal(first, second)
