@@ -38,3 +38,13 @@ WhisperX forced alignment, with the supplied transcript as the text.
 ```
 ffmpeg -y -i <source.mp3> -ss <start> -t <duration_s> -ac 1 -ar 16000 -c:a pcm_s16le data/raw_audio/<clip_id>.wav
 ```
+
+## Own recordings (real, human-performed)
+
+`data/own_recordings/` holds three takes of the Lincoln transcript recorded by the
+project author: `own_good` (clean delivery) and `own_flawed_moderate` /
+`own_flawed_subtle` (flaws performed on purpose at four planned sentences:
+pace, monotone, pause, volume). Labels in `labels.csv` come from forced alignment:
+sentence boundaries for pace, monotone and volume, and the largest mid-sentence
+gap for the pause. The severity is the intended one and has not been measured
+independently. Released under CC BY 4.0.

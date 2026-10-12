@@ -1,0 +1,10 @@
+clip_id,file,flaw_type,severity,flaw_start,flaw_end,sentence_index,sentence_text
+own_good,data/own_recordings/own_good.wav,none,none,,,,
+own_flawed_moderate,data/own_recordings/own_flawed_moderate.wav,pace,moderate,13.383,18.984,1,"Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure."
+own_flawed_moderate,data/own_recordings/own_flawed_moderate.wav,monotone,moderate,23.846,30.967,3,We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that this nation might live.
+own_flawed_moderate,data/own_recordings/own_flawed_moderate.wav,pause,moderate,44.47,46.811,5,"But in a larger sense, we cannot dedicate, we cannot consecrate, we cannot hallow this ground, the brave men, living and dead, who struggled here have consecrated it, far above our poor power to add or detract."
+own_flawed_moderate,data/own_recordings/own_flawed_moderate.wav,volume,moderate,60.534,70.717,7,"It is for us, the living, rather, to be dedicated here to the unfinished work, which they who fought here have thus far so nobly advanced."
+own_flawed_subtle,data/own_recordings/own_flawed_subtle.wav,pace,subtle,14.123,20.564,1,"Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure."
+own_flawed_subtle,data/own_recordings/own_flawed_subtle.wav,monotone,subtle,25.365,33.166,3,We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that this nation might live.
+own_flawed_subtle,data/own_recordings/own_flawed_subtle.wav,pause,subtle,47.129,48.929,5,"But in a larger sense, we cannot dedicate, we cannot consecrate, we cannot hallow this ground, the brave men, living and dead, who struggled here have consecrated it, far above our poor power to add or detract."
+own_flawed_subtle,data/own_recordings/own_flawed_subtle.wav,volume,subtle,61.852,72.534,7,"It is for us, the living, rather, to be dedicated here to the unfinished work, which they who fought here have thus far so nobly advanced."
