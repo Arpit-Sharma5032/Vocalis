@@ -100,14 +100,22 @@ def extract_features(audio: np.ndarray) -> FrameFeatures:
     )
 
 
+def silence_threshold(feats: FrameFeatures) -> float:
+    """Level (dBFS) below which a frame counts as silence.
+
+    max(noise floor + 10 dB, speech level - 30 dB), but never above speech level - 15 dB,
+    so a recording with almost no silence cannot push the threshold into the speech.
+    """
+    return min(max(feats.noise_floor_db + 10.0, feats.level_db - 30.0), feats.level_db - 15.0)
+
+
 def find_pauses(feats: FrameFeatures, min_len_s: float = 0.25) -> list[tuple[float, float]]:
     """Detect silent stretches from the energy contour.
 
-    A frame is silent if it is below max(noise floor + 10 dB, speech level - 30 dB).
+    A frame is silent if it is below `silence_threshold` (see `silence_threshold` above).
     Runs of silent frames at least `min_len_s` long are returned as (start, end).
     """
-    threshold = max(feats.noise_floor_db + 10.0, feats.level_db - 30.0)
-    silent = feats.energy_db < threshold
+    silent = feats.energy_db < silence_threshold(feats)
     pauses, start = [], None
     for i, s in enumerate(silent):
         if s and start is None:
@@ -147,3 +155,63 @@ def word_features(feats: FrameFeatures, words: list[dict]) -> pd.DataFrame:
         })
         prev_end = w["end"]
     return pd.DataFrame(rows)
+
+
+def _active_spans(silent: np.ndarray, min_len: int) -> tuple[list[tuple[int, int]], bool]:
+    """Non-silent spans of a frame mask, cutting at silent runs of at least min_len frames.
+
+    Returns (spans, any_cut). Spans are trimmed of leading/trailing silent frames.
+    """
+    n = len(silent)
+    cut = np.zeros(n, dtype=bool)
+    i = 0
+    while i < n:
+        if silent[i]:
+            j = i
+            while j < n and silent[j]:
+                j += 1
+            if j - i >= min_len:
+                cut[i:j] = True
+            i = j
+        else:
+            i += 1
+    spans, i = [], 0
+    while i < n:
+        if cut[i]:
+            i += 1
+            continue
+        j = i
+        while j < n and not cut[j]:
+            j += 1
+        a, b = i, j
+        while a < b and silent[a]:
+            a += 1
+        while b > a and silent[b - 1]:
+            b -= 1
+        if b > a:
+            spans.append((a, b))
+        i = j
+    return spans, bool(cut.any())
+
+
+def refine_word_times(feats: FrameFeatures, words: list[dict], min_silence_s: float = 0.2) -> list[dict]:
+    """Shrink words that swallowed a real silence to their longest voiced stretch.
+
+    Forced aligners (CTC) have no silence model, so a long pause is often absorbed
+    into a neighbouring word. If a word contains a silent run of at least
+    `min_silence_s` (by the energy contour), the word is cut back to its longest
+    non-silent span, which turns the swallowed silence back into a gap between words.
+    Words without such a silence are left untouched.
+    """
+    silent = feats.energy_db < silence_threshold(feats)
+    min_len = max(1, int(round(min_silence_s / HOP_S)))
+    refined = []
+    for w in words:
+        i0, i1 = max(0, int(round(w["start"] / HOP_S))), min(len(silent), int(round(w["end"] / HOP_S)))
+        spans, any_cut = _active_spans(silent[i0:i1], min_len) if i1 > i0 else ([], False)
+        if not any_cut or not spans:
+            refined.append(dict(w))
+            continue
+        a, b = max(spans, key=lambda s_: s_[1] - s_[0])
+        refined.append(dict(w, start=(i0 + a) * HOP_S, end=(i0 + b) * HOP_S))
+    return refined

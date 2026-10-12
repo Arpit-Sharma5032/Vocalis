@@ -107,3 +107,56 @@ def test_slowing_a_region_is_not_also_reported_as_pauses(baseline):
     flawed, flawed_words, _ = _flawed(baseline, "slow", "severe")
     kinds = {r.flaw_type for r in analyze(feats, words, extract_features(flawed), flawed_words)}
     assert "slow" in kinds and "pause" not in kinds
+
+
+def _swallowed_pause_words(baseline):
+    """Replicate WhisperX absorbing an inserted silence into the word that follows it."""
+    audio, words, feats = baseline
+    flawed, flawed_words, label = _flawed(baseline, "pause", "severe")
+    swallowed = [dict(w, start=label.start - 0.03) if abs(w["start"] - label.end) < 0.06 else dict(w)
+                 for w in flawed_words]
+    return flawed, swallowed, label
+
+
+def test_pause_swallowed_by_the_aligner_is_recovered_by_boundary_refinement(baseline):
+    from dataclasses import replace
+
+    audio, words, feats = baseline
+    flawed, swallowed, label = _swallowed_pause_words(baseline)
+    pf = extract_features(flawed)
+    off = analyze(feats, words, pf, swallowed, replace(Thresholds(), refine_boundaries=False))
+    on = analyze(feats, words, pf, swallowed, Thresholds())
+    assert not [r for r in off if r.flaw_type == "pause"]
+    found = [r for r in on if r.flaw_type == "pause"]
+    assert found and max(iou((r.start, r.end), (label.start, label.end)) for r in found) >= 0.5
+
+
+def test_long_gap_at_punctuation_is_normal_but_mid_phrase_is_flagged(baseline):
+    audio, words, feats = baseline
+    # words ending in a comma sit before a natural pause; a 0.8 s gap there is not a flaw
+    comma = next(i for i, w in enumerate(words) if w["word"].endswith(",") and 20 < i < 100)
+    plain = comma + 2
+    for idx, expect in ((comma, False), (plain, True)):
+        shifted = [dict(w, start=w["start"] + (0.8 if i > idx else 0), end=w["end"] + (0.8 if i > idx else 0))
+                   for i, w in enumerate(words)]
+        kinds = {r.flaw_type for r in analyze(feats, words, feats, shifted)}
+        assert ("pause" in kinds) == expect
+
+
+def test_noise_adaptive_threshold_reduces_false_alarms_from_aligner_jitter(baseline):
+    from dataclasses import replace
+
+    audio, words, feats = baseline
+    rng = np.random.default_rng(3)
+
+    def jitter(ws):
+        out = []
+        for w in ws:
+            s, e = w["start"] + rng.normal(0, 0.06), w["end"] + rng.normal(0, 0.06)
+            out.append(dict(w, start=min(s, e - 0.05), end=max(e, s + 0.05)))
+        return out
+
+    noisy_base, noisy_part = jitter(words), jitter(words)
+    plain = analyze(feats, noisy_base, feats, noisy_part, Thresholds())
+    adaptive = analyze(feats, noisy_base, feats, noisy_part, replace(Thresholds(), noise_k=3.0))
+    assert len(adaptive) <= len(plain)

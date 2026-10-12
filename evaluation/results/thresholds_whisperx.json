@@ -1,9 +1,12 @@
 {
   "window_words": 5,
-  "pace_log": 0.09531017980432493,
+  "pace_log": 0.26236426446749106,
   "pitch_log": -0.35667494393873245,
   "energy_db": 2.5,
   "pause_excess_s": 0.5,
+  "pause_punct_excess_s": 1.0,
   "min_region_words": 3,
-  "merge_gap_words": 1
+  "merge_gap_words": 1,
+  "refine_boundaries": true,
+  "noise_k": 5.0
 }

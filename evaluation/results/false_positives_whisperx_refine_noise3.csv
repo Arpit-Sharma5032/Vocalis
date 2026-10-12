@@ -1,0 +1,11 @@
+source,clip_id,predicted_type,start,end,score
+synthetic,fdr_fireside_01__pace_subtle,monotone,22.163,24.024,2.101
+synthetic,fdr_fireside_01__pace_moderate,monotone,22.163,24.024,2.1
+synthetic,fdr_fireside_01__slow_subtle,monotone,22.164,24.024,2.134
+synthetic,fdr_fireside_01__slow_moderate,monotone,22.164,24.025,1.233
+own,own_good,pause,10.821,11.241,0.38
+own,own_good,pause,27.243,27.683,0.38
+own,own_flawed_moderate,pause,71.837,72.637,0.72
+own,own_flawed_moderate,pause,85.78,86.34,0.54
+own,own_flawed_subtle,pause,23.284,23.705,0.301
+own,own_flawed_subtle,pause,87.897,88.417,0.5

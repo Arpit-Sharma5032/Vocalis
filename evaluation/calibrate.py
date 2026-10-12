@@ -11,6 +11,9 @@ maximising F1 over a grid:
     pitch_log       -> monotone
     energy_db       -> volume
     pause_excess_s  -> pause
+Then one noise factor (noise_k) is tuned on top: a deviation must also exceed
+noise_k times its own robust spread, so noisy comparisons (a different speaker,
+aligner jitter) are held to a higher bar than clean ones.
 
 Usage (from the project root):
     python -m evaluation.calibrate --alignment whisperx
@@ -82,6 +85,34 @@ def counts(items: list[Item], param: str, value: float, base: Thresholds) -> tup
     return tp, fp, n_gt - tp
 
 
+def overall_counts(items: list[Item], th: Thresholds) -> tuple[int, int, int]:
+    """(TP, FP, FN) over all flaw types together for one full set of thresholds."""
+    tp = fp = 0
+    for it in items:
+        regions = regions_from_deviations(it.dev, th)
+        if any(r.flaw_type == it.flaw_type and iou((r.start, r.end), (it.start, it.end)) >= IOU_HIT
+               for r in regions):
+            tp += 1
+        fp += sum(1 for r in regions if not overlaps((r.start, r.end), (it.start, it.end)))
+    return tp, fp, len(items) - tp
+
+
+def metrics(items: list[Item], th: Thresholds) -> dict[str, float]:
+    """Held-out style summary: precision, recall, F1 and false positives per clip."""
+    tp, fp, fn = overall_counts(items, th)
+    return {"precision": tp / (tp + fp) if tp + fp else 0.0, "recall": tp / (tp + fn) if tp + fn else 0.0,
+            "f1": f1_score(tp, fp, fn), "fp_per_clip": fp / len(items) if items else 0.0}
+
+
+NOISE_GRID = [0.0, 2.0, 3.0, 4.0, 5.0]
+
+
+def tune_noise(items: list[Item], th: Thresholds) -> float:
+    """Best noise_k for these items (ties go to the larger, more conservative value)."""
+    scores = {k: f1_score(*overall_counts(items, replace(th, noise_k=k))) for k in NOISE_GRID}
+    return pick_best(scores, "noise_k")
+
+
 def tune(items: list[Item], base: Thresholds) -> dict[str, float]:
     """Best value for every threshold on these items."""
     best = {}
@@ -91,7 +122,7 @@ def tune(items: list[Item], base: Thresholds) -> dict[str, float]:
     return best
 
 
-def load_items(args: argparse.Namespace, window_words: int) -> list[Item]:
+def load_items(args: argparse.Namespace, base: Thresholds) -> list[Item]:
     """Compute deviations for every synthetic flawed clip."""
     items = []
     for row in csv.DictReader(args.manifest.open(encoding="utf-8")):
@@ -107,7 +138,8 @@ def load_items(args: argparse.Namespace, window_words: int) -> list[Item]:
             except (FileNotFoundError, ValueError):
                 continue
         dev = compute_deviations(features_for(row["baseline_file"]), base_words,
-                                 features_for(row["file"]), part_words, window_words)
+                                 features_for(row["file"]), part_words, base.window_words,
+                                 base.refine_boundaries)
         items.append(Item(row["speech_id"], row["flaw_type"], float(row["flaw_start"]),
                           float(row["flaw_end"]), dev))
     return items
@@ -121,10 +153,13 @@ def main() -> None:
     p.add_argument("--align-dir", type=Path, default=Path("data/processed_metrics"))
     p.add_argument("--clip-align-dir", type=Path, default=Path("data/processed_metrics/clips"))
     p.add_argument("--out", type=Path, default=Path("evaluation/results"))
+    p.add_argument("--no-refine", action="store_true", help="skip silence-aware word boundary refinement")
     args = p.parse_args()
 
     base = Thresholds()
-    items = load_items(args, base.window_words)
+    if args.no_refine:
+        base = replace(base, refine_boundaries=False)
+    items = load_items(args, base)
     speeches = sorted({it.speech for it in items})
     if len(speeches) < 2:
         raise SystemExit("Need at least two speeches for cross-speech validation.")
@@ -149,7 +184,29 @@ def main() -> None:
         lines.append(f"| {param} | {show(default[param])} | {', '.join(show(v) for v in chosen)} | "
                      f"{sum(f_def) / 2:.2f} | {sum(f_cal) / 2:.2f} |")
 
+    lines.append("\n## Overall held-out performance (all flaw types together)\n")
+    lines.append("| configuration | precision | recall | F1 | false positives per clip |")
+    lines.append("|---|---|---|---|---|")
+    configs: dict[str, list[dict]] = {"untuned defaults": [], "calibrated thresholds": [],
+                                      "calibrated + noise-adaptive (noise_k)": []}
+    chosen_k = []
+    for dev_sp, test_sp in folds:
+        dev_items = [i for i in items if i.speech in dev_sp]
+        test_items = [i for i in items if i.speech in test_sp]
+        tuned = replace(base, **tune(dev_items, base))
+        k = tune_noise(dev_items, tuned)
+        chosen_k.append(k)
+        configs["untuned defaults"].append(metrics(test_items, base))
+        configs["calibrated thresholds"].append(metrics(test_items, tuned))
+        configs["calibrated + noise-adaptive (noise_k)"].append(metrics(test_items, replace(tuned, noise_k=k)))
+    for name, ms in configs.items():
+        avg = {key: sum(m[key] for m in ms) / len(ms) for key in ms[0]}
+        lines.append(f"| {name} | {avg['precision']:.2f} | {avg['recall']:.2f} | {avg['f1']:.2f} | {avg['fp_per_clip']:.2f} |")
+    lines.append(f"\nnoise_k chosen per fold: {chosen_k}")
+
     final = tune(items, base)
+    final_th = replace(base, **final)
+    final["noise_k"] = tune_noise(items, final_th)
     lines.append("\nFinal thresholds (tuned on all speeches; their in-sample score is optimistic):\n")
     lines.append("```json\n" + json.dumps({**default, **final}, indent=2) + "\n```")
     report = "\n".join(lines)

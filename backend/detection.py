@@ -9,13 +9,13 @@ or higher-pitched speaker is not flagged; only local departures are.
 from __future__ import annotations
 
 import math
-import re
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
 import numpy as np
 
-from backend.features import FrameFeatures
+from backend.features import FrameFeatures, refine_word_times
+from backend.textutil import ends_phrase, normalize_word
 
 
 @dataclass(frozen=True)
@@ -26,9 +26,12 @@ class Thresholds:
     pace_log: float = math.log(1.25)  # |log change in speaking time| that counts as a flaw
     pitch_log: float = math.log(0.6)  # pitch spread ratio below this counts as monotone
     energy_db: float = 2.5  # |speech-level change| in dB that counts as a flaw
-    pause_excess_s: float = 0.30  # extra silence beyond the expected gap
+    pause_excess_s: float = 0.30  # extra silence beyond the expected gap, mid-phrase
+    pause_punct_excess_s: float = 1.00  # ... at punctuation, where a pause is natural
     min_region_words: int = 3
     merge_gap_words: int = 1
+    refine_boundaries: bool = True  # cut words back around silences the aligner swallowed
+    noise_k: float = 0.0  # 0 = off. Otherwise a deviation must also exceed noise_k x its own robust spread
 
 
 @dataclass
@@ -40,11 +43,6 @@ class Region:
     end: float
     score: float  # peak deviation, in the units of the flaw's metric
     detail: dict = field(default_factory=dict)
-
-
-def normalize_word(word: str) -> str:
-    """Lower-case a word and strip punctuation, for matching across transcripts."""
-    return re.sub(r"[^a-z0-9']", "", word.lower())
 
 
 def match_words(base: list[dict], part: list[dict]) -> tuple[list[tuple[int, int]], list]:
@@ -149,8 +147,12 @@ class Deviations:
 def compute_deviations(
     base_feats: FrameFeatures, base_words: list[dict],
     part_feats: FrameFeatures, part_words: list[dict], window_words: int = 5,
+    refine: bool = True,
 ) -> Deviations:
     """Match words and measure every word's deviation from its baseline twin."""
+    if refine:
+        base_words = refine_word_times(base_feats, base_words)
+        part_words = refine_word_times(part_feats, part_words)
     pairs, ops = match_words(base_words, part_words)
     B = [base_words[i] for i, _ in pairs]
     P = [part_words[j] for _, j in pairs]
@@ -176,6 +178,14 @@ def compute_deviations(
         pairs, ops, B, P, log_rate, log_rate - g[0], log_spread - g[1], d_energy - g[2],
         g[0], g[1], g[2], base_feats, part_feats, part_words,
     )
+
+
+def _noise_scale(x: np.ndarray) -> float:
+    """Robust spread (1.4826 x MAD) of a deviation series; 0 if too few values."""
+    v = x[np.isfinite(x)]
+    if len(v) < 10:
+        return 0.0
+    return float(1.4826 * np.median(np.abs(v - np.median(v))))
 
 
 def regions_from_deviations(dev: Deviations, th: Thresholds = Thresholds()) -> list[Region]:
@@ -208,19 +218,29 @@ def regions_from_deviations(dev: Deviations, th: Thresholds = Thresholds()) -> l
         ep = _speech_level(dev.part_feats, P[k0]["start"], P[k1]["end"], 5)
         return {"delta_db": ep - eb, "typical_delta_db": dev.g_energy}
 
-    add("pace", dev.dev_rate < -th.pace_log, dev.dev_rate, pace_detail)
-    add("slow", dev.dev_rate > th.pace_log, dev.dev_rate, pace_detail)
-    add("monotone", dev.dev_spread < th.pitch_log, dev.dev_spread, pitch_detail)
-    add("volume", np.abs(dev.dev_energy) > th.energy_db, dev.dev_energy, energy_detail)
+    k_noise = th.noise_k
+    pace_thr = max(th.pace_log, k_noise * _noise_scale(dev.dev_rate))
+    pitch_thr = min(th.pitch_log, -k_noise * _noise_scale(dev.dev_spread))
+    energy_thr = max(th.energy_db, k_noise * _noise_scale(dev.dev_energy))
+    add("pace", dev.dev_rate < -pace_thr, dev.dev_rate, pace_detail)
+    add("slow", dev.dev_rate > pace_thr, dev.dev_rate, pace_detail)
+    add("monotone", dev.dev_spread < pitch_thr, dev.dev_spread, pitch_detail)
+    add("volume", np.abs(dev.dev_energy) > energy_thr, dev.dev_energy, energy_detail)
 
-    for k in range(1, m):  # pauses: excess silence between adjacent matched words
+    candidates = []  # pauses: excess silence between adjacent matched words
+    for k in range(1, m):
         if dev.pairs[k][0] != dev.pairs[k - 1][0] + 1 or dev.pairs[k][1] != dev.pairs[k - 1][1] + 1:
             continue
         gap_b = max(0.0, B[k]["start"] - B[k - 1]["end"])
         gap_p = max(0.0, P[k]["start"] - P[k - 1]["end"])
         local = np.nanmean(dev.log_rate[k - 1 : k + 1]) if np.isfinite(dev.log_rate[k - 1 : k + 1]).any() else dev.g_rate
-        expected = gap_b * math.exp(local)  # natural gaps stretch with the LOCAL speaking rate
-        if gap_p - expected >= th.pause_excess_s:
+        # natural gaps stretch when the local speech is slower, but do not shrink when it is faster
+        expected = gap_b * max(1.0, math.exp(local))
+        threshold = th.pause_punct_excess_s if ends_phrase(P[k - 1]["word"]) else th.pause_excess_s
+        candidates.append((k, gap_p, expected, threshold))
+    pause_noise = k_noise * _noise_scale(np.array([g - e for _, g, e, _ in candidates]))
+    for k, gap_p, expected, threshold in candidates:
+        if gap_p - expected >= max(threshold, pause_noise):
             regions.append(Region("pause", P[k - 1]["end"], P[k]["start"], gap_p - expected, {
                 "gap_s": gap_p, "expected_gap_s": expected,
                 "before": P[k - 1]["word"], "after": P[k]["word"],
@@ -234,7 +254,8 @@ def analyze(
     th: Thresholds = Thresholds(),
 ) -> list[Region]:
     """Compare a participant reading with the baseline and return flaw regions."""
-    dev = compute_deviations(base_feats, base_words, part_feats, part_words, th.window_words)
+    dev = compute_deviations(base_feats, base_words, part_feats, part_words, th.window_words,
+                             th.refine_boundaries)
     return regions_from_deviations(dev, th)
 
 

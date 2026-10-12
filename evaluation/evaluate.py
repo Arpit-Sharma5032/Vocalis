@@ -18,12 +18,13 @@ from __future__ import annotations
 import argparse
 import csv
 from collections import defaultdict
+from dataclasses import replace
 from pathlib import Path
 
 import pandas as pd
 
 from backend.detection import Region, Thresholds, analyze, load_thresholds
-from backend.features import FrameFeatures, extract_features, load_audio
+from backend.features import HOP_S, FrameFeatures, extract_features, load_audio
 from dataset_builder.oracle import oracle_alignment
 from dataset_builder.windows import load_words
 
@@ -53,10 +54,11 @@ def features_for(path: str) -> FrameFeatures:
 
 def score_clip(
     regions: list[Region], truths: list[tuple[str, float, float, str]], meta: dict
-) -> tuple[list[dict], int, int]:
+) -> tuple[list[dict], list[Region], int]:
     """Score predicted regions against labelled flaws for one clip.
 
-    truths: (flaw_type, start, end, severity). Returns (per-flaw rows, n_false_positives, n_predicted).
+    truths: (flaw_type, start, end, severity).
+    Returns (per-flaw rows, false-positive regions, number of predicted regions).
     """
     rows = []
     for ftype, start, end, severity in truths:
@@ -66,13 +68,22 @@ def score_clip(
                            if r.flaw_type != ftype and overlaps((r.start, r.end), (start, end))})
         rows.append({**meta, "flaw_type": ftype, "severity": severity, "gt_start": start, "gt_end": end,
                      "detected": best >= IOU_HIT, "best_iou": best, "confused_with": ",".join(confused)})
-    fps = sum(1 for r in regions if not any(overlaps((r.start, r.end), (s, e)) for _, s, e, _ in truths))
+    fps = [r for r in regions if not any(overlaps((r.start, r.end), (s, e)) for _, s, e, _ in truths)]
     return rows, fps, len(regions)
 
 
-def evaluate_synthetic(args: argparse.Namespace, th: Thresholds) -> tuple[list[dict], list[dict]]:
+def _record(source: str, clip_id: str, feats: FrameFeatures, fps: list[Region], n_pred: int,
+            clip_stats: list[dict], fp_rows: list[dict]) -> None:
+    """Store per-clip false-positive statistics."""
+    clip_stats.append({"source": source, "clip_id": clip_id, "false_positives": len(fps), "predicted": n_pred,
+                       "minutes": len(feats.times) * HOP_S / 60})
+    fp_rows.extend({"source": source, "clip_id": clip_id, "predicted_type": r.flaw_type,
+                    "start": round(r.start, 3), "end": round(r.end, 3), "score": round(r.score, 3)} for r in fps)
+
+
+def evaluate_synthetic(args: argparse.Namespace, th: Thresholds) -> tuple[list[dict], list[dict], list[dict]]:
     """Run detection on every synthetic flawed clip in the manifest."""
-    results, clip_stats = [], []
+    results, clip_stats, fp_rows = [], [], []
     manifest = list(csv.DictReader(args.manifest.open(encoding="utf-8")))
     for row in manifest:
         if row["is_baseline"] == "True":
@@ -91,40 +102,42 @@ def evaluate_synthetic(args: argparse.Namespace, th: Thresholds) -> tuple[list[d
             except ValueError as err:
                 print(f"  alignment failed for {row['clip_id']}: {err}")
                 continue
-        regions = analyze(features_for(row["baseline_file"]), base_words, features_for(row["file"]), part_words, th)
+        part_feats = features_for(row["file"])
+        regions = analyze(features_for(row["baseline_file"]), base_words, part_feats, part_words, th)
         truth = [(row["flaw_type"], float(row["flaw_start"]), float(row["flaw_end"]), row["severity"])]
         rows, fps, n_pred = score_clip(regions, truth, {"source": "synthetic", "clip_id": row["clip_id"], "speech_id": speech})
         results.extend(rows)
-        clip_stats.append({"source": "synthetic", "clip_id": row["clip_id"], "false_positives": fps, "predicted": n_pred})
-    return results, clip_stats
+        _record("synthetic", row["clip_id"], part_feats, fps, n_pred, clip_stats, fp_rows)
+    return results, clip_stats, fp_rows
 
 
-def evaluate_own(args: argparse.Namespace, th: Thresholds) -> tuple[list[dict], list[dict]]:
+def evaluate_own(args: argparse.Namespace, th: Thresholds) -> tuple[list[dict], list[dict], list[dict]]:
     """Run detection on our own real recordings (a different speaker from the baseline)."""
     labels_path = args.own_dir / "labels.csv"
     if not labels_path.exists():
-        return [], []
+        return [], [], []
     by_clip: dict[str, list[dict]] = defaultdict(list)
     for row in csv.DictReader(labels_path.open(encoding="utf-8")):
         by_clip[row["clip_id"]].append(row)
     base_path = Path(args.own_baseline)
     base_words = load_words(args.align_dir / f"{base_path.stem}_alignment.json")
     base_feats = features_for(base_path.as_posix())
-    results, clip_stats = [], []
+    results, clip_stats, fp_rows = [], [], []
     for clip_id, rows in by_clip.items():
         align = args.align_dir / f"{clip_id}_alignment.json"
         if not align.exists():
             continue
-        regions = analyze(base_feats, base_words, features_for(rows[0]["file"]), load_words(align), th)
+        part_feats = features_for(rows[0]["file"])
+        regions = analyze(base_feats, base_words, part_feats, load_words(align), th)
         truths = [(r["flaw_type"], float(r["flaw_start"]), float(r["flaw_end"]), r["severity"])
                   for r in rows if r["flaw_type"] != "none"]
         flaw_rows, fps, n_pred = score_clip(regions, truths, {"source": "own", "clip_id": clip_id, "speech_id": base_path.stem})
         results.extend(flaw_rows)
-        clip_stats.append({"source": "own", "clip_id": clip_id, "false_positives": fps, "predicted": n_pred})
-    return results, clip_stats
+        _record("own", clip_id, part_feats, fps, n_pred, clip_stats, fp_rows)
+    return results, clip_stats, fp_rows
 
 
-def summarize(results: list[dict], clip_stats: list[dict]) -> str:
+def summarize(results: list[dict], clip_stats: list[dict], fp_rows: list[dict]) -> str:
     """Build a Markdown summary of the evaluation."""
     out = []
     df = pd.DataFrame(results)
@@ -144,11 +157,22 @@ def summarize(results: list[dict], clip_stats: list[dict]) -> str:
             iou_t = iou_t.reindex(columns=[c for c in SEVERITY_ORDER if c in iou_t.columns])
             out.append(iou_t.round(2).to_markdown())
         c = cs[cs["source"] == source]
+        minutes = c["minutes"].sum()
         out.append(
             f"\nOverall detection rate {sub['detected'].mean() * 100:.0f}% of {len(sub)} flaws; "
             f"{int(c['false_positives'].sum())} false-positive regions over {len(c)} clips "
-            f"({c['false_positives'].mean():.2f} per clip)."
+            f"({c['false_positives'].mean():.2f} per clip, {c['false_positives'].sum() / minutes:.2f} per minute of audio)."
         )
+        fp = pd.DataFrame(fp_rows)
+        fp = fp[fp["source"] == source] if not fp.empty else fp
+        if not fp.empty:
+            by_type = fp.groupby("predicted_type").size().rename("false positives").to_frame()
+            by_type["per minute"] = (by_type["false positives"] / minutes).round(2)
+            out.append(f"\n### {source.capitalize()} clips: false positives by predicted type\n")
+            out.append(by_type.to_markdown())
+            if source == "own":
+                per_clip = fp.groupby("clip_id").size().rename("false positives").to_frame().to_markdown()
+                out.append("\nBy recording:\n\n" + per_clip)
     return "\n".join(out)
 
 
@@ -165,20 +189,29 @@ def main() -> None:
     p.add_argument("--thresholds", type=Path, default=None,
                    help="JSON from evaluation.calibrate; default = untuned built-in thresholds")
     p.add_argument("--tag", default="", help="suffix for output file names")
+    p.add_argument("--no-refine", action="store_true", help="skip silence-aware word boundary refinement")
+    p.add_argument("--noise-k", type=float, default=None, help="override the noise-adaptive threshold factor")
     args = p.parse_args()
 
     th = load_thresholds(str(args.thresholds)) if args.thresholds else Thresholds()
-    print("Thresholds:", "calibrated from " + str(args.thresholds) if args.thresholds else "built-in defaults (untuned)")
-    results, clip_stats = evaluate_synthetic(args, th)
-    own_results, own_stats = evaluate_own(args, th)
+    if args.no_refine:
+        th = replace(th, refine_boundaries=False)
+    if args.noise_k is not None:
+        th = replace(th, noise_k=args.noise_k)
+    
+    results, clip_stats, fp_rows = evaluate_synthetic(args, th)
+    own_results, own_stats, own_fps = evaluate_own(args, th)
     results += own_results
     clip_stats += own_stats
+    fp_rows += own_fps
     if not results:
         raise SystemExit("No results: check that alignments exist for the clips.")
 
     args.out.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(results).to_csv(args.out / f"detection_results_{args.alignment}{args.tag}.csv", index=False)
-    summary = summarize(results, clip_stats)
+    pd.DataFrame(fp_rows, columns=["source", "clip_id", "predicted_type", "start", "end", "score"]).to_csv(
+        args.out / f"false_positives_{args.alignment}{args.tag}.csv", index=False)
+    summary = summarize(results, clip_stats, fp_rows)
     (args.out / f"summary_{args.alignment}{args.tag}.md").write_text(summary, encoding="utf-8")
     print(summary)
     print(f"\nWrote results to {args.out}/")

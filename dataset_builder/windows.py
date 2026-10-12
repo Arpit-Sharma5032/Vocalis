@@ -9,8 +9,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-PHRASE_END = (",", ";", ":", ".", "?", "!", "—", "–")
-_TRAILING_QUOTES = "\"'”’)]"
+from backend.textutil import PHRASE_END, ends_phrase  # noqa: F401  (re-exported)
+
 
 
 @dataclass(frozen=True)
@@ -39,11 +39,6 @@ def load_words(path: str | Path) -> list[dict]:
     if missing:
         raise ValueError(f"{path}: words without timestamps: {missing[:5]}")
     return words
-
-
-def ends_phrase(word: str) -> bool:
-    """True if the word ends with punctuation that marks a natural pause."""
-    return word.rstrip(_TRAILING_QUOTES).endswith(PHRASE_END)
 
 
 def split_phrases(words: list[dict]) -> list[list[dict]]:
