@@ -99,3 +99,11 @@ def test_pause_is_not_mistaken_for_a_volume_change(baseline):
     flawed, flawed_words, _ = _flawed(baseline, "pause", "severe")
     regions = analyze(feats, words, extract_features(flawed), flawed_words)
     assert "volume" not in {r.flaw_type for r in regions}
+
+
+def test_slowing_a_region_is_not_also_reported_as_pauses(baseline):
+    """Slowing speech stretches its natural gaps; that is pace, not extra pauses."""
+    audio, words, feats = baseline
+    flawed, flawed_words, _ = _flawed(baseline, "slow", "severe")
+    kinds = {r.flaw_type for r in analyze(feats, words, extract_features(flawed), flawed_words)}
+    assert "slow" in kinds and "pause" not in kinds

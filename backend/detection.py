@@ -126,25 +126,39 @@ def _stumbles(part: list[dict], ops: list) -> list[Region]:
     return regions
 
 
-def analyze(
+@dataclass
+class Deviations:
+    """Per-word deviations from the baseline (computed once, reusable for any thresholds)."""
+
+    pairs: list[tuple[int, int]]
+    ops: list
+    B: list[dict]  # matched baseline words
+    P: list[dict]  # matched participant words
+    log_rate: np.ndarray  # log(participant / baseline speaking time) in each window
+    dev_rate: np.ndarray  # ... minus the speaker's own median
+    dev_spread: np.ndarray  # log pitch-spread ratio minus the speaker's median
+    dev_energy: np.ndarray  # speech-level change (dB) minus the speaker's median
+    g_rate: float
+    g_spread: float
+    g_energy: float
+    base_feats: FrameFeatures
+    part_feats: FrameFeatures
+    part_words: list[dict]
+
+
+def compute_deviations(
     base_feats: FrameFeatures, base_words: list[dict],
-    part_feats: FrameFeatures, part_words: list[dict],
-    th: Thresholds = Thresholds(),
-) -> list[Region]:
-    """Compare a participant reading with the baseline and return flaw regions."""
+    part_feats: FrameFeatures, part_words: list[dict], window_words: int = 5,
+) -> Deviations:
+    """Match words and measure every word's deviation from its baseline twin."""
     pairs, ops = match_words(base_words, part_words)
-    regions = _stumbles(part_words, ops)
-    m = len(pairs)
-    if m < th.window_words:
-        return regions
     B = [base_words[i] for i, _ in pairs]
     P = [part_words[j] for _, j in pairs]
-    h = th.window_words // 2
-
+    m, h = len(pairs), window_words // 2
     log_rate = np.full(m, np.nan)
     log_spread = np.full(m, np.nan)
     d_energy = np.full(m, np.nan)
-    for k in range(m):
+    for k in range(m if m >= window_words else 0):
         lo, hi = max(0, k - h), min(m - 1, k + h)
         db = sum(w["end"] - w["start"] for w in B[lo : hi + 1])
         dp = sum(w["end"] - w["start"] for w in P[lo : hi + 1])
@@ -157,48 +171,78 @@ def analyze(
         d_energy[k] = _speech_level(part_feats, P[lo]["start"], P[hi]["end"]) - _speech_level(
             base_feats, B[lo]["start"], B[hi]["end"]
         )
+    g = [float(np.nanmedian(x)) if np.isfinite(x).any() else 0.0 for x in (log_rate, log_spread, d_energy)]
+    return Deviations(
+        pairs, ops, B, P, log_rate, log_rate - g[0], log_spread - g[1], d_energy - g[2],
+        g[0], g[1], g[2], base_feats, part_feats, part_words,
+    )
 
-    g_rate, g_spread, g_energy = (float(np.nanmedian(x)) if np.isfinite(x).any() else 0.0
-                                  for x in (log_rate, log_spread, d_energy))
-    dev_rate, dev_spread, dev_energy = log_rate - g_rate, log_spread - g_spread, d_energy - g_energy
 
-    def add(ftype: str, flag: np.ndarray, dev: np.ndarray, detail_fn) -> None:
+def regions_from_deviations(dev: Deviations, th: Thresholds = Thresholds()) -> list[Region]:
+    """Turn per-word deviations into flaw regions using the given thresholds."""
+    regions = _stumbles(dev.part_words, dev.ops)
+    B, P, m = dev.B, dev.P, len(dev.pairs)
+    if len(dev.dev_rate) == 0 or np.isnan(dev.dev_rate).all() and np.isnan(dev.dev_spread).all():
+        return sorted(regions, key=lambda r: r.start)
+
+    def add(ftype: str, flag: np.ndarray, deviation: np.ndarray, detail_fn) -> None:
         for k0, k1 in _runs(flag, th.min_region_words, th.merge_gap_words):
-            score = float(np.nanmax(np.abs(dev[k0 : k1 + 1])))
+            score = float(np.nanmax(np.abs(deviation[k0 : k1 + 1])))
             regions.append(Region(ftype, P[k0]["start"], P[k1]["end"], score, detail_fn(k0, k1)))
 
     def pace_detail(k0: int, k1: int) -> dict:
         db = sum(w["end"] - w["start"] for w in B[k0 : k1 + 1])
         dp = sum(w["end"] - w["start"] for w in P[k0 : k1 + 1])
         n = k1 - k0 + 1
-        return {"local_ratio": dp / db, "typical_ratio": math.exp(g_rate),
+        return {"local_ratio": dp / db, "typical_ratio": math.exp(dev.g_rate),
                 "baseline_ms_per_word": 1000 * db / n, "participant_ms_per_word": 1000 * dp / n}
 
     def pitch_detail(k0: int, k1: int) -> dict:
-        sb = _spread(base_feats, B[k0]["start"], B[k1]["end"], 5)
-        sp = _spread(part_feats, P[k0]["start"], P[k1]["end"], 5)
+        sb = _spread(dev.base_feats, B[k0]["start"], B[k1]["end"], 5)
+        sp = _spread(dev.part_feats, P[k0]["start"], P[k1]["end"], 5)
         return {"spread_baseline_st": sb, "spread_participant_st": sp,
-                "ratio": sp / sb if sb else float("nan"), "typical_ratio": math.exp(g_spread)}
+                "ratio": sp / sb if sb else float("nan"), "typical_ratio": math.exp(dev.g_spread)}
 
     def energy_detail(k0: int, k1: int) -> dict:
-        eb = _speech_level(base_feats, B[k0]["start"], B[k1]["end"], 5)
-        ep = _speech_level(part_feats, P[k0]["start"], P[k1]["end"], 5)
-        return {"delta_db": ep - eb, "typical_delta_db": g_energy}
+        eb = _speech_level(dev.base_feats, B[k0]["start"], B[k1]["end"], 5)
+        ep = _speech_level(dev.part_feats, P[k0]["start"], P[k1]["end"], 5)
+        return {"delta_db": ep - eb, "typical_delta_db": dev.g_energy}
 
-    add("pace", dev_rate < -th.pace_log, dev_rate, pace_detail)
-    add("slow", dev_rate > th.pace_log, dev_rate, pace_detail)
-    add("monotone", dev_spread < th.pitch_log, dev_spread, pitch_detail)
-    add("volume", np.abs(dev_energy) > th.energy_db, dev_energy, energy_detail)
+    add("pace", dev.dev_rate < -th.pace_log, dev.dev_rate, pace_detail)
+    add("slow", dev.dev_rate > th.pace_log, dev.dev_rate, pace_detail)
+    add("monotone", dev.dev_spread < th.pitch_log, dev.dev_spread, pitch_detail)
+    add("volume", np.abs(dev.dev_energy) > th.energy_db, dev.dev_energy, energy_detail)
 
     for k in range(1, m):  # pauses: excess silence between adjacent matched words
-        if pairs[k][0] != pairs[k - 1][0] + 1 or pairs[k][1] != pairs[k - 1][1] + 1:
+        if dev.pairs[k][0] != dev.pairs[k - 1][0] + 1 or dev.pairs[k][1] != dev.pairs[k - 1][1] + 1:
             continue
         gap_b = max(0.0, B[k]["start"] - B[k - 1]["end"])
         gap_p = max(0.0, P[k]["start"] - P[k - 1]["end"])
-        expected = gap_b * math.exp(g_rate)
+        local = np.nanmean(dev.log_rate[k - 1 : k + 1]) if np.isfinite(dev.log_rate[k - 1 : k + 1]).any() else dev.g_rate
+        expected = gap_b * math.exp(local)  # natural gaps stretch with the LOCAL speaking rate
         if gap_p - expected >= th.pause_excess_s:
             regions.append(Region("pause", P[k - 1]["end"], P[k]["start"], gap_p - expected, {
                 "gap_s": gap_p, "expected_gap_s": expected,
                 "before": P[k - 1]["word"], "after": P[k]["word"],
             }))
     return sorted(regions, key=lambda r: r.start)
+
+
+def analyze(
+    base_feats: FrameFeatures, base_words: list[dict],
+    part_feats: FrameFeatures, part_words: list[dict],
+    th: Thresholds = Thresholds(),
+) -> list[Region]:
+    """Compare a participant reading with the baseline and return flaw regions."""
+    dev = compute_deviations(base_feats, base_words, part_feats, part_words, th.window_words)
+    return regions_from_deviations(dev, th)
+
+
+def load_thresholds(path: str) -> Thresholds:
+    """Load thresholds from a JSON file (missing keys keep their defaults)."""
+    import json
+    from dataclasses import fields
+
+    raw = json.loads(open(path, encoding="utf-8").read())
+    known = {f.name for f in fields(Thresholds)}
+    return Thresholds(**{k: v for k, v in raw.items() if k in known})

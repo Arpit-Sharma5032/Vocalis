@@ -3,8 +3,8 @@ synthetic,kennedy_inaugural__pace_subtle,kennedy_inaugural,pace,subtle,51.872,58
 synthetic,kennedy_inaugural__pace_moderate,kennedy_inaugural,pace,moderate,51.872,56.873,True,0.8960207958408326,
 synthetic,kennedy_inaugural__pace_severe,kennedy_inaugural,pace,severe,51.872,55.623,True,0.9819371727748685,
 synthetic,kennedy_inaugural__slow_subtle,kennedy_inaugural,slow,subtle,17.104,24.163,False,0.0,
-synthetic,kennedy_inaugural__slow_moderate,kennedy_inaugural,slow,moderate,17.104,26.27,True,0.8455154201641044,pause
-synthetic,kennedy_inaugural__slow_severe,kennedy_inaugural,slow,severe,17.104,29.386,True,0.7840909090909092,pause
+synthetic,kennedy_inaugural__slow_moderate,kennedy_inaugural,slow,moderate,17.104,26.27,True,0.8455154201641044,
+synthetic,kennedy_inaugural__slow_severe,kennedy_inaugural,slow,severe,17.104,29.386,True,0.7840909090909092,
 synthetic,kennedy_inaugural__pause_subtle,kennedy_inaugural,pause,subtle,4.961,5.561,True,0.8823529411764692,
 synthetic,kennedy_inaugural__pause_moderate,kennedy_inaugural,pause,moderate,4.961,6.161,False,0.0,slow
 synthetic,kennedy_inaugural__pause_severe,kennedy_inaugural,pause,severe,4.961,7.461,False,0.0,slow
@@ -21,7 +21,7 @@ synthetic,eisenhower_farewell__pace_subtle,eisenhower_farewell,pace,subtle,49.99
 synthetic,eisenhower_farewell__pace_moderate,eisenhower_farewell,pace,moderate,49.991,52.792,True,0.7929310960371279,
 synthetic,eisenhower_farewell__pace_severe,eisenhower_farewell,pace,severe,49.991,52.091,True,0.9429514380009419,
 synthetic,eisenhower_farewell__slow_subtle,eisenhower_farewell,slow,subtle,13.823,20.722,False,0.0,pace
-synthetic,eisenhower_farewell__slow_moderate,eisenhower_farewell,slow,moderate,13.823,22.781,True,0.9445188658182634,"pace,pause"
+synthetic,eisenhower_farewell__slow_moderate,eisenhower_farewell,slow,moderate,13.823,22.781,True,0.9445188658182634,pace
 synthetic,eisenhower_farewell__slow_severe,eisenhower_farewell,slow,severe,13.823,25.827,True,0.9283209655059941,"pace,pause"
 synthetic,eisenhower_farewell__pause_subtle,eisenhower_farewell,pause,subtle,64.305,64.905,True,0.9090909090909052,pace
 synthetic,eisenhower_farewell__pause_moderate,eisenhower_farewell,pause,moderate,64.305,65.505,True,0.9367681498829011,pace
@@ -39,8 +39,8 @@ synthetic,fdr_fireside_01__pace_subtle,fdr_fireside_01,pace,subtle,73.477,76.99,
 synthetic,fdr_fireside_01__pace_moderate,fdr_fireside_01,pace,moderate,73.477,76.17,True,0.8470107686594904,
 synthetic,fdr_fireside_01__pace_severe,fdr_fireside_01,pace,severe,73.477,75.497,True,0.9619047619047562,
 synthetic,fdr_fireside_01__slow_subtle,fdr_fireside_01,slow,subtle,40.349,45.385,False,0.0,
-synthetic,fdr_fireside_01__slow_moderate,fdr_fireside_01,slow,moderate,40.349,46.888,True,0.8901972778712336,pause
-synthetic,fdr_fireside_01__slow_severe,fdr_fireside_01,slow,severe,40.349,49.111,True,0.8881533896370696,pause
+synthetic,fdr_fireside_01__slow_moderate,fdr_fireside_01,slow,moderate,40.349,46.888,True,0.8901972778712336,
+synthetic,fdr_fireside_01__slow_severe,fdr_fireside_01,slow,severe,40.349,49.111,True,0.8881533896370696,
 synthetic,fdr_fireside_01__pause_subtle,fdr_fireside_01,pause,subtle,22.435,23.035,True,0.882352941176473,
 synthetic,fdr_fireside_01__pause_moderate,fdr_fireside_01,pause,moderate,22.435,23.635,True,0.9523809523809561,
 synthetic,fdr_fireside_01__pause_severe,fdr_fireside_01,pause,severe,22.435,24.935,True,0.9765625000000004,
@@ -57,8 +57,8 @@ synthetic,lincoln_gettysburg__pace_subtle,lincoln_gettysburg,pace,subtle,41.208,
 synthetic,lincoln_gettysburg__pace_moderate,lincoln_gettysburg,pace,moderate,41.208,44.862,True,0.8650793650793647,
 synthetic,lincoln_gettysburg__pace_severe,lincoln_gettysburg,pace,severe,41.208,43.948,True,0.8058823529411757,
 synthetic,lincoln_gettysburg__slow_subtle,lincoln_gettysburg,slow,subtle,97.419,104.983,False,0.0,
-synthetic,lincoln_gettysburg__slow_moderate,lincoln_gettysburg,slow,moderate,97.419,107.241,True,0.9572388515577274,pause
-synthetic,lincoln_gettysburg__slow_severe,lincoln_gettysburg,slow,severe,97.419,110.581,True,0.9772830876766444,pause
+synthetic,lincoln_gettysburg__slow_moderate,lincoln_gettysburg,slow,moderate,97.419,107.241,True,0.9572388515577274,
+synthetic,lincoln_gettysburg__slow_severe,lincoln_gettysburg,slow,severe,97.419,110.581,True,0.9772830876766444,
 synthetic,lincoln_gettysburg__pause_subtle,lincoln_gettysburg,pause,subtle,3.781,4.381,True,0.967741935483871,
 synthetic,lincoln_gettysburg__pause_moderate,lincoln_gettysburg,pause,moderate,3.781,4.981,True,0.9677419354838706,
 synthetic,lincoln_gettysburg__pause_severe,lincoln_gettysburg,pause,severe,3.781,6.281,True,0.984251968503937,

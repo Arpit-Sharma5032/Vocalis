@@ -21,7 +21,7 @@
 | stumble     |     1    |       1    |     1    |
 | volume      |     0.77 |       0.75 |     0.75 |
 
-Overall detection rate 85% of 72 flaws; 4 false-positive regions over 72 clips (0.06 per clip).
+Overall detection rate 85% of 72 flaws; 6 false-positive regions over 72 clips (0.08 per clip).
 
 ### Own clips: detection rate (IoU >= 0.3)
 
@@ -41,4 +41,4 @@ Overall detection rate 85% of 72 flaws; 4 false-positive regions over 72 clips (
 | pause       |     1    |       1    |
 | volume      |     0.43 |       0.75 |
 
-Overall detection rate 88% of 8 flaws; 50 false-positive regions over 3 clips (16.67 per clip).
+Overall detection rate 88% of 8 flaws; 49 false-positive regions over 3 clips (16.33 per clip).

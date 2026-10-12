@@ -1,0 +1,9 @@
+{
+  "window_words": 5,
+  "pace_log": 0.09531017980432493,
+  "pitch_log": -0.35667494393873245,
+  "energy_db": 2.5,
+  "pause_excess_s": 0.5,
+  "min_region_words": 3,
+  "merge_gap_words": 1
+}

@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from backend.detection import Region, Thresholds, analyze
+from backend.detection import Region, Thresholds, analyze, load_thresholds
 from backend.features import FrameFeatures, extract_features, load_audio
 from dataset_builder.oracle import oracle_alignment
 from dataset_builder.windows import load_words
@@ -162,9 +162,13 @@ def main() -> None:
     p.add_argument("--own-dir", type=Path, default=Path("data/own_recordings"))
     p.add_argument("--own-baseline", default="data/raw_audio/lincoln_gettysburg.wav")
     p.add_argument("--out", type=Path, default=Path("evaluation/results"))
+    p.add_argument("--thresholds", type=Path, default=None,
+                   help="JSON from evaluation.calibrate; default = untuned built-in thresholds")
+    p.add_argument("--tag", default="", help="suffix for output file names")
     args = p.parse_args()
 
-    th = Thresholds()
+    th = load_thresholds(str(args.thresholds)) if args.thresholds else Thresholds()
+    print("Thresholds:", "calibrated from " + str(args.thresholds) if args.thresholds else "built-in defaults (untuned)")
     results, clip_stats = evaluate_synthetic(args, th)
     own_results, own_stats = evaluate_own(args, th)
     results += own_results
@@ -173,9 +177,9 @@ def main() -> None:
         raise SystemExit("No results: check that alignments exist for the clips.")
 
     args.out.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(results).to_csv(args.out / f"detection_results_{args.alignment}.csv", index=False)
+    pd.DataFrame(results).to_csv(args.out / f"detection_results_{args.alignment}{args.tag}.csv", index=False)
     summary = summarize(results, clip_stats)
-    (args.out / f"summary_{args.alignment}.md").write_text(summary, encoding="utf-8")
+    (args.out / f"summary_{args.alignment}{args.tag}.md").write_text(summary, encoding="utf-8")
     print(summary)
     print(f"\nWrote results to {args.out}/")
 
