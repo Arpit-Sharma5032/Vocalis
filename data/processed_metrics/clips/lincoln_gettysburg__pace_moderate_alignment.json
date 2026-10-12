@@ -1,0 +1,1342 @@
+[
+  {
+    "word": "Four",
+    "start": 0.72,
+    "end": 1.02
+  },
+  {
+    "word": "score",
+    "start": 1.08,
+    "end": 1.46
+  },
+  {
+    "word": "and",
+    "start": 1.62,
+    "end": 1.7
+  },
+  {
+    "word": "seven",
+    "start": 1.78,
+    "end": 2.08
+  },
+  {
+    "word": "years",
+    "start": 2.12,
+    "end": 2.34
+  },
+  {
+    "word": "ago,",
+    "start": 2.4,
+    "end": 2.78
+  },
+  {
+    "word": "our",
+    "start": 3.12,
+    "end": 3.3
+  },
+  {
+    "word": "fathers",
+    "start": 3.38,
+    "end": 3.76
+  },
+  {
+    "word": "brought",
+    "start": 3.8,
+    "end": 4.041
+  },
+  {
+    "word": "forth",
+    "start": 4.081,
+    "end": 4.341
+  },
+  {
+    "word": "upon",
+    "start": 4.401,
+    "end": 4.661
+  },
+  {
+    "word": "this",
+    "start": 4.701,
+    "end": 4.841
+  },
+  {
+    "word": "continent",
+    "start": 4.901,
+    "end": 5.501
+  },
+  {
+    "word": "a",
+    "start": 5.801,
+    "end": 5.861
+  },
+  {
+    "word": "new",
+    "start": 5.941,
+    "end": 6.101
+  },
+  {
+    "word": "nation,",
+    "start": 6.161,
+    "end": 6.641
+  },
+  {
+    "word": "conceived",
+    "start": 7.061,
+    "end": 7.561
+  },
+  {
+    "word": "in",
+    "start": 7.661,
+    "end": 7.741
+  },
+  {
+    "word": "liberty,",
+    "start": 7.801,
+    "end": 8.321
+  },
+  {
+    "word": "and",
+    "start": 8.641,
+    "end": 8.741
+  },
+  {
+    "word": "dedicated",
+    "start": 8.801,
+    "end": 9.381
+  },
+  {
+    "word": "to",
+    "start": 9.441,
+    "end": 9.541
+  },
+  {
+    "word": "the",
+    "start": 9.581,
+    "end": 9.661
+  },
+  {
+    "word": "proposition",
+    "start": 9.701,
+    "end": 10.421
+  },
+  {
+    "word": "that",
+    "start": 10.461,
+    "end": 10.621
+  },
+  {
+    "word": "all",
+    "start": 10.781,
+    "end": 10.921
+  },
+  {
+    "word": "men",
+    "start": 11.001,
+    "end": 11.301
+  },
+  {
+    "word": "are",
+    "start": 11.601,
+    "end": 11.721
+  },
+  {
+    "word": "created",
+    "start": 11.801,
+    "end": 12.262
+  },
+  {
+    "word": "equal.",
+    "start": 12.422,
+    "end": 12.762
+  },
+  {
+    "word": "Now",
+    "start": 13.562,
+    "end": 13.762
+  },
+  {
+    "word": "we",
+    "start": 13.822,
+    "end": 13.962
+  },
+  {
+    "word": "are",
+    "start": 14.122,
+    "end": 14.242
+  },
+  {
+    "word": "engaged",
+    "start": 14.362,
+    "end": 14.822
+  },
+  {
+    "word": "in",
+    "start": 14.942,
+    "end": 15.022
+  },
+  {
+    "word": "a",
+    "start": 15.082,
+    "end": 15.122
+  },
+  {
+    "word": "great",
+    "start": 15.162,
+    "end": 15.402
+  },
+  {
+    "word": "civil",
+    "start": 15.462,
+    "end": 15.742
+  },
+  {
+    "word": "war,",
+    "start": 15.782,
+    "end": 16.142
+  },
+  {
+    "word": "testing",
+    "start": 16.582,
+    "end": 16.982
+  },
+  {
+    "word": "whether",
+    "start": 17.022,
+    "end": 17.302
+  },
+  {
+    "word": "that",
+    "start": 17.342,
+    "end": 17.522
+  },
+  {
+    "word": "nation,",
+    "start": 17.602,
+    "end": 18.042
+  },
+  {
+    "word": "or",
+    "start": 18.282,
+    "end": 18.382
+  },
+  {
+    "word": "any",
+    "start": 18.522,
+    "end": 18.662
+  },
+  {
+    "word": "nation",
+    "start": 18.722,
+    "end": 19.122
+  },
+  {
+    "word": "so",
+    "start": 19.202,
+    "end": 19.362
+  },
+  {
+    "word": "conceived",
+    "start": 19.422,
+    "end": 19.903
+  },
+  {
+    "word": "and",
+    "start": 20.003,
+    "end": 20.083
+  },
+  {
+    "word": "so",
+    "start": 20.163,
+    "end": 20.323
+  },
+  {
+    "word": "dedicated,",
+    "start": 20.383,
+    "end": 21.043
+  },
+  {
+    "word": "can",
+    "start": 21.343,
+    "end": 21.563
+  },
+  {
+    "word": "long",
+    "start": 21.643,
+    "end": 21.903
+  },
+  {
+    "word": "endure.",
+    "start": 21.983,
+    "end": 22.463
+  },
+  {
+    "word": "We",
+    "start": 23.043,
+    "end": 23.203
+  },
+  {
+    "word": "are",
+    "start": 23.343,
+    "end": 23.463
+  },
+  {
+    "word": "met",
+    "start": 23.543,
+    "end": 23.823
+  },
+  {
+    "word": "on",
+    "start": 23.983,
+    "end": 24.063
+  },
+  {
+    "word": "a",
+    "start": 24.103,
+    "end": 24.123
+  },
+  {
+    "word": "great",
+    "start": 24.163,
+    "end": 24.363
+  },
+  {
+    "word": "battlefield",
+    "start": 24.423,
+    "end": 25.083
+  },
+  {
+    "word": "of",
+    "start": 25.203,
+    "end": 25.283
+  },
+  {
+    "word": "that",
+    "start": 25.323,
+    "end": 25.523
+  },
+  {
+    "word": "war.",
+    "start": 25.603,
+    "end": 25.983
+  },
+  {
+    "word": "We",
+    "start": 26.763,
+    "end": 26.963
+  },
+  {
+    "word": "have",
+    "start": 27.003,
+    "end": 27.183
+  },
+  {
+    "word": "come",
+    "start": 27.243,
+    "end": 27.463
+  },
+  {
+    "word": "to",
+    "start": 27.503,
+    "end": 27.603
+  },
+  {
+    "word": "dedicate",
+    "start": 27.663,
+    "end": 28.144
+  },
+  {
+    "word": "a",
+    "start": 28.204,
+    "end": 28.224
+  },
+  {
+    "word": "portion",
+    "start": 28.284,
+    "end": 28.664
+  },
+  {
+    "word": "of",
+    "start": 28.724,
+    "end": 28.784
+  },
+  {
+    "word": "that",
+    "start": 28.804,
+    "end": 28.964
+  },
+  {
+    "word": "field",
+    "start": 29.044,
+    "end": 29.384
+  },
+  {
+    "word": "as",
+    "start": 29.504,
+    "end": 29.584
+  },
+  {
+    "word": "a",
+    "start": 29.644,
+    "end": 29.684
+  },
+  {
+    "word": "final",
+    "start": 29.764,
+    "end": 30.064
+  },
+  {
+    "word": "resting",
+    "start": 30.144,
+    "end": 30.504
+  },
+  {
+    "word": "place",
+    "start": 30.544,
+    "end": 30.884
+  },
+  {
+    "word": "for",
+    "start": 31.304,
+    "end": 31.464
+  },
+  {
+    "word": "those",
+    "start": 31.484,
+    "end": 31.744
+  },
+  {
+    "word": "who",
+    "start": 31.784,
+    "end": 31.944
+  },
+  {
+    "word": "here",
+    "start": 32.004,
+    "end": 32.264
+  },
+  {
+    "word": "gave",
+    "start": 32.324,
+    "end": 32.544
+  },
+  {
+    "word": "their",
+    "start": 32.564,
+    "end": 32.744
+  },
+  {
+    "word": "lives",
+    "start": 32.804,
+    "end": 33.184
+  },
+  {
+    "word": "that",
+    "start": 33.424,
+    "end": 33.604
+  },
+  {
+    "word": "this",
+    "start": 33.644,
+    "end": 33.844
+  },
+  {
+    "word": "nation",
+    "start": 33.924,
+    "end": 34.304
+  },
+  {
+    "word": "might",
+    "start": 34.384,
+    "end": 34.584
+  },
+  {
+    "word": "live.",
+    "start": 34.664,
+    "end": 35.024
+  },
+  {
+    "word": "It",
+    "start": 35.664,
+    "end": 35.725
+  },
+  {
+    "word": "is",
+    "start": 35.845,
+    "end": 35.945
+  },
+  {
+    "word": "altogether",
+    "start": 36.045,
+    "end": 36.605
+  },
+  {
+    "word": "fitting",
+    "start": 36.665,
+    "end": 37.005
+  },
+  {
+    "word": "and",
+    "start": 37.165,
+    "end": 37.245
+  },
+  {
+    "word": "proper",
+    "start": 37.285,
+    "end": 37.685
+  },
+  {
+    "word": "that",
+    "start": 37.805,
+    "end": 37.945
+  },
+  {
+    "word": "we",
+    "start": 37.985,
+    "end": 38.125
+  },
+  {
+    "word": "should",
+    "start": 38.165,
+    "end": 38.345
+  },
+  {
+    "word": "do",
+    "start": 38.405,
+    "end": 38.545
+  },
+  {
+    "word": "this.",
+    "start": 38.585,
+    "end": 38.925
+  },
+  {
+    "word": "But",
+    "start": 39.585,
+    "end": 39.765
+  },
+  {
+    "word": "in",
+    "start": 39.865,
+    "end": 39.965
+  },
+  {
+    "word": "a",
+    "start": 40.005,
+    "end": 40.045
+  },
+  {
+    "word": "larger",
+    "start": 40.105,
+    "end": 40.505
+  },
+  {
+    "word": "sense,",
+    "start": 40.565,
+    "end": 40.885
+  },
+  {
+    "word": "we",
+    "start": 41.205,
+    "end": 41.345
+  },
+  {
+    "word": "cannot",
+    "start": 41.385,
+    "end": 41.625
+  },
+  {
+    "word": "dedicate,",
+    "start": 41.645,
+    "end": 42.065
+  },
+  {
+    "word": "we",
+    "start": 42.385,
+    "end": 42.545
+  },
+  {
+    "word": "cannot",
+    "start": 42.585,
+    "end": 42.825
+  },
+  {
+    "word": "consecrate,",
+    "start": 42.845,
+    "end": 43.345
+  },
+  {
+    "word": "we",
+    "start": 43.666,
+    "end": 43.866
+  },
+  {
+    "word": "cannot",
+    "start": 43.906,
+    "end": 44.166
+  },
+  {
+    "word": "hallow",
+    "start": 44.186,
+    "end": 44.406
+  },
+  {
+    "word": "this",
+    "start": 44.446,
+    "end": 44.546
+  },
+  {
+    "word": "ground,",
+    "start": 44.566,
+    "end": 44.866
+  },
+  {
+    "word": "the",
+    "start": 45.306,
+    "end": 45.426
+  },
+  {
+    "word": "brave",
+    "start": 45.446,
+    "end": 45.766
+  },
+  {
+    "word": "men,",
+    "start": 45.826,
+    "end": 46.166
+  },
+  {
+    "word": "living",
+    "start": 46.566,
+    "end": 46.886
+  },
+  {
+    "word": "and",
+    "start": 47.026,
+    "end": 47.106
+  },
+  {
+    "word": "dead,",
+    "start": 47.186,
+    "end": 47.506
+  },
+  {
+    "word": "who",
+    "start": 47.806,
+    "end": 47.986
+  },
+  {
+    "word": "struggled",
+    "start": 48.046,
+    "end": 48.506
+  },
+  {
+    "word": "here",
+    "start": 48.566,
+    "end": 48.826
+  },
+  {
+    "word": "have",
+    "start": 48.906,
+    "end": 49.046
+  },
+  {
+    "word": "consecrated",
+    "start": 49.106,
+    "end": 49.806
+  },
+  {
+    "word": "it,",
+    "start": 49.906,
+    "end": 50.006
+  },
+  {
+    "word": "far",
+    "start": 50.426,
+    "end": 50.726
+  },
+  {
+    "word": "above",
+    "start": 50.866,
+    "end": 51.146
+  },
+  {
+    "word": "our",
+    "start": 51.246,
+    "end": 51.406
+  },
+  {
+    "word": "poor",
+    "start": 51.486,
+    "end": 51.707
+  },
+  {
+    "word": "power",
+    "start": 51.747,
+    "end": 52.087
+  },
+  {
+    "word": "to",
+    "start": 52.167,
+    "end": 52.287
+  },
+  {
+    "word": "add",
+    "start": 52.487,
+    "end": 52.647
+  },
+  {
+    "word": "or",
+    "start": 52.747,
+    "end": 52.847
+  },
+  {
+    "word": "detract.",
+    "start": 52.887,
+    "end": 53.467
+  },
+  {
+    "word": "The",
+    "start": 53.967,
+    "end": 54.087
+  },
+  {
+    "word": "world",
+    "start": 54.147,
+    "end": 54.467
+  },
+  {
+    "word": "will",
+    "start": 54.507,
+    "end": 54.707
+  },
+  {
+    "word": "little",
+    "start": 54.747,
+    "end": 54.987
+  },
+  {
+    "word": "note,",
+    "start": 55.067,
+    "end": 55.347
+  },
+  {
+    "word": "nor",
+    "start": 55.687,
+    "end": 55.947
+  },
+  {
+    "word": "long",
+    "start": 56.027,
+    "end": 56.247
+  },
+  {
+    "word": "remember,",
+    "start": 56.287,
+    "end": 56.807
+  },
+  {
+    "word": "what",
+    "start": 57.087,
+    "end": 57.267
+  },
+  {
+    "word": "we",
+    "start": 57.327,
+    "end": 57.487
+  },
+  {
+    "word": "say",
+    "start": 57.567,
+    "end": 57.787
+  },
+  {
+    "word": "here,",
+    "start": 57.847,
+    "end": 58.147
+  },
+  {
+    "word": "but",
+    "start": 58.567,
+    "end": 58.707
+  },
+  {
+    "word": "it",
+    "start": 58.767,
+    "end": 58.827
+  },
+  {
+    "word": "can",
+    "start": 58.867,
+    "end": 59.047
+  },
+  {
+    "word": "never",
+    "start": 59.127,
+    "end": 59.387
+  },
+  {
+    "word": "forget",
+    "start": 59.447,
+    "end": 59.948
+  },
+  {
+    "word": "what",
+    "start": 60.228,
+    "end": 60.408
+  },
+  {
+    "word": "they",
+    "start": 60.508,
+    "end": 60.788
+  },
+  {
+    "word": "did",
+    "start": 60.888,
+    "end": 61.088
+  },
+  {
+    "word": "here.",
+    "start": 61.148,
+    "end": 61.488
+  },
+  {
+    "word": "It",
+    "start": 62.288,
+    "end": 62.348
+  },
+  {
+    "word": "is",
+    "start": 62.468,
+    "end": 62.548
+  },
+  {
+    "word": "for",
+    "start": 62.608,
+    "end": 62.808
+  },
+  {
+    "word": "us,",
+    "start": 63.008,
+    "end": 63.128
+  },
+  {
+    "word": "the",
+    "start": 63.228,
+    "end": 63.348
+  },
+  {
+    "word": "living,",
+    "start": 63.408,
+    "end": 63.708
+  },
+  {
+    "word": "rather,",
+    "start": 63.768,
+    "end": 64.148
+  },
+  {
+    "word": "to",
+    "start": 64.348,
+    "end": 64.488
+  },
+  {
+    "word": "be",
+    "start": 64.528,
+    "end": 64.648
+  },
+  {
+    "word": "dedicated",
+    "start": 64.708,
+    "end": 65.308
+  },
+  {
+    "word": "here",
+    "start": 65.368,
+    "end": 65.548
+  },
+  {
+    "word": "to",
+    "start": 65.608,
+    "end": 65.708
+  },
+  {
+    "word": "the",
+    "start": 65.728,
+    "end": 65.848
+  },
+  {
+    "word": "unfinished",
+    "start": 65.988,
+    "end": 66.488
+  },
+  {
+    "word": "work,",
+    "start": 66.548,
+    "end": 66.828
+  },
+  {
+    "word": "which",
+    "start": 67.228,
+    "end": 67.408
+  },
+  {
+    "word": "they",
+    "start": 67.489,
+    "end": 67.669
+  },
+  {
+    "word": "who",
+    "start": 67.729,
+    "end": 67.869
+  },
+  {
+    "word": "fought",
+    "start": 67.949,
+    "end": 68.209
+  },
+  {
+    "word": "here",
+    "start": 68.249,
+    "end": 68.489
+  },
+  {
+    "word": "have",
+    "start": 68.709,
+    "end": 68.929
+  },
+  {
+    "word": "thus",
+    "start": 68.989,
+    "end": 69.209
+  },
+  {
+    "word": "far",
+    "start": 69.289,
+    "end": 69.589
+  },
+  {
+    "word": "so",
+    "start": 69.709,
+    "end": 69.889
+  },
+  {
+    "word": "nobly",
+    "start": 69.969,
+    "end": 70.389
+  },
+  {
+    "word": "advanced.",
+    "start": 70.489,
+    "end": 71.009
+  },
+  {
+    "word": "It",
+    "start": 71.609,
+    "end": 71.669
+  },
+  {
+    "word": "is",
+    "start": 71.769,
+    "end": 71.849
+  },
+  {
+    "word": "rather",
+    "start": 71.929,
+    "end": 72.269
+  },
+  {
+    "word": "for",
+    "start": 72.329,
+    "end": 72.509
+  },
+  {
+    "word": "us",
+    "start": 72.669,
+    "end": 72.789
+  },
+  {
+    "word": "to",
+    "start": 72.849,
+    "end": 72.949
+  },
+  {
+    "word": "be",
+    "start": 73.009,
+    "end": 73.129
+  },
+  {
+    "word": "here",
+    "start": 73.209,
+    "end": 73.429
+  },
+  {
+    "word": "dedicated",
+    "start": 73.489,
+    "end": 74.049
+  },
+  {
+    "word": "to",
+    "start": 74.129,
+    "end": 74.229
+  },
+  {
+    "word": "the",
+    "start": 74.269,
+    "end": 74.349
+  },
+  {
+    "word": "great",
+    "start": 74.389,
+    "end": 74.609
+  },
+  {
+    "word": "task",
+    "start": 74.669,
+    "end": 75.049
+  },
+  {
+    "word": "remaining",
+    "start": 75.309,
+    "end": 75.77
+  },
+  {
+    "word": "before",
+    "start": 75.81,
+    "end": 76.15
+  },
+  {
+    "word": "us,",
+    "start": 76.35,
+    "end": 76.51
+  },
+  {
+    "word": "that",
+    "start": 76.97,
+    "end": 77.11
+  },
+  {
+    "word": "from",
+    "start": 77.15,
+    "end": 77.31
+  },
+  {
+    "word": "these",
+    "start": 77.35,
+    "end": 77.53
+  },
+  {
+    "word": "honored",
+    "start": 77.63,
+    "end": 77.97
+  },
+  {
+    "word": "dead",
+    "start": 78.01,
+    "end": 78.31
+  },
+  {
+    "word": "we",
+    "start": 78.59,
+    "end": 78.75
+  },
+  {
+    "word": "take",
+    "start": 78.81,
+    "end": 79.05
+  },
+  {
+    "word": "increased",
+    "start": 79.17,
+    "end": 79.57
+  },
+  {
+    "word": "devotion",
+    "start": 79.59,
+    "end": 80.07
+  },
+  {
+    "word": "to",
+    "start": 80.13,
+    "end": 80.23
+  },
+  {
+    "word": "that",
+    "start": 80.27,
+    "end": 80.45
+  },
+  {
+    "word": "cause",
+    "start": 80.51,
+    "end": 80.93
+  },
+  {
+    "word": "for",
+    "start": 81.29,
+    "end": 81.49
+  },
+  {
+    "word": "which",
+    "start": 81.53,
+    "end": 81.73
+  },
+  {
+    "word": "they",
+    "start": 81.79,
+    "end": 81.95
+  },
+  {
+    "word": "gave",
+    "start": 82.01,
+    "end": 82.23
+  },
+  {
+    "word": "the",
+    "start": 82.27,
+    "end": 82.37
+  },
+  {
+    "word": "last",
+    "start": 82.43,
+    "end": 82.69
+  },
+  {
+    "word": "full",
+    "start": 82.75,
+    "end": 82.97
+  },
+  {
+    "word": "measure",
+    "start": 83.03,
+    "end": 83.391
+  },
+  {
+    "word": "of",
+    "start": 83.511,
+    "end": 83.571
+  },
+  {
+    "word": "devotion,",
+    "start": 83.611,
+    "end": 84.211
+  },
+  {
+    "word": "that",
+    "start": 84.731,
+    "end": 84.911
+  },
+  {
+    "word": "we",
+    "start": 84.991,
+    "end": 85.191
+  },
+  {
+    "word": "here",
+    "start": 85.271,
+    "end": 85.611
+  },
+  {
+    "word": "highly",
+    "start": 85.931,
+    "end": 86.291
+  },
+  {
+    "word": "resolve",
+    "start": 86.351,
+    "end": 86.771
+  },
+  {
+    "word": "that",
+    "start": 86.811,
+    "end": 86.931
+  },
+  {
+    "word": "these",
+    "start": 86.991,
+    "end": 87.211
+  },
+  {
+    "word": "dead",
+    "start": 87.291,
+    "end": 87.631
+  },
+  {
+    "word": "shall",
+    "start": 87.891,
+    "end": 88.131
+  },
+  {
+    "word": "not",
+    "start": 88.191,
+    "end": 88.371
+  },
+  {
+    "word": "have",
+    "start": 88.431,
+    "end": 88.591
+  },
+  {
+    "word": "died",
+    "start": 88.631,
+    "end": 88.911
+  },
+  {
+    "word": "in",
+    "start": 88.991,
+    "end": 89.051
+  },
+  {
+    "word": "vain,",
+    "start": 89.111,
+    "end": 89.451
+  },
+  {
+    "word": "that",
+    "start": 89.931,
+    "end": 90.111
+  },
+  {
+    "word": "this",
+    "start": 90.171,
+    "end": 90.391
+  },
+  {
+    "word": "nation,",
+    "start": 90.471,
+    "end": 90.911
+  },
+  {
+    "word": "under",
+    "start": 91.312,
+    "end": 91.572
+  },
+  {
+    "word": "God,",
+    "start": 91.632,
+    "end": 92.012
+  },
+  {
+    "word": "shall",
+    "start": 92.292,
+    "end": 92.512
+  },
+  {
+    "word": "have",
+    "start": 92.552,
+    "end": 92.712
+  },
+  {
+    "word": "a",
+    "start": 92.772,
+    "end": 92.792
+  },
+  {
+    "word": "new",
+    "start": 92.872,
+    "end": 93.032
+  },
+  {
+    "word": "birth",
+    "start": 93.092,
+    "end": 93.352
+  },
+  {
+    "word": "of",
+    "start": 93.392,
+    "end": 93.452
+  },
+  {
+    "word": "freedom,",
+    "start": 93.512,
+    "end": 93.912
+  },
+  {
+    "word": "and",
+    "start": 94.352,
+    "end": 94.452
+  },
+  {
+    "word": "that",
+    "start": 94.492,
+    "end": 94.672
+  },
+  {
+    "word": "government,",
+    "start": 94.752,
+    "end": 95.292
+  },
+  {
+    "word": "of",
+    "start": 95.592,
+    "end": 95.672
+  },
+  {
+    "word": "the",
+    "start": 95.712,
+    "end": 95.812
+  },
+  {
+    "word": "people,",
+    "start": 95.872,
+    "end": 96.312
+  },
+  {
+    "word": "by",
+    "start": 96.932,
+    "end": 97.152
+  },
+  {
+    "word": "the",
+    "start": 97.212,
+    "end": 97.332
+  },
+  {
+    "word": "people,",
+    "start": 97.372,
+    "end": 97.792
+  },
+  {
+    "word": "for",
+    "start": 98.372,
+    "end": 98.632
+  },
+  {
+    "word": "the",
+    "start": 98.692,
+    "end": 98.812
+  },
+  {
+    "word": "people,",
+    "start": 98.852,
+    "end": 99.293
+  },
+  {
+    "word": "shall",
+    "start": 99.793,
+    "end": 100.093
+  },
+  {
+    "word": "not",
+    "start": 100.153,
+    "end": 100.373
+  },
+  {
+    "word": "perish",
+    "start": 100.433,
+    "end": 100.913
+  },
+  {
+    "word": "from",
+    "start": 101.253,
+    "end": 101.493
+  },
+  {
+    "word": "this",
+    "start": 101.553,
+    "end": 101.753
+  },
+  {
+    "word": "earth.",
+    "start": 101.913,
+    "end": 102.193
+  }
+]

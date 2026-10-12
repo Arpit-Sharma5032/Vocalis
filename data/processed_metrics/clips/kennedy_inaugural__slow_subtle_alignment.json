@@ -1,0 +1,792 @@
+[
+  {
+    "word": "The",
+    "start": 0.92,
+    "end": 1.02
+  },
+  {
+    "word": "world",
+    "start": 1.08,
+    "end": 1.5
+  },
+  {
+    "word": "is",
+    "start": 1.58,
+    "end": 1.64
+  },
+  {
+    "word": "very",
+    "start": 1.7,
+    "end": 1.94
+  },
+  {
+    "word": "different",
+    "start": 2.0,
+    "end": 2.32
+  },
+  {
+    "word": "now.",
+    "start": 2.38,
+    "end": 2.701
+  },
+  {
+    "word": "For",
+    "start": 4.261,
+    "end": 4.401
+  },
+  {
+    "word": "man",
+    "start": 4.461,
+    "end": 4.921
+  },
+  {
+    "word": "holds",
+    "start": 5.001,
+    "end": 5.421
+  },
+  {
+    "word": "in",
+    "start": 5.461,
+    "end": 5.521
+  },
+  {
+    "word": "his",
+    "start": 5.581,
+    "end": 5.701
+  },
+  {
+    "word": "mortal",
+    "start": 5.781,
+    "end": 6.101
+  },
+  {
+    "word": "hands",
+    "start": 6.141,
+    "end": 6.561
+  },
+  {
+    "word": "the",
+    "start": 7.882,
+    "end": 8.002
+  },
+  {
+    "word": "power",
+    "start": 8.062,
+    "end": 8.542
+  },
+  {
+    "word": "to",
+    "start": 8.582,
+    "end": 8.722
+  },
+  {
+    "word": "abolish",
+    "start": 8.802,
+    "end": 9.302
+  },
+  {
+    "word": "all",
+    "start": 10.662,
+    "end": 10.862
+  },
+  {
+    "word": "forms",
+    "start": 10.942,
+    "end": 11.442
+  },
+  {
+    "word": "of",
+    "start": 11.522,
+    "end": 11.602
+  },
+  {
+    "word": "human",
+    "start": 11.662,
+    "end": 11.982
+  },
+  {
+    "word": "poverty",
+    "start": 12.042,
+    "end": 12.522
+  },
+  {
+    "word": "and",
+    "start": 13.743,
+    "end": 13.843
+  },
+  {
+    "word": "all",
+    "start": 13.983,
+    "end": 14.143
+  },
+  {
+    "word": "forms",
+    "start": 14.223,
+    "end": 14.643
+  },
+  {
+    "word": "of",
+    "start": 14.703,
+    "end": 14.763
+  },
+  {
+    "word": "human",
+    "start": 14.823,
+    "end": 15.103
+  },
+  {
+    "word": "life.",
+    "start": 15.143,
+    "end": 15.423
+  },
+  {
+    "word": "And",
+    "start": 17.103,
+    "end": 17.223
+  },
+  {
+    "word": "yet",
+    "start": 17.263,
+    "end": 17.543
+  },
+  {
+    "word": "the",
+    "start": 17.663,
+    "end": 17.803
+  },
+  {
+    "word": "same",
+    "start": 17.883,
+    "end": 18.364
+  },
+  {
+    "word": "revolutionary",
+    "start": 18.904,
+    "end": 19.804
+  },
+  {
+    "word": "beliefs",
+    "start": 19.864,
+    "end": 20.284
+  },
+  {
+    "word": "for",
+    "start": 22.024,
+    "end": 22.284
+  },
+  {
+    "word": "which",
+    "start": 22.344,
+    "end": 22.584
+  },
+  {
+    "word": "our",
+    "start": 22.764,
+    "end": 22.884
+  },
+  {
+    "word": "forebears",
+    "start": 22.984,
+    "end": 23.725
+  },
+  {
+    "word": "fought",
+    "start": 23.825,
+    "end": 24.145
+  },
+  {
+    "word": "are",
+    "start": 25.445,
+    "end": 25.585
+  },
+  {
+    "word": "still",
+    "start": 25.605,
+    "end": 25.885
+  },
+  {
+    "word": "at",
+    "start": 25.905,
+    "end": 25.985
+  },
+  {
+    "word": "issue",
+    "start": 26.025,
+    "end": 26.385
+  },
+  {
+    "word": "around",
+    "start": 26.465,
+    "end": 26.785
+  },
+  {
+    "word": "the",
+    "start": 26.805,
+    "end": 26.885
+  },
+  {
+    "word": "globe\u2014the",
+    "start": 26.925,
+    "end": 28.626
+  },
+  {
+    "word": "belief",
+    "start": 28.646,
+    "end": 29.106
+  },
+  {
+    "word": "that",
+    "start": 29.146,
+    "end": 29.286
+  },
+  {
+    "word": "the",
+    "start": 29.326,
+    "end": 29.406
+  },
+  {
+    "word": "rights",
+    "start": 29.486,
+    "end": 29.746
+  },
+  {
+    "word": "of",
+    "start": 29.826,
+    "end": 29.886
+  },
+  {
+    "word": "man",
+    "start": 29.926,
+    "end": 30.346
+  },
+  {
+    "word": "come",
+    "start": 31.506,
+    "end": 31.806
+  },
+  {
+    "word": "not",
+    "start": 31.886,
+    "end": 32.126
+  },
+  {
+    "word": "from",
+    "start": 32.206,
+    "end": 32.366
+  },
+  {
+    "word": "the",
+    "start": 32.406,
+    "end": 32.486
+  },
+  {
+    "word": "generosity",
+    "start": 32.526,
+    "end": 33.246
+  },
+  {
+    "word": "of",
+    "start": 33.286,
+    "end": 33.346
+  },
+  {
+    "word": "the",
+    "start": 33.386,
+    "end": 33.486
+  },
+  {
+    "word": "state",
+    "start": 33.526,
+    "end": 33.807
+  },
+  {
+    "word": "but",
+    "start": 34.847,
+    "end": 35.047
+  },
+  {
+    "word": "from",
+    "start": 35.127,
+    "end": 35.287
+  },
+  {
+    "word": "the",
+    "start": 35.327,
+    "end": 35.427
+  },
+  {
+    "word": "hand",
+    "start": 35.467,
+    "end": 35.727
+  },
+  {
+    "word": "of",
+    "start": 35.767,
+    "end": 35.827
+  },
+  {
+    "word": "God.",
+    "start": 35.887,
+    "end": 36.267
+  },
+  {
+    "word": "We",
+    "start": 37.887,
+    "end": 38.107
+  },
+  {
+    "word": "dare",
+    "start": 38.167,
+    "end": 38.447
+  },
+  {
+    "word": "not",
+    "start": 38.487,
+    "end": 38.667
+  },
+  {
+    "word": "forget",
+    "start": 38.748,
+    "end": 39.068
+  },
+  {
+    "word": "today",
+    "start": 39.088,
+    "end": 39.588
+  },
+  {
+    "word": "that",
+    "start": 40.668,
+    "end": 40.828
+  },
+  {
+    "word": "we",
+    "start": 40.928,
+    "end": 41.228
+  },
+  {
+    "word": "are",
+    "start": 41.368,
+    "end": 41.448
+  },
+  {
+    "word": "the",
+    "start": 41.488,
+    "end": 41.588
+  },
+  {
+    "word": "heirs",
+    "start": 41.728,
+    "end": 42.088
+  },
+  {
+    "word": "of",
+    "start": 42.148,
+    "end": 42.188
+  },
+  {
+    "word": "that",
+    "start": 42.228,
+    "end": 42.408
+  },
+  {
+    "word": "first",
+    "start": 42.508,
+    "end": 42.868
+  },
+  {
+    "word": "revolution.",
+    "start": 43.108,
+    "end": 43.668
+  },
+  {
+    "word": "Let",
+    "start": 45.029,
+    "end": 45.249
+  },
+  {
+    "word": "the",
+    "start": 45.289,
+    "end": 45.389
+  },
+  {
+    "word": "word",
+    "start": 45.429,
+    "end": 45.729
+  },
+  {
+    "word": "go",
+    "start": 45.789,
+    "end": 45.989
+  },
+  {
+    "word": "forth",
+    "start": 46.069,
+    "end": 46.449
+  },
+  {
+    "word": "from",
+    "start": 47.289,
+    "end": 47.489
+  },
+  {
+    "word": "this",
+    "start": 47.549,
+    "end": 47.749
+  },
+  {
+    "word": "time",
+    "start": 47.829,
+    "end": 48.149
+  },
+  {
+    "word": "and",
+    "start": 48.209,
+    "end": 48.289
+  },
+  {
+    "word": "place,",
+    "start": 48.349,
+    "end": 48.669
+  },
+  {
+    "word": "to",
+    "start": 49.77,
+    "end": 49.97
+  },
+  {
+    "word": "friend",
+    "start": 50.07,
+    "end": 50.45
+  },
+  {
+    "word": "and",
+    "start": 50.55,
+    "end": 50.67
+  },
+  {
+    "word": "foe",
+    "start": 50.75,
+    "end": 51.01
+  },
+  {
+    "word": "alike,",
+    "start": 51.03,
+    "end": 51.37
+  },
+  {
+    "word": "that",
+    "start": 52.79,
+    "end": 52.97
+  },
+  {
+    "word": "the",
+    "start": 53.01,
+    "end": 53.13
+  },
+  {
+    "word": "torch",
+    "start": 53.19,
+    "end": 53.61
+  },
+  {
+    "word": "has",
+    "start": 53.67,
+    "end": 53.87
+  },
+  {
+    "word": "been",
+    "start": 53.91,
+    "end": 54.09
+  },
+  {
+    "word": "passed",
+    "start": 54.171,
+    "end": 54.611
+  },
+  {
+    "word": "to",
+    "start": 55.531,
+    "end": 55.731
+  },
+  {
+    "word": "a",
+    "start": 55.791,
+    "end": 55.871
+  },
+  {
+    "word": "new",
+    "start": 55.931,
+    "end": 56.151
+  },
+  {
+    "word": "generation",
+    "start": 56.211,
+    "end": 56.851
+  },
+  {
+    "word": "of",
+    "start": 56.871,
+    "end": 56.931
+  },
+  {
+    "word": "Americans\u2014born",
+    "start": 56.991,
+    "end": 59.251
+  },
+  {
+    "word": "in",
+    "start": 59.452,
+    "end": 59.532
+  },
+  {
+    "word": "this",
+    "start": 59.572,
+    "end": 59.752
+  },
+  {
+    "word": "century,",
+    "start": 59.812,
+    "end": 60.272
+  },
+  {
+    "word": "tempered",
+    "start": 61.672,
+    "end": 62.092
+  },
+  {
+    "word": "by",
+    "start": 62.152,
+    "end": 62.352
+  },
+  {
+    "word": "war,",
+    "start": 62.412,
+    "end": 62.912
+  },
+  {
+    "word": "disciplined",
+    "start": 64.392,
+    "end": 65.053
+  },
+  {
+    "word": "by",
+    "start": 65.113,
+    "end": 65.333
+  },
+  {
+    "word": "a",
+    "start": 65.373,
+    "end": 65.433
+  },
+  {
+    "word": "hard",
+    "start": 65.553,
+    "end": 65.993
+  },
+  {
+    "word": "and",
+    "start": 66.193,
+    "end": 66.293
+  },
+  {
+    "word": "bitter",
+    "start": 66.353,
+    "end": 66.593
+  },
+  {
+    "word": "peace,",
+    "start": 66.613,
+    "end": 66.913
+  },
+  {
+    "word": "proud",
+    "start": 68.533,
+    "end": 68.973
+  },
+  {
+    "word": "of",
+    "start": 69.013,
+    "end": 69.073
+  },
+  {
+    "word": "our",
+    "start": 69.173,
+    "end": 69.273
+  },
+  {
+    "word": "ancient",
+    "start": 69.353,
+    "end": 69.633
+  },
+  {
+    "word": "heritage\u2014and",
+    "start": 69.654,
+    "end": 71.474
+  },
+  {
+    "word": "unwilling",
+    "start": 71.634,
+    "end": 72.214
+  },
+  {
+    "word": "to",
+    "start": 72.234,
+    "end": 72.474
+  },
+  {
+    "word": "witness",
+    "start": 72.534,
+    "end": 73.014
+  },
+  {
+    "word": "or",
+    "start": 73.694,
+    "end": 73.874
+  },
+  {
+    "word": "permit",
+    "start": 73.934,
+    "end": 74.354
+  },
+  {
+    "word": "the",
+    "start": 75.995,
+    "end": 76.135
+  },
+  {
+    "word": "slow",
+    "start": 76.195,
+    "end": 76.615
+  },
+  {
+    "word": "undoing",
+    "start": 76.755,
+    "end": 77.335
+  },
+  {
+    "word": "of",
+    "start": 78.635,
+    "end": 78.735
+  },
+  {
+    "word": "those",
+    "start": 78.775,
+    "end": 79.235
+  },
+  {
+    "word": "human",
+    "start": 79.335,
+    "end": 79.655
+  },
+  {
+    "word": "rights",
+    "start": 79.715,
+    "end": 80.016
+  },
+  {
+    "word": "to",
+    "start": 81.276,
+    "end": 81.476
+  },
+  {
+    "word": "which",
+    "start": 81.516,
+    "end": 81.736
+  },
+  {
+    "word": "this",
+    "start": 81.816,
+    "end": 82.016
+  },
+  {
+    "word": "nation",
+    "start": 82.116,
+    "end": 82.576
+  },
+  {
+    "word": "has",
+    "start": 82.616,
+    "end": 82.816
+  },
+  {
+    "word": "always",
+    "start": 82.936,
+    "end": 83.296
+  },
+  {
+    "word": "been",
+    "start": 83.376,
+    "end": 83.556
+  },
+  {
+    "word": "committed,",
+    "start": 83.596,
+    "end": 84.016
+  },
+  {
+    "word": "and",
+    "start": 85.177,
+    "end": 85.317
+  },
+  {
+    "word": "to",
+    "start": 85.357,
+    "end": 85.497
+  },
+  {
+    "word": "which",
+    "start": 85.557,
+    "end": 85.737
+  },
+  {
+    "word": "we",
+    "start": 85.817,
+    "end": 85.957
+  },
+  {
+    "word": "are",
+    "start": 86.097,
+    "end": 86.217
+  },
+  {
+    "word": "committed",
+    "start": 86.277,
+    "end": 86.657
+  },
+  {
+    "word": "today",
+    "start": 86.697,
+    "end": 87.157
+  },
+  {
+    "word": "at",
+    "start": 87.977,
+    "end": 88.057
+  },
+  {
+    "word": "home",
+    "start": 88.117,
+    "end": 88.537
+  },
+  {
+    "word": "and",
+    "start": 89.277,
+    "end": 89.397
+  },
+  {
+    "word": "around",
+    "start": 89.477,
+    "end": 89.777
+  },
+  {
+    "word": "the",
+    "start": 89.817,
+    "end": 89.897
+  },
+  {
+    "word": "world.",
+    "start": 89.937,
+    "end": 90.298
+  }
+]

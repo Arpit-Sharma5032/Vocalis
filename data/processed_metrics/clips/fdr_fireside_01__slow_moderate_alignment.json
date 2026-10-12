@@ -1,0 +1,1297 @@
+[
+  {
+    "word": "My",
+    "start": 1.22,
+    "end": 1.36
+  },
+  {
+    "word": "friends,",
+    "start": 1.42,
+    "end": 1.8
+  },
+  {
+    "word": "I",
+    "start": 2.26,
+    "end": 2.32
+  },
+  {
+    "word": "want",
+    "start": 2.36,
+    "end": 2.54
+  },
+  {
+    "word": "to",
+    "start": 2.601,
+    "end": 2.681
+  },
+  {
+    "word": "talk",
+    "start": 2.721,
+    "end": 2.981
+  },
+  {
+    "word": "for",
+    "start": 3.061,
+    "end": 3.201
+  },
+  {
+    "word": "a",
+    "start": 3.221,
+    "end": 3.241
+  },
+  {
+    "word": "few",
+    "start": 3.301,
+    "end": 3.441
+  },
+  {
+    "word": "minutes",
+    "start": 3.481,
+    "end": 3.781
+  },
+  {
+    "word": "with",
+    "start": 3.841,
+    "end": 3.961
+  },
+  {
+    "word": "the",
+    "start": 3.981,
+    "end": 4.061
+  },
+  {
+    "word": "people",
+    "start": 4.081,
+    "end": 4.361
+  },
+  {
+    "word": "of",
+    "start": 4.381,
+    "end": 4.441
+  },
+  {
+    "word": "the",
+    "start": 4.481,
+    "end": 4.541
+  },
+  {
+    "word": "United",
+    "start": 4.601,
+    "end": 4.961
+  },
+  {
+    "word": "States",
+    "start": 5.001,
+    "end": 5.381
+  },
+  {
+    "word": "about",
+    "start": 5.581,
+    "end": 5.821
+  },
+  {
+    "word": "banking,",
+    "start": 6.021,
+    "end": 6.461
+  },
+  {
+    "word": "to",
+    "start": 7.361,
+    "end": 7.481
+  },
+  {
+    "word": "talk",
+    "start": 7.521,
+    "end": 7.762
+  },
+  {
+    "word": "with",
+    "start": 7.842,
+    "end": 7.982
+  },
+  {
+    "word": "the",
+    "start": 8.022,
+    "end": 8.102
+  },
+  {
+    "word": "comparatively",
+    "start": 8.162,
+    "end": 8.862
+  },
+  {
+    "word": "few",
+    "start": 8.922,
+    "end": 9.162
+  },
+  {
+    "word": "who",
+    "start": 9.222,
+    "end": 9.362
+  },
+  {
+    "word": "understand",
+    "start": 9.422,
+    "end": 9.982
+  },
+  {
+    "word": "the",
+    "start": 10.022,
+    "end": 10.102
+  },
+  {
+    "word": "mechanics",
+    "start": 10.142,
+    "end": 10.602
+  },
+  {
+    "word": "of",
+    "start": 10.662,
+    "end": 10.742
+  },
+  {
+    "word": "banking,",
+    "start": 10.782,
+    "end": 11.202
+  },
+  {
+    "word": "but",
+    "start": 12.122,
+    "end": 12.282
+  },
+  {
+    "word": "more",
+    "start": 12.342,
+    "end": 12.502
+  },
+  {
+    "word": "particularly",
+    "start": 12.562,
+    "end": 13.323
+  },
+  {
+    "word": "with",
+    "start": 13.543,
+    "end": 13.663
+  },
+  {
+    "word": "the",
+    "start": 13.683,
+    "end": 13.783
+  },
+  {
+    "word": "overwhelming",
+    "start": 13.863,
+    "end": 14.423
+  },
+  {
+    "word": "majority",
+    "start": 14.483,
+    "end": 15.043
+  },
+  {
+    "word": "of",
+    "start": 15.123,
+    "end": 15.163
+  },
+  {
+    "word": "you",
+    "start": 15.203,
+    "end": 15.403
+  },
+  {
+    "word": "who",
+    "start": 15.603,
+    "end": 15.743
+  },
+  {
+    "word": "use",
+    "start": 15.883,
+    "end": 16.043
+  },
+  {
+    "word": "banks",
+    "start": 16.103,
+    "end": 16.443
+  },
+  {
+    "word": "for",
+    "start": 16.543,
+    "end": 16.663
+  },
+  {
+    "word": "the",
+    "start": 16.683,
+    "end": 16.763
+  },
+  {
+    "word": "making",
+    "start": 16.803,
+    "end": 17.123
+  },
+  {
+    "word": "of",
+    "start": 17.163,
+    "end": 17.223
+  },
+  {
+    "word": "deposits",
+    "start": 17.263,
+    "end": 17.883
+  },
+  {
+    "word": "and",
+    "start": 17.964,
+    "end": 18.064
+  },
+  {
+    "word": "the",
+    "start": 18.104,
+    "end": 18.164
+  },
+  {
+    "word": "drawing",
+    "start": 18.204,
+    "end": 18.504
+  },
+  {
+    "word": "of",
+    "start": 18.544,
+    "end": 18.604
+  },
+  {
+    "word": "checks.",
+    "start": 18.644,
+    "end": 19.004
+  },
+  {
+    "word": "I",
+    "start": 20.224,
+    "end": 20.284
+  },
+  {
+    "word": "want",
+    "start": 20.324,
+    "end": 20.504
+  },
+  {
+    "word": "to",
+    "start": 20.544,
+    "end": 20.624
+  },
+  {
+    "word": "tell",
+    "start": 20.684,
+    "end": 20.884
+  },
+  {
+    "word": "you",
+    "start": 20.904,
+    "end": 21.024
+  },
+  {
+    "word": "what",
+    "start": 21.084,
+    "end": 21.224
+  },
+  {
+    "word": "has",
+    "start": 21.264,
+    "end": 21.384
+  },
+  {
+    "word": "been",
+    "start": 21.424,
+    "end": 21.584
+  },
+  {
+    "word": "done",
+    "start": 21.644,
+    "end": 21.864
+  },
+  {
+    "word": "in",
+    "start": 21.924,
+    "end": 22.004
+  },
+  {
+    "word": "the",
+    "start": 22.044,
+    "end": 22.124
+  },
+  {
+    "word": "last",
+    "start": 22.164,
+    "end": 22.404
+  },
+  {
+    "word": "few",
+    "start": 22.464,
+    "end": 22.644
+  },
+  {
+    "word": "days",
+    "start": 22.684,
+    "end": 23.004
+  },
+  {
+    "word": "and",
+    "start": 23.665,
+    "end": 23.745
+  },
+  {
+    "word": "why",
+    "start": 23.805,
+    "end": 24.025
+  },
+  {
+    "word": "it",
+    "start": 24.065,
+    "end": 24.125
+  },
+  {
+    "word": "was",
+    "start": 24.165,
+    "end": 24.305
+  },
+  {
+    "word": "done,",
+    "start": 24.365,
+    "end": 24.625
+  },
+  {
+    "word": "and",
+    "start": 25.425,
+    "end": 25.525
+  },
+  {
+    "word": "what",
+    "start": 25.585,
+    "end": 25.725
+  },
+  {
+    "word": "the",
+    "start": 25.745,
+    "end": 25.845
+  },
+  {
+    "word": "next",
+    "start": 25.885,
+    "end": 26.085
+  },
+  {
+    "word": "steps",
+    "start": 26.125,
+    "end": 26.425
+  },
+  {
+    "word": "are",
+    "start": 26.485,
+    "end": 26.585
+  },
+  {
+    "word": "going",
+    "start": 26.605,
+    "end": 26.805
+  },
+  {
+    "word": "to",
+    "start": 26.825,
+    "end": 26.885
+  },
+  {
+    "word": "be.",
+    "start": 26.925,
+    "end": 27.125
+  },
+  {
+    "word": "I",
+    "start": 28.286,
+    "end": 28.346
+  },
+  {
+    "word": "recognize",
+    "start": 28.406,
+    "end": 29.026
+  },
+  {
+    "word": "that",
+    "start": 29.086,
+    "end": 29.226
+  },
+  {
+    "word": "the",
+    "start": 29.266,
+    "end": 29.366
+  },
+  {
+    "word": "many",
+    "start": 29.406,
+    "end": 29.606
+  },
+  {
+    "word": "proclamations",
+    "start": 29.646,
+    "end": 30.486
+  },
+  {
+    "word": "from",
+    "start": 30.546,
+    "end": 30.706
+  },
+  {
+    "word": "the",
+    "start": 30.746,
+    "end": 30.826
+  },
+  {
+    "word": "state",
+    "start": 30.866,
+    "end": 31.126
+  },
+  {
+    "word": "capitals",
+    "start": 31.166,
+    "end": 31.706
+  },
+  {
+    "word": "and",
+    "start": 32.006,
+    "end": 32.106
+  },
+  {
+    "word": "from",
+    "start": 32.146,
+    "end": 32.306
+  },
+  {
+    "word": "Washington,",
+    "start": 32.366,
+    "end": 32.966
+  },
+  {
+    "word": "the",
+    "start": 33.367,
+    "end": 33.447
+  },
+  {
+    "word": "legislation,",
+    "start": 33.487,
+    "end": 34.267
+  },
+  {
+    "word": "the",
+    "start": 34.327,
+    "end": 34.407
+  },
+  {
+    "word": "treasury",
+    "start": 34.447,
+    "end": 34.867
+  },
+  {
+    "word": "regulations",
+    "start": 34.927,
+    "end": 35.687
+  },
+  {
+    "word": "and",
+    "start": 35.767,
+    "end": 35.867
+  },
+  {
+    "word": "so",
+    "start": 35.927,
+    "end": 36.087
+  },
+  {
+    "word": "forth,",
+    "start": 36.167,
+    "end": 36.467
+  },
+  {
+    "word": "couched",
+    "start": 36.987,
+    "end": 37.307
+  },
+  {
+    "word": "for",
+    "start": 37.347,
+    "end": 37.467
+  },
+  {
+    "word": "the",
+    "start": 37.487,
+    "end": 37.567
+  },
+  {
+    "word": "most",
+    "start": 37.607,
+    "end": 37.787
+  },
+  {
+    "word": "part",
+    "start": 37.867,
+    "end": 38.107
+  },
+  {
+    "word": "in",
+    "start": 38.187,
+    "end": 38.267
+  },
+  {
+    "word": "banking",
+    "start": 38.327,
+    "end": 38.708
+  },
+  {
+    "word": "and",
+    "start": 38.748,
+    "end": 38.828
+  },
+  {
+    "word": "legal",
+    "start": 38.888,
+    "end": 39.188
+  },
+  {
+    "word": "terms,",
+    "start": 39.248,
+    "end": 39.628
+  },
+  {
+    "word": "ought",
+    "start": 40.368,
+    "end": 40.568
+  },
+  {
+    "word": "to",
+    "start": 40.668,
+    "end": 40.768
+  },
+  {
+    "word": "be",
+    "start": 40.828,
+    "end": 40.988
+  },
+  {
+    "word": "explained",
+    "start": 41.128,
+    "end": 41.868
+  },
+  {
+    "word": "for",
+    "start": 42.068,
+    "end": 42.208
+  },
+  {
+    "word": "the",
+    "start": 42.248,
+    "end": 42.348
+  },
+  {
+    "word": "benefit",
+    "start": 42.408,
+    "end": 42.988
+  },
+  {
+    "word": "of",
+    "start": 43.028,
+    "end": 43.108
+  },
+  {
+    "word": "the",
+    "start": 43.148,
+    "end": 43.288
+  },
+  {
+    "word": "average",
+    "start": 43.468,
+    "end": 43.889
+  },
+  {
+    "word": "citizen.",
+    "start": 43.969,
+    "end": 44.649
+  },
+  {
+    "word": "I",
+    "start": 45.989,
+    "end": 46.089
+  },
+  {
+    "word": "owe",
+    "start": 46.309,
+    "end": 46.489
+  },
+  {
+    "word": "this,",
+    "start": 46.569,
+    "end": 46.849
+  },
+  {
+    "word": "in",
+    "start": 47.329,
+    "end": 47.409
+  },
+  {
+    "word": "particular",
+    "start": 47.469,
+    "end": 48.009
+  },
+  {
+    "word": "because",
+    "start": 48.069,
+    "end": 48.369
+  },
+  {
+    "word": "of",
+    "start": 48.409,
+    "end": 48.469
+  },
+  {
+    "word": "the",
+    "start": 48.509,
+    "end": 48.589
+  },
+  {
+    "word": "fortitude",
+    "start": 48.63,
+    "end": 49.21
+  },
+  {
+    "word": "and",
+    "start": 49.27,
+    "end": 49.37
+  },
+  {
+    "word": "the",
+    "start": 49.41,
+    "end": 49.47
+  },
+  {
+    "word": "good",
+    "start": 49.51,
+    "end": 49.69
+  },
+  {
+    "word": "temper",
+    "start": 49.73,
+    "end": 50.11
+  },
+  {
+    "word": "with",
+    "start": 50.17,
+    "end": 50.33
+  },
+  {
+    "word": "which",
+    "start": 50.39,
+    "end": 50.59
+  },
+  {
+    "word": "everybody",
+    "start": 50.75,
+    "end": 51.17
+  },
+  {
+    "word": "has",
+    "start": 51.21,
+    "end": 51.35
+  },
+  {
+    "word": "accepted",
+    "start": 51.39,
+    "end": 51.85
+  },
+  {
+    "word": "the",
+    "start": 51.91,
+    "end": 52.03
+  },
+  {
+    "word": "inconvenience",
+    "start": 52.17,
+    "end": 52.99
+  },
+  {
+    "word": "and",
+    "start": 53.11,
+    "end": 53.21
+  },
+  {
+    "word": "the",
+    "start": 53.25,
+    "end": 53.31
+  },
+  {
+    "word": "hardships",
+    "start": 53.33,
+    "end": 53.851
+  },
+  {
+    "word": "of",
+    "start": 53.931,
+    "end": 53.991
+  },
+  {
+    "word": "the",
+    "start": 54.031,
+    "end": 54.091
+  },
+  {
+    "word": "banking",
+    "start": 54.131,
+    "end": 54.491
+  },
+  {
+    "word": "holiday.",
+    "start": 54.531,
+    "end": 55.031
+  },
+  {
+    "word": "I",
+    "start": 55.831,
+    "end": 55.911
+  },
+  {
+    "word": "know",
+    "start": 55.971,
+    "end": 56.151
+  },
+  {
+    "word": "that",
+    "start": 56.191,
+    "end": 56.291
+  },
+  {
+    "word": "when",
+    "start": 56.331,
+    "end": 56.471
+  },
+  {
+    "word": "you",
+    "start": 56.511,
+    "end": 56.631
+  },
+  {
+    "word": "understand",
+    "start": 56.691,
+    "end": 57.311
+  },
+  {
+    "word": "what",
+    "start": 57.411,
+    "end": 57.551
+  },
+  {
+    "word": "we",
+    "start": 57.591,
+    "end": 57.731
+  },
+  {
+    "word": "in",
+    "start": 57.771,
+    "end": 57.871
+  },
+  {
+    "word": "Washington",
+    "start": 57.911,
+    "end": 58.471
+  },
+  {
+    "word": "have",
+    "start": 58.511,
+    "end": 58.611
+  },
+  {
+    "word": "been",
+    "start": 58.631,
+    "end": 58.791
+  },
+  {
+    "word": "about,",
+    "start": 58.831,
+    "end": 59.132
+  },
+  {
+    "word": "I",
+    "start": 59.712,
+    "end": 59.772
+  },
+  {
+    "word": "shall",
+    "start": 59.812,
+    "end": 60.032
+  },
+  {
+    "word": "continue",
+    "start": 60.092,
+    "end": 60.552
+  },
+  {
+    "word": "to",
+    "start": 60.592,
+    "end": 60.672
+  },
+  {
+    "word": "have",
+    "start": 60.712,
+    "end": 60.892
+  },
+  {
+    "word": "your",
+    "start": 60.912,
+    "end": 61.072
+  },
+  {
+    "word": "cooperation,",
+    "start": 61.092,
+    "end": 61.912
+  },
+  {
+    "word": "as",
+    "start": 62.412,
+    "end": 62.492
+  },
+  {
+    "word": "fully",
+    "start": 62.572,
+    "end": 62.852
+  },
+  {
+    "word": "as",
+    "start": 62.912,
+    "end": 62.992
+  },
+  {
+    "word": "I",
+    "start": 63.072,
+    "end": 63.112
+  },
+  {
+    "word": "have",
+    "start": 63.152,
+    "end": 63.272
+  },
+  {
+    "word": "had",
+    "start": 63.312,
+    "end": 63.452
+  },
+  {
+    "word": "your",
+    "start": 63.492,
+    "end": 63.652
+  },
+  {
+    "word": "sympathy",
+    "start": 63.712,
+    "end": 64.153
+  },
+  {
+    "word": "and",
+    "start": 64.213,
+    "end": 64.313
+  },
+  {
+    "word": "your",
+    "start": 64.353,
+    "end": 64.493
+  },
+  {
+    "word": "help",
+    "start": 64.513,
+    "end": 64.733
+  },
+  {
+    "word": "during",
+    "start": 64.813,
+    "end": 65.093
+  },
+  {
+    "word": "the",
+    "start": 65.113,
+    "end": 65.193
+  },
+  {
+    "word": "past",
+    "start": 65.213,
+    "end": 65.493
+  },
+  {
+    "word": "week.",
+    "start": 65.553,
+    "end": 65.773
+  },
+  {
+    "word": "First",
+    "start": 67.093,
+    "end": 67.373
+  },
+  {
+    "word": "of",
+    "start": 67.413,
+    "end": 67.473
+  },
+  {
+    "word": "all,",
+    "start": 67.593,
+    "end": 67.753
+  },
+  {
+    "word": "let",
+    "start": 68.193,
+    "end": 68.333
+  },
+  {
+    "word": "me",
+    "start": 68.353,
+    "end": 68.453
+  },
+  {
+    "word": "state",
+    "start": 68.513,
+    "end": 68.813
+  },
+  {
+    "word": "the",
+    "start": 68.833,
+    "end": 69.033
+  },
+  {
+    "word": "simple",
+    "start": 69.073,
+    "end": 69.374
+  },
+  {
+    "word": "fact",
+    "start": 69.434,
+    "end": 69.794
+  },
+  {
+    "word": "that",
+    "start": 70.034,
+    "end": 70.174
+  },
+  {
+    "word": "when",
+    "start": 70.234,
+    "end": 70.374
+  },
+  {
+    "word": "you",
+    "start": 70.414,
+    "end": 70.534
+  },
+  {
+    "word": "deposit",
+    "start": 70.574,
+    "end": 71.054
+  },
+  {
+    "word": "money",
+    "start": 71.114,
+    "end": 71.334
+  },
+  {
+    "word": "in",
+    "start": 71.394,
+    "end": 71.454
+  },
+  {
+    "word": "a",
+    "start": 71.494,
+    "end": 71.534
+  },
+  {
+    "word": "bank,",
+    "start": 71.554,
+    "end": 71.834
+  },
+  {
+    "word": "the",
+    "start": 72.314,
+    "end": 72.394
+  },
+  {
+    "word": "bank",
+    "start": 72.434,
+    "end": 72.694
+  },
+  {
+    "word": "does",
+    "start": 72.774,
+    "end": 72.914
+  },
+  {
+    "word": "not",
+    "start": 72.974,
+    "end": 73.114
+  },
+  {
+    "word": "put",
+    "start": 73.174,
+    "end": 73.314
+  },
+  {
+    "word": "the",
+    "start": 73.354,
+    "end": 73.434
+  },
+  {
+    "word": "money",
+    "start": 73.454,
+    "end": 73.674
+  },
+  {
+    "word": "into",
+    "start": 73.734,
+    "end": 73.934
+  },
+  {
+    "word": "a",
+    "start": 73.974,
+    "end": 73.994
+  },
+  {
+    "word": "safe",
+    "start": 74.054,
+    "end": 74.275
+  },
+  {
+    "word": "deposit",
+    "start": 74.295,
+    "end": 74.735
+  },
+  {
+    "word": "vault.",
+    "start": 74.775,
+    "end": 75.035
+  },
+  {
+    "word": "It",
+    "start": 75.635,
+    "end": 75.695
+  },
+  {
+    "word": "invests",
+    "start": 75.795,
+    "end": 76.215
+  },
+  {
+    "word": "your",
+    "start": 76.255,
+    "end": 76.415
+  },
+  {
+    "word": "money",
+    "start": 76.455,
+    "end": 76.695
+  },
+  {
+    "word": "in",
+    "start": 76.975,
+    "end": 77.075
+  },
+  {
+    "word": "many",
+    "start": 77.155,
+    "end": 77.355
+  },
+  {
+    "word": "different",
+    "start": 77.415,
+    "end": 77.715
+  },
+  {
+    "word": "forms",
+    "start": 77.775,
+    "end": 78.055
+  },
+  {
+    "word": "of",
+    "start": 78.115,
+    "end": 78.175
+  },
+  {
+    "word": "credit,",
+    "start": 78.235,
+    "end": 78.575
+  },
+  {
+    "word": "in",
+    "start": 79.095,
+    "end": 79.195
+  },
+  {
+    "word": "bonds,",
+    "start": 79.255,
+    "end": 79.656
+  },
+  {
+    "word": "in",
+    "start": 79.996,
+    "end": 80.096
+  },
+  {
+    "word": "commercial",
+    "start": 80.176,
+    "end": 80.596
+  },
+  {
+    "word": "paper,",
+    "start": 80.656,
+    "end": 81.036
+  },
+  {
+    "word": "in",
+    "start": 81.236,
+    "end": 81.316
+  },
+  {
+    "word": "mortgages",
+    "start": 81.376,
+    "end": 81.996
+  },
+  {
+    "word": "and",
+    "start": 82.136,
+    "end": 82.256
+  },
+  {
+    "word": "in",
+    "start": 82.356,
+    "end": 82.416
+  },
+  {
+    "word": "many",
+    "start": 82.456,
+    "end": 82.656
+  },
+  {
+    "word": "other",
+    "start": 82.716,
+    "end": 82.896
+  },
+  {
+    "word": "kinds",
+    "start": 82.916,
+    "end": 83.216
+  },
+  {
+    "word": "of",
+    "start": 83.256,
+    "end": 83.316
+  },
+  {
+    "word": "loans.",
+    "start": 83.376,
+    "end": 83.716
+  },
+  {
+    "word": "In",
+    "start": 84.517,
+    "end": 84.597
+  },
+  {
+    "word": "other",
+    "start": 84.657,
+    "end": 84.817
+  },
+  {
+    "word": "words,",
+    "start": 84.857,
+    "end": 85.177
+  },
+  {
+    "word": "the",
+    "start": 85.437,
+    "end": 85.537
+  },
+  {
+    "word": "bank",
+    "start": 85.577,
+    "end": 85.837
+  },
+  {
+    "word": "puts",
+    "start": 85.977,
+    "end": 86.177
+  },
+  {
+    "word": "your",
+    "start": 86.217,
+    "end": 86.377
+  },
+  {
+    "word": "money",
+    "start": 86.437,
+    "end": 86.657
+  },
+  {
+    "word": "to",
+    "start": 86.717,
+    "end": 86.797
+  },
+  {
+    "word": "work,",
+    "start": 86.857,
+    "end": 87.097
+  },
+  {
+    "word": "to",
+    "start": 87.497,
+    "end": 87.597
+  },
+  {
+    "word": "keep",
+    "start": 87.657,
+    "end": 87.837
+  },
+  {
+    "word": "the",
+    "start": 87.877,
+    "end": 87.957
+  },
+  {
+    "word": "wheels",
+    "start": 87.997,
+    "end": 88.317
+  },
+  {
+    "word": "of",
+    "start": 88.357,
+    "end": 88.417
+  },
+  {
+    "word": "industry",
+    "start": 88.497,
+    "end": 88.997
+  },
+  {
+    "word": "and",
+    "start": 89.057,
+    "end": 89.157
+  },
+  {
+    "word": "of",
+    "start": 89.217,
+    "end": 89.277
+  },
+  {
+    "word": "agriculture",
+    "start": 89.357,
+    "end": 90.038
+  },
+  {
+    "word": "turning",
+    "start": 90.098,
+    "end": 90.398
+  },
+  {
+    "word": "round.",
+    "start": 90.438,
+    "end": 90.698
+  }
+]

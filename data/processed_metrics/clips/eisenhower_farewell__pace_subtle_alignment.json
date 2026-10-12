@@ -1,0 +1,952 @@
+[
+  {
+    "word": "Our",
+    "start": 0.62,
+    "end": 0.74
+  },
+  {
+    "word": "people",
+    "start": 0.84,
+    "end": 1.16
+  },
+  {
+    "word": "expect",
+    "start": 1.24,
+    "end": 1.66
+  },
+  {
+    "word": "their",
+    "start": 1.92,
+    "end": 2.12
+  },
+  {
+    "word": "President",
+    "start": 2.18,
+    "end": 2.6
+  },
+  {
+    "word": "and",
+    "start": 2.64,
+    "end": 2.74
+  },
+  {
+    "word": "the",
+    "start": 2.76,
+    "end": 2.82
+  },
+  {
+    "word": "Congress",
+    "start": 2.88,
+    "end": 3.28
+  },
+  {
+    "word": "to",
+    "start": 3.821,
+    "end": 3.921
+  },
+  {
+    "word": "find",
+    "start": 3.981,
+    "end": 4.221
+  },
+  {
+    "word": "essential",
+    "start": 4.281,
+    "end": 4.761
+  },
+  {
+    "word": "agreement",
+    "start": 4.821,
+    "end": 5.241
+  },
+  {
+    "word": "on",
+    "start": 5.481,
+    "end": 5.561
+  },
+  {
+    "word": "issues",
+    "start": 5.641,
+    "end": 5.961
+  },
+  {
+    "word": "of",
+    "start": 6.001,
+    "end": 6.061
+  },
+  {
+    "word": "great",
+    "start": 6.121,
+    "end": 6.321
+  },
+  {
+    "word": "moment,",
+    "start": 6.381,
+    "end": 6.681
+  },
+  {
+    "word": "the",
+    "start": 7.621,
+    "end": 7.721
+  },
+  {
+    "word": "wise",
+    "start": 7.801,
+    "end": 8.201
+  },
+  {
+    "word": "resolution",
+    "start": 8.281,
+    "end": 8.801
+  },
+  {
+    "word": "of",
+    "start": 8.841,
+    "end": 8.901
+  },
+  {
+    "word": "which",
+    "start": 8.941,
+    "end": 9.161
+  },
+  {
+    "word": "will",
+    "start": 9.961,
+    "end": 10.201
+  },
+  {
+    "word": "better",
+    "start": 10.261,
+    "end": 10.521
+  },
+  {
+    "word": "shape",
+    "start": 10.581,
+    "end": 10.922
+  },
+  {
+    "word": "the",
+    "start": 11.102,
+    "end": 11.202
+  },
+  {
+    "word": "future",
+    "start": 11.262,
+    "end": 11.642
+  },
+  {
+    "word": "of",
+    "start": 11.862,
+    "end": 11.922
+  },
+  {
+    "word": "the",
+    "start": 11.942,
+    "end": 12.022
+  },
+  {
+    "word": "Nation.",
+    "start": 12.062,
+    "end": 12.422
+  },
+  {
+    "word": "My",
+    "start": 13.822,
+    "end": 13.942
+  },
+  {
+    "word": "own",
+    "start": 14.002,
+    "end": 14.102
+  },
+  {
+    "word": "relations",
+    "start": 14.142,
+    "end": 14.662
+  },
+  {
+    "word": "with",
+    "start": 14.722,
+    "end": 14.862
+  },
+  {
+    "word": "the",
+    "start": 14.882,
+    "end": 14.942
+  },
+  {
+    "word": "Congress,",
+    "start": 15.002,
+    "end": 15.442
+  },
+  {
+    "word": "which",
+    "start": 16.142,
+    "end": 16.302
+  },
+  {
+    "word": "began",
+    "start": 16.362,
+    "end": 16.762
+  },
+  {
+    "word": "on",
+    "start": 16.882,
+    "end": 16.982
+  },
+  {
+    "word": "a",
+    "start": 17.042,
+    "end": 17.082
+  },
+  {
+    "word": "remote",
+    "start": 17.142,
+    "end": 17.582
+  },
+  {
+    "word": "and",
+    "start": 17.702,
+    "end": 17.782
+  },
+  {
+    "word": "tenuous",
+    "start": 17.882,
+    "end": 18.323
+  },
+  {
+    "word": "basis",
+    "start": 18.383,
+    "end": 18.783
+  },
+  {
+    "word": "when,",
+    "start": 19.543,
+    "end": 19.823
+  },
+  {
+    "word": "long",
+    "start": 19.883,
+    "end": 20.083
+  },
+  {
+    "word": "ago,",
+    "start": 20.123,
+    "end": 20.443
+  },
+  {
+    "word": "a",
+    "start": 21.503,
+    "end": 21.563
+  },
+  {
+    "word": "member",
+    "start": 21.623,
+    "end": 21.883
+  },
+  {
+    "word": "of",
+    "start": 21.903,
+    "end": 21.943
+  },
+  {
+    "word": "the",
+    "start": 21.983,
+    "end": 22.063
+  },
+  {
+    "word": "Senate",
+    "start": 22.103,
+    "end": 22.343
+  },
+  {
+    "word": "appointed",
+    "start": 22.383,
+    "end": 22.723
+  },
+  {
+    "word": "me",
+    "start": 22.763,
+    "end": 22.863
+  },
+  {
+    "word": "to",
+    "start": 22.883,
+    "end": 22.963
+  },
+  {
+    "word": "West",
+    "start": 22.983,
+    "end": 23.163
+  },
+  {
+    "word": "Point,",
+    "start": 23.203,
+    "end": 23.443
+  },
+  {
+    "word": "have",
+    "start": 24.143,
+    "end": 24.303
+  },
+  {
+    "word": "since",
+    "start": 24.363,
+    "end": 24.683
+  },
+  {
+    "word": "ranged",
+    "start": 25.464,
+    "end": 25.844
+  },
+  {
+    "word": "to",
+    "start": 25.884,
+    "end": 26.004
+  },
+  {
+    "word": "the",
+    "start": 26.024,
+    "end": 26.144
+  },
+  {
+    "word": "intimate",
+    "start": 26.224,
+    "end": 26.564
+  },
+  {
+    "word": "during",
+    "start": 26.924,
+    "end": 27.204
+  },
+  {
+    "word": "the",
+    "start": 27.224,
+    "end": 27.304
+  },
+  {
+    "word": "war",
+    "start": 27.344,
+    "end": 27.704
+  },
+  {
+    "word": "and",
+    "start": 28.064,
+    "end": 28.144
+  },
+  {
+    "word": "immediate",
+    "start": 28.164,
+    "end": 28.584
+  },
+  {
+    "word": "post-war",
+    "start": 29.124,
+    "end": 29.584
+  },
+  {
+    "word": "period,",
+    "start": 29.644,
+    "end": 30.044
+  },
+  {
+    "word": "and,",
+    "start": 30.784,
+    "end": 30.904
+  },
+  {
+    "word": "finally,",
+    "start": 31.004,
+    "end": 31.444
+  },
+  {
+    "word": "to",
+    "start": 32.044,
+    "end": 32.164
+  },
+  {
+    "word": "the",
+    "start": 32.204,
+    "end": 32.284
+  },
+  {
+    "word": "mutually",
+    "start": 32.324,
+    "end": 32.765
+  },
+  {
+    "word": "interdependent",
+    "start": 32.925,
+    "end": 33.645
+  },
+  {
+    "word": "during",
+    "start": 34.205,
+    "end": 34.465
+  },
+  {
+    "word": "these",
+    "start": 34.505,
+    "end": 34.665
+  },
+  {
+    "word": "past",
+    "start": 34.745,
+    "end": 35.145
+  },
+  {
+    "word": "eight",
+    "start": 35.285,
+    "end": 35.445
+  },
+  {
+    "word": "years.",
+    "start": 35.485,
+    "end": 35.805
+  },
+  {
+    "word": "In",
+    "start": 37.285,
+    "end": 37.345
+  },
+  {
+    "word": "this",
+    "start": 37.385,
+    "end": 37.505
+  },
+  {
+    "word": "final",
+    "start": 37.605,
+    "end": 37.945
+  },
+  {
+    "word": "relationship,",
+    "start": 38.005,
+    "end": 38.705
+  },
+  {
+    "word": "the",
+    "start": 38.885,
+    "end": 39.005
+  },
+  {
+    "word": "Congress",
+    "start": 39.065,
+    "end": 39.545
+  },
+  {
+    "word": "and",
+    "start": 39.685,
+    "end": 39.785
+  },
+  {
+    "word": "the",
+    "start": 39.825,
+    "end": 39.886
+  },
+  {
+    "word": "Administration",
+    "start": 39.926,
+    "end": 40.646
+  },
+  {
+    "word": "have,",
+    "start": 40.706,
+    "end": 41.026
+  },
+  {
+    "word": "on",
+    "start": 41.666,
+    "end": 41.746
+  },
+  {
+    "word": "most",
+    "start": 41.826,
+    "end": 42.046
+  },
+  {
+    "word": "vital",
+    "start": 42.126,
+    "end": 42.406
+  },
+  {
+    "word": "issues,",
+    "start": 42.466,
+    "end": 42.806
+  },
+  {
+    "word": "cooperated",
+    "start": 43.266,
+    "end": 43.866
+  },
+  {
+    "word": "well,",
+    "start": 43.946,
+    "end": 44.186
+  },
+  {
+    "word": "to",
+    "start": 45.406,
+    "end": 45.506
+  },
+  {
+    "word": "serve",
+    "start": 45.566,
+    "end": 45.786
+  },
+  {
+    "word": "the",
+    "start": 45.806,
+    "end": 45.886
+  },
+  {
+    "word": "national",
+    "start": 45.926,
+    "end": 46.746
+  },
+  {
+    "word": "good",
+    "start": 46.786,
+    "end": 47.026
+  },
+  {
+    "word": "rather",
+    "start": 47.687,
+    "end": 48.047
+  },
+  {
+    "word": "than",
+    "start": 48.127,
+    "end": 48.287
+  },
+  {
+    "word": "mere",
+    "start": 48.347,
+    "end": 48.527
+  },
+  {
+    "word": "partisanship,",
+    "start": 48.567,
+    "end": 49.207
+  },
+  {
+    "word": "and",
+    "start": 49.987,
+    "end": 50.067
+  },
+  {
+    "word": "so",
+    "start": 50.147,
+    "end": 50.347
+  },
+  {
+    "word": "have",
+    "start": 50.407,
+    "end": 50.547
+  },
+  {
+    "word": "assured",
+    "start": 50.567,
+    "end": 50.907
+  },
+  {
+    "word": "that",
+    "start": 51.287,
+    "end": 51.427
+  },
+  {
+    "word": "the",
+    "start": 51.467,
+    "end": 51.547
+  },
+  {
+    "word": "business",
+    "start": 51.587,
+    "end": 51.927
+  },
+  {
+    "word": "of",
+    "start": 51.967,
+    "end": 52.027
+  },
+  {
+    "word": "the",
+    "start": 52.047,
+    "end": 52.107
+  },
+  {
+    "word": "Nation",
+    "start": 52.147,
+    "end": 52.427
+  },
+  {
+    "word": "should",
+    "start": 52.927,
+    "end": 53.127
+  },
+  {
+    "word": "go",
+    "start": 53.167,
+    "end": 53.287
+  },
+  {
+    "word": "forward.",
+    "start": 53.347,
+    "end": 53.667
+  },
+  {
+    "word": "So,",
+    "start": 55.488,
+    "end": 55.788
+  },
+  {
+    "word": "my",
+    "start": 55.888,
+    "end": 56.048
+  },
+  {
+    "word": "official",
+    "start": 56.108,
+    "end": 56.488
+  },
+  {
+    "word": "relationship",
+    "start": 56.528,
+    "end": 57.148
+  },
+  {
+    "word": "with",
+    "start": 57.188,
+    "end": 57.308
+  },
+  {
+    "word": "the",
+    "start": 57.328,
+    "end": 57.408
+  },
+  {
+    "word": "Congress",
+    "start": 57.468,
+    "end": 57.888
+  },
+  {
+    "word": "ends",
+    "start": 58.388,
+    "end": 58.568
+  },
+  {
+    "word": "in",
+    "start": 58.628,
+    "end": 58.708
+  },
+  {
+    "word": "a",
+    "start": 58.728,
+    "end": 58.768
+  },
+  {
+    "word": "feeling,",
+    "start": 58.808,
+    "end": 59.188
+  },
+  {
+    "word": "on",
+    "start": 59.528,
+    "end": 59.628
+  },
+  {
+    "word": "my",
+    "start": 59.688,
+    "end": 59.828
+  },
+  {
+    "word": "part,",
+    "start": 59.888,
+    "end": 60.128
+  },
+  {
+    "word": "of",
+    "start": 60.748,
+    "end": 60.828
+  },
+  {
+    "word": "gratitude",
+    "start": 60.888,
+    "end": 61.388
+  },
+  {
+    "word": "that",
+    "start": 62.069,
+    "end": 62.209
+  },
+  {
+    "word": "we",
+    "start": 62.269,
+    "end": 62.349
+  },
+  {
+    "word": "have",
+    "start": 62.369,
+    "end": 62.469
+  },
+  {
+    "word": "been",
+    "start": 62.489,
+    "end": 62.629
+  },
+  {
+    "word": "able",
+    "start": 62.689,
+    "end": 62.949
+  },
+  {
+    "word": "to",
+    "start": 63.069,
+    "end": 63.169
+  },
+  {
+    "word": "do",
+    "start": 63.249,
+    "end": 63.409
+  },
+  {
+    "word": "so",
+    "start": 63.549,
+    "end": 63.729
+  },
+  {
+    "word": "much",
+    "start": 63.789,
+    "end": 63.989
+  },
+  {
+    "word": "together.",
+    "start": 64.369,
+    "end": 64.769
+  },
+  {
+    "word": "We",
+    "start": 67.389,
+    "end": 67.509
+  },
+  {
+    "word": "now",
+    "start": 67.549,
+    "end": 67.729
+  },
+  {
+    "word": "stand",
+    "start": 67.809,
+    "end": 68.149
+  },
+  {
+    "word": "ten",
+    "start": 68.229,
+    "end": 68.449
+  },
+  {
+    "word": "years",
+    "start": 68.489,
+    "end": 68.829
+  },
+  {
+    "word": "past",
+    "start": 68.93,
+    "end": 69.21
+  },
+  {
+    "word": "the",
+    "start": 69.23,
+    "end": 69.31
+  },
+  {
+    "word": "midpoint",
+    "start": 69.35,
+    "end": 69.85
+  },
+  {
+    "word": "of",
+    "start": 69.89,
+    "end": 69.97
+  },
+  {
+    "word": "a",
+    "start": 70.01,
+    "end": 70.03
+  },
+  {
+    "word": "century",
+    "start": 70.11,
+    "end": 70.59
+  },
+  {
+    "word": "that",
+    "start": 71.25,
+    "end": 71.37
+  },
+  {
+    "word": "has",
+    "start": 71.41,
+    "end": 71.51
+  },
+  {
+    "word": "witnessed",
+    "start": 71.55,
+    "end": 71.95
+  },
+  {
+    "word": "four",
+    "start": 72.01,
+    "end": 72.31
+  },
+  {
+    "word": "major",
+    "start": 72.41,
+    "end": 72.73
+  },
+  {
+    "word": "wars",
+    "start": 72.77,
+    "end": 73.21
+  },
+  {
+    "word": "among",
+    "start": 73.51,
+    "end": 73.77
+  },
+  {
+    "word": "great",
+    "start": 73.81,
+    "end": 73.99
+  },
+  {
+    "word": "nations.",
+    "start": 74.05,
+    "end": 74.47
+  },
+  {
+    "word": "Three",
+    "start": 75.23,
+    "end": 75.45
+  },
+  {
+    "word": "of",
+    "start": 75.49,
+    "end": 75.55
+  },
+  {
+    "word": "these",
+    "start": 75.61,
+    "end": 75.97
+  },
+  {
+    "word": "involved",
+    "start": 76.07,
+    "end": 76.551
+  },
+  {
+    "word": "our",
+    "start": 76.631,
+    "end": 76.711
+  },
+  {
+    "word": "own",
+    "start": 76.811,
+    "end": 76.931
+  },
+  {
+    "word": "country.",
+    "start": 77.031,
+    "end": 77.311
+  },
+  {
+    "word": "Despite",
+    "start": 78.591,
+    "end": 79.051
+  },
+  {
+    "word": "these",
+    "start": 79.111,
+    "end": 79.311
+  },
+  {
+    "word": "holocausts",
+    "start": 79.351,
+    "end": 79.911
+  },
+  {
+    "word": "America",
+    "start": 80.671,
+    "end": 81.211
+  },
+  {
+    "word": "is",
+    "start": 81.271,
+    "end": 81.351
+  },
+  {
+    "word": "today",
+    "start": 81.411,
+    "end": 81.751
+  },
+  {
+    "word": "the",
+    "start": 82.571,
+    "end": 82.671
+  },
+  {
+    "word": "strongest,",
+    "start": 82.711,
+    "end": 83.251
+  },
+  {
+    "word": "the",
+    "start": 83.872,
+    "end": 83.972
+  },
+  {
+    "word": "most",
+    "start": 84.012,
+    "end": 84.212
+  },
+  {
+    "word": "influential",
+    "start": 84.312,
+    "end": 84.972
+  },
+  {
+    "word": "and",
+    "start": 85.512,
+    "end": 85.612
+  },
+  {
+    "word": "most",
+    "start": 85.672,
+    "end": 85.832
+  },
+  {
+    "word": "productive",
+    "start": 85.892,
+    "end": 86.412
+  },
+  {
+    "word": "nation",
+    "start": 86.452,
+    "end": 86.752
+  },
+  {
+    "word": "in",
+    "start": 86.832,
+    "end": 86.892
+  },
+  {
+    "word": "the",
+    "start": 86.932,
+    "end": 86.992
+  },
+  {
+    "word": "world.",
+    "start": 87.032,
+    "end": 87.292
+  }
+]

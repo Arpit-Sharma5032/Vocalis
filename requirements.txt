@@ -134,6 +134,7 @@ soundfile==0.14.0
 soxr==1.1.0
 SQLAlchemy==2.1.2
 sympy==1.14.0
+tabulate==0.10.0
 threadpoolctl==3.7.0
 tokenizers==0.22.2
 tomli_w @ file:///croot/tomli-w_1738351312774/work

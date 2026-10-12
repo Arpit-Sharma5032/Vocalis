@@ -15,24 +15,21 @@ SAMPLE_RATE = 16000
 DEVICE = "cpu"
 
 
-def align_transcript(audio_path: str, transcript: str, language: str = "en") -> list[dict]:
-    """Align a known transcript to audio and return word-level timestamps.
+def load_aligner(language: str = "en"):
+    """Load the alignment model once so it can be reused for many clips."""
+    return whisperx.load_align_model(language_code=language, device=DEVICE)
 
-    Args:
-        audio_path: Path to an audio file.
-        transcript: The exact text spoken in the audio.
-        language: ISO language code of the speech.
 
-    Returns:
-        A list of dicts with keys 'word', 'start', 'end' (seconds).
+def align_with_model(audio_path: str, transcript: str, model, metadata) -> list[dict]:
+    """Align a known transcript to audio with an already-loaded model.
+
+    Returns a list of dicts with keys 'word', 'start', 'end' (seconds).
     """
     audio = whisperx.load_audio(audio_path)
     duration = len(audio) / SAMPLE_RATE
 
     # Treat the whole transcript as one segment spanning the full audio.
     segments = [{"text": transcript.strip(), "start": 0.0, "end": duration}]
-
-    model, metadata = whisperx.load_align_model(language_code=language, device=DEVICE)
     result = whisperx.align(
         segments, model, metadata, audio, DEVICE, return_char_alignments=False
     )
@@ -40,6 +37,12 @@ def align_transcript(audio_path: str, transcript: str, language: str = "en") -> 
         {"word": w["word"], "start": w.get("start"), "end": w.get("end")}
         for w in result["word_segments"]
     ]
+
+
+def align_transcript(audio_path: str, transcript: str, language: str = "en") -> list[dict]:
+    """Align a known transcript to audio (loads the model for this single call)."""
+    model, metadata = load_aligner(language)
+    return align_with_model(audio_path, transcript, model, metadata)
 
 
 def main() -> None:
