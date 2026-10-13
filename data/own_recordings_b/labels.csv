@@ -1,0 +1,2 @@
+clip_id,file,flaw_type,severity,flaw_start,flaw_end,sentence_index,sentence_text
+ownb_good,data/own_recordings_b/ownb_good.wav,none,none,,,,

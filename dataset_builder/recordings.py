@@ -71,13 +71,19 @@ def token_ranges(sentences: list[str]) -> list[tuple[int, int]]:
 def assign_flaws(sentences: list[str], min_words: int = 8) -> dict[int, str]:
     """Choose one sentence per flaw, spread evenly through the speech.
 
-    Only sentences with at least `min_words` words (excluding first and last)
-    qualify, so every flaw has room to be audible.
+    Preference order: inner sentences with >= min_words words; then any sentence
+    with >= min_words words (short texts); then any sentence with >= 5 words.
     """
-    eligible = [i for i in range(1, len(sentences) - 1) if len(sentences[i].split()) >= min_words]
-    if len(eligible) < len(FLAWS):
-        raise ValueError(f"Need {len(FLAWS)} sentences of >= {min_words} words, found {len(eligible)}.")
-    picks = [eligible[round(k * (len(eligible) - 1) / (len(FLAWS) - 1))] for k in range(len(FLAWS))]
+    n = len(FLAWS)
+    attempts = [(range(1, len(sentences) - 1), min_words), (range(len(sentences)), min_words),
+                (range(len(sentences)), 5)]
+    for candidates, words_needed in attempts:
+        eligible = [i for i in candidates if len(sentences[i].split()) >= words_needed]
+        if len(eligible) >= n:
+            break
+    else:
+        raise ValueError(f"Need {n} sentences of >= 5 words in the transcript, found {len(eligible)}.")
+    picks = [eligible[round(k * (len(eligible) - 1) / (n - 1))] for k in range(n)]
     return dict(zip(picks, FLAWS))
 
 
