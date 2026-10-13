@@ -201,7 +201,9 @@ def regions_from_deviations(dev: Deviations, th: Thresholds = Thresholds()) -> l
             if B[k1]["end"] - B[k0]["start"] < th.min_region_s:
                 continue  # too short to be more than natural variation
             score = float(np.nanmax(np.abs(deviation[k0 : k1 + 1])))
-            regions.append(Region(ftype, P[k0]["start"], P[k1]["end"], score, detail_fn(k0, k1)))
+            detail = detail_fn(k0, k1)
+            detail["baseline_span_s"] = B[k1]["end"] - B[k0]["start"]
+            regions.append(Region(ftype, P[k0]["start"], P[k1]["end"], score, detail))
 
     def pace_detail(k0: int, k1: int) -> dict:
         db = sum(w["end"] - w["start"] for w in B[k0 : k1 + 1])

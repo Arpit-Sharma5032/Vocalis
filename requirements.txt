@@ -2,6 +2,7 @@ aiohappyeyeballs==2.7.1
 aiohttp==3.14.3
 aiosignal==1.4.0
 alembic==1.20.0
+annotated-doc==0.0.5
 annotated-types @ file:///C:/Users/task_HC8bELSzQYSqy_0/croot/annotated-types_1783681208923/work
 antlr4-python3-runtime==4.9.3
 anyio @ file:///C:/Users/task_179007487920171/croot/anyio_1790075303713/work
@@ -37,6 +38,7 @@ decorator==5.3.1
 defusedxml==0.7.1
 distro @ file:///C:/b/abs_71xr36ua5r/croot/distro_1714488282676/work
 einops==0.8.2
+fastapi==0.143.0
 faster-whisper==1.2.1
 filelock==4.0.9
 flatbuffers==25.12.19
@@ -117,6 +119,7 @@ pyproject_hooks @ file:///C:/Users/task_179059994348136/croot/pyproject_hooks_17
 PySocks @ file:///C:/Users/task_179002186912327/croot/pysocks_1790022025292/work
 pytest==9.1.1
 python-dateutil==2.9.0.post0
+python-multipart==0.0.32
 pytorch-lightning==2.6.6
 pytorch-metric-learning==2.9.0
 PyYAML==6.0.3
@@ -133,6 +136,7 @@ sortedcontainers==2.4.0
 soundfile==0.14.0
 soxr==1.1.0
 SQLAlchemy==2.1.2
+starlette==1.8.0
 sympy==1.14.0
 tabulate==0.10.0
 threadpoolctl==3.7.0
@@ -153,6 +157,7 @@ typing_extensions @ file:///C:/Users/task_XGSspINPRKGcP_0/croot/typing_extension
 tzdata==2026.4
 unearth @ file:///C:/Users/task_O_e0eGMhTCCcN_1/croot/unearth_1783061388861/work
 urllib3 @ file:///C:/Users/task_179070034242986/croot/urllib3_1790701139334/work
+uvicorn==0.54.0
 whisperx==3.8.6
 win_inet_pton @ file:///C:/miniconda3/conda-bld/win_inet_pton_1761746278197/work
 yarl==1.25.1

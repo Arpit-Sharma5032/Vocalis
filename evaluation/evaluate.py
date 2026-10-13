@@ -144,10 +144,19 @@ def summarize(results: list[dict], clip_stats: list[dict], fp_rows: list[dict]) 
     out = []
     df = pd.DataFrame(results)
     cs = pd.DataFrame(clip_stats)
-    sources = sorted(df["source"].unique(), key=lambda x: (x != "synthetic", x)) if not df.empty else []
+    sources = sorted(cs["source"].unique(), key=lambda x: (x != "synthetic", x)) if not cs.empty else []
     for source in sources:
-        sub = df[df["source"] == source]
-        if sub.empty:
+        sub = df[df["source"] == source] if not df.empty else df
+        c = cs[cs["source"] == source]
+        minutes = c["minutes"].sum()
+        if sub.empty:  # a set with only flaw-free takes: report false positives only
+            out.append(f"\n### {source.capitalize()} clips (no labelled flaws)\n")
+            out.append(f"{int(c['false_positives'].sum())} false-positive regions over {len(c)} clips "
+                       f"({c['false_positives'].sum() / minutes:.2f} per minute of audio).")
+            fp = pd.DataFrame(fp_rows)
+            fp = fp[fp["source"] == source] if not fp.empty else fp
+            if not fp.empty:
+                out.append("\n" + fp.groupby("predicted_type").size().rename("false positives").to_frame().to_markdown())
             continue
         out.append(f"\n### {source.capitalize()} clips: detection rate (IoU >= {IOU_HIT})\n")
         recall = sub.pivot_table(index="flaw_type", columns="severity", values="detected", aggfunc="mean")
@@ -159,8 +168,6 @@ def summarize(results: list[dict], clip_stats: list[dict], fp_rows: list[dict]) 
             iou_t = hit.pivot_table(index="flaw_type", columns="severity", values="best_iou", aggfunc="mean")
             iou_t = iou_t.reindex(columns=[c for c in SEVERITY_ORDER if c in iou_t.columns])
             out.append(iou_t.round(2).to_markdown())
-        c = cs[cs["source"] == source]
-        minutes = c["minutes"].sum()
         out.append(
             f"\nOverall detection rate {sub['detected'].mean() * 100:.0f}% of {len(sub)} flaws; "
             f"{int(c['false_positives'].sum())} false-positive regions over {len(c)} clips "

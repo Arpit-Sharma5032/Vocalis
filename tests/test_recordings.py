@@ -82,3 +82,16 @@ def test_takes_use_the_given_prefix_and_good_take_is_detected_by_suffix(tmp_path
     words = _words(TEXT)
     assert label_take("ownb_good", plan, words, tmp_path)[0]["flaw_type"] == "none"
     assert all(r["severity"] == "subtle" for r in label_take("ownb_flawed_subtle", plan, words, tmp_path))
+
+
+def test_short_text_relaxes_the_rules_instead_of_failing():
+    """Kennedy-style excerpt: only 3 long inner sentences, but 4 long sentences overall."""
+    sentences = [
+        "A short opening line here.",
+        "This second sentence has plenty of words in it for sure.",
+        "And the third sentence is also long enough to qualify here.",
+        "The fourth sentence is long enough as well to be picked.",
+        "The very last sentence is long too and could host a flaw.",
+    ]
+    chosen = assign_flaws(sentences)
+    assert set(chosen.values()) == set(FLAWS) and len(chosen) == 4
