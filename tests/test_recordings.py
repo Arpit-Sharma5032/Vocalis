@@ -8,6 +8,7 @@ from dataset_builder.recordings import (
     label_take,
     make_plan,
     split_sentences,
+    takes,
     token_ranges,
 )
 
@@ -72,3 +73,12 @@ def test_label_take_uses_sentence_boundaries_and_rejects_mismatch(tmp_path):
     assert label_take("own_good", plan, words, tmp_path)[0]["flaw_type"] == "none"
     with pytest.raises(ValueError):
         label_take("own_flawed_moderate", plan, words[:-1], tmp_path)
+
+
+def test_takes_use_the_given_prefix_and_good_take_is_detected_by_suffix(tmp_path):
+    assert takes("ownb") == ("ownb_good", "ownb_flawed_moderate", "ownb_flawed_subtle")
+    (tmp_path / "t.txt").write_text(TEXT, encoding="utf-8")
+    plan = make_plan(tmp_path / "t.txt")
+    words = _words(TEXT)
+    assert label_take("ownb_good", plan, words, tmp_path)[0]["flaw_type"] == "none"
+    assert all(r["severity"] == "subtle" for r in label_take("ownb_flawed_subtle", plan, words, tmp_path))

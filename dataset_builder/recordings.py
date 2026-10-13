@@ -20,7 +20,13 @@ from dataset_builder.windows import ends_phrase, load_words
 
 SENTENCE_SPLIT = re.compile(r"(?<=[.?!])\s+")
 FLAWS = ("pace", "monotone", "pause", "volume")
-TAKES = ("own_good", "own_flawed_moderate", "own_flawed_subtle")
+
+
+def takes(prefix: str = "own") -> tuple[str, str, str]:
+    """File stems of the three takes for a recording set, e.g. own_good, own_flawed_moderate, ..."""
+    return (f"{prefix}_good", f"{prefix}_flawed_moderate", f"{prefix}_flawed_subtle")
+
+
 LABEL_COLUMNS = [
     "clip_id", "file", "flaw_type", "severity", "flaw_start", "flaw_end",
     "sentence_index", "sentence_text",
@@ -122,7 +128,7 @@ def label_take(take_id: str, plan: dict, words: list[dict], audio_dir: Path) -> 
             "The take does not match the transcript word for word."
         )
     file = (audio_dir / f"{take_id}.wav").as_posix()
-    severity = take_id.rsplit("_", 1)[-1] if take_id != "own_good" else "none"
+    severity = "none" if take_id.endswith("_good") else take_id.rsplit("_", 1)[-1]
     if severity == "none":
         return [{"clip_id": take_id, "file": file, "flaw_type": "none", "severity": "none",
                  "flaw_start": "", "flaw_end": "", "sentence_index": "", "sentence_text": ""}]
@@ -146,6 +152,7 @@ def main() -> None:
     parser.add_argument("command", choices=["plan", "label"])
     parser.add_argument("--transcript", type=Path, default=Path("data/transcripts/lincoln_gettysburg.txt"))
     parser.add_argument("--dir", type=Path, default=Path("data/own_recordings"))
+    parser.add_argument("--prefix", default="own", help="file-name prefix of the takes (own, ownb, ...)")
     parser.add_argument("--align-dir", type=Path, default=Path("data/processed_metrics"))
     args = parser.parse_args()
     plan_path = args.dir / "plan.json"
@@ -160,7 +167,7 @@ def main() -> None:
 
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
     rows: list[dict] = []
-    for take in TAKES:
+    for take in takes(args.prefix):
         align = args.align_dir / f"{take}_alignment.json"
         if not align.exists():
             print(f"skipping {take}: no alignment yet ({align})")

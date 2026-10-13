@@ -26,9 +26,10 @@ class Thresholds:
     pace_log: float = math.log(1.25)  # |log change in speaking time| that counts as a flaw
     pitch_log: float = math.log(0.6)  # pitch spread ratio below this counts as monotone
     energy_db: float = 2.5  # |speech-level change| in dB that counts as a flaw
-    pause_excess_s: float = 0.30  # extra silence beyond the expected gap, mid-phrase
+    pause_excess_s: float = 0.50  # extra silence beyond the expected gap, mid-phrase
     pause_punct_excess_s: float = 1.00  # ... at punctuation, where a pause is natural
     min_region_words: int = 3
+    min_region_s: float = 2.5  # pace/volume/pitch flaws must persist this long (baseline-time span)
     merge_gap_words: int = 1
     refine_boundaries: bool = True  # cut words back around silences the aligner swallowed
     noise_k: float = 0.0  # 0 = off. Otherwise a deviation must also exceed noise_k x its own robust spread
@@ -197,6 +198,8 @@ def regions_from_deviations(dev: Deviations, th: Thresholds = Thresholds()) -> l
 
     def add(ftype: str, flag: np.ndarray, deviation: np.ndarray, detail_fn) -> None:
         for k0, k1 in _runs(flag, th.min_region_words, th.merge_gap_words):
+            if B[k1]["end"] - B[k0]["start"] < th.min_region_s:
+                continue  # too short to be more than natural variation
             score = float(np.nanmax(np.abs(deviation[k0 : k1 + 1])))
             regions.append(Region(ftype, P[k0]["start"], P[k1]["end"], score, detail_fn(k0, k1)))
 

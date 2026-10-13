@@ -1,9 +1,10 @@
 """Evaluate flaw detection against ground truth.
 
-Two test beds:
+Test beds:
   * synthetic clips (data/manifest.csv): every flaw's exact start/end is known;
-  * our own real recordings (data/own_recordings/labels.csv): performed flaws,
-    read by a different speaker than the baseline (a real speaker-agnostic test).
+  * sets of our own real recordings (--own-set DIR=BASELINE_WAV, each with a
+    labels.csv): performed flaws, read by a different speaker than the baseline
+    (a real speaker-agnostic test).
 
 A flaw counts as DETECTED if a predicted region of the same type overlaps it with
 IoU >= 0.3. A predicted region counts as a FALSE POSITIVE if it overlaps no
@@ -111,15 +112,16 @@ def evaluate_synthetic(args: argparse.Namespace, th: Thresholds) -> tuple[list[d
     return results, clip_stats, fp_rows
 
 
-def evaluate_own(args: argparse.Namespace, th: Thresholds) -> tuple[list[dict], list[dict], list[dict]]:
-    """Run detection on our own real recordings (a different speaker from the baseline)."""
-    labels_path = args.own_dir / "labels.csv"
+def evaluate_own(args: argparse.Namespace, th: Thresholds, own_dir: Path, own_baseline: str) -> tuple[list[dict], list[dict], list[dict]]:
+    """Run detection on one set of our own real recordings (a different speaker from the baseline)."""
+    source = f"own:{own_dir.name}"
+    labels_path = own_dir / "labels.csv"
     if not labels_path.exists():
         return [], [], []
     by_clip: dict[str, list[dict]] = defaultdict(list)
     for row in csv.DictReader(labels_path.open(encoding="utf-8")):
         by_clip[row["clip_id"]].append(row)
-    base_path = Path(args.own_baseline)
+    base_path = Path(own_baseline)
     base_words = load_words(args.align_dir / f"{base_path.stem}_alignment.json")
     base_feats = features_for(base_path.as_posix())
     results, clip_stats, fp_rows = [], [], []
@@ -131,9 +133,9 @@ def evaluate_own(args: argparse.Namespace, th: Thresholds) -> tuple[list[dict], 
         regions = analyze(base_feats, base_words, part_feats, load_words(align), th)
         truths = [(r["flaw_type"], float(r["flaw_start"]), float(r["flaw_end"]), r["severity"])
                   for r in rows if r["flaw_type"] != "none"]
-        flaw_rows, fps, n_pred = score_clip(regions, truths, {"source": "own", "clip_id": clip_id, "speech_id": base_path.stem})
+        flaw_rows, fps, n_pred = score_clip(regions, truths, {"source": source, "clip_id": clip_id, "speech_id": base_path.stem})
         results.extend(flaw_rows)
-        _record("own", clip_id, part_feats, fps, n_pred, clip_stats, fp_rows)
+        _record(source, clip_id, part_feats, fps, n_pred, clip_stats, fp_rows)
     return results, clip_stats, fp_rows
 
 
@@ -142,8 +144,9 @@ def summarize(results: list[dict], clip_stats: list[dict], fp_rows: list[dict]) 
     out = []
     df = pd.DataFrame(results)
     cs = pd.DataFrame(clip_stats)
-    for source in ("synthetic", "own"):
-        sub = df[df["source"] == source] if not df.empty else df
+    sources = sorted(df["source"].unique(), key=lambda x: (x != "synthetic", x)) if not df.empty else []
+    for source in sources:
+        sub = df[df["source"] == source]
         if sub.empty:
             continue
         out.append(f"\n### {source.capitalize()} clips: detection rate (IoU >= {IOU_HIT})\n")
@@ -170,7 +173,7 @@ def summarize(results: list[dict], clip_stats: list[dict], fp_rows: list[dict]) 
             by_type["per minute"] = (by_type["false positives"] / minutes).round(2)
             out.append(f"\n### {source.capitalize()} clips: false positives by predicted type\n")
             out.append(by_type.to_markdown())
-            if source == "own":
+            if source.startswith("own"):
                 per_clip = fp.groupby("clip_id").size().rename("false positives").to_frame().to_markdown()
                 out.append("\nBy recording:\n\n" + per_clip)
     return "\n".join(out)
@@ -183,8 +186,9 @@ def main() -> None:
     p.add_argument("--manifest", type=Path, default=Path("data/manifest.csv"))
     p.add_argument("--align-dir", type=Path, default=Path("data/processed_metrics"))
     p.add_argument("--clip-align-dir", type=Path, default=Path("data/processed_metrics/clips"))
-    p.add_argument("--own-dir", type=Path, default=Path("data/own_recordings"))
-    p.add_argument("--own-baseline", default="data/raw_audio/lincoln_gettysburg.wav")
+    p.add_argument("--own-set", action="append", default=None, metavar="DIR=BASELINE_WAV",
+                   help="a set of own recordings and the baseline it reads (repeatable). "
+                        "Default: data/own_recordings=data/raw_audio/lincoln_gettysburg.wav")
     p.add_argument("--out", type=Path, default=Path("evaluation/results"))
     p.add_argument("--thresholds", type=Path, default=None,
                    help="JSON from evaluation.calibrate; default = untuned built-in thresholds")
@@ -200,10 +204,12 @@ def main() -> None:
         th = replace(th, noise_k=args.noise_k)
     
     results, clip_stats, fp_rows = evaluate_synthetic(args, th)
-    own_results, own_stats, own_fps = evaluate_own(args, th)
-    results += own_results
-    clip_stats += own_stats
-    fp_rows += own_fps
+    for spec in args.own_set or ["data/own_recordings=data/raw_audio/lincoln_gettysburg.wav"]:
+        own_dir, own_baseline = spec.split("=", 1)
+        own_results, own_stats, own_fps = evaluate_own(args, th, Path(own_dir), own_baseline)
+        results += own_results
+        clip_stats += own_stats
+        fp_rows += own_fps
     if not results:
         raise SystemExit("No results: check that alignments exist for the clips.")
 
