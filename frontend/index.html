@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vocalis | Contrastive Speech Analytics Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/wavesurfer.js@7.8.6/dist/wavesurfer.min.js"></script>
+  <script src="https://unpkg.com/wavesurfer.js@7.8.6/dist/plugins/regions.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">V</div>
+      <div>
+        <h1>Vocalis <span class="badge">Track C</span></h1>
+        <p class="subtitle">Contrastive Speech Analytics &amp; Temporal Flaw Grounding</p>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span class="pill" id="api-status-pill">API: Checking...</span>
+      <span class="pill pill-outline">16 kHz Mono &bull; Semitone F0 &bull; WhisperX Alignment</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card control-grid">
+      <div class="control-col">
+        <h2>1. Participant Speech Audio (Any Audio File or Mic)</h2>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="upload-tab">Upload Audio</button>
+          <button class="tab-btn" data-tab="record-tab">Record Microphone</button>
+          <button class="tab-btn" data-tab="preset-tab">Benchmark Presets</button>
+        </div>
+
+        <div class="tab-panel active" id="upload-tab">
+          <label class="dropzone" id="dropzone" for="audio-file">
+            <input type="file" id="audio-file" accept=".wav,.mp3,.m4a,.flac,.ogg,audio/*" />
+            <div class="dropzone-content">
+              <strong id="file-label">Click to choose or drag &amp; drop ANY speech audio</strong>
+              <span>Supports WAV, MP3, M4A, FLAC (converted to 16 kHz mono via FFmpeg)</span>
+            </div>
+          </label>
+          <button id="analyze-btn" class="btn btn-primary" disabled>
+            Run Contrastive Analysis
+          </button>
+        </div>
+
+        <div class="tab-panel" id="record-tab">
+          <div class="recorder-box">
+            <p class="helper-text">Speak freely or read any speech aloud. Captures audio directly in your browser.</p>
+            <div class="recorder-controls">
+              <button id="rec-start-btn" class="btn btn-danger">● Start Recording</button>
+              <button id="rec-stop-btn" class="btn btn-secondary" disabled>■ Stop Take</button>
+              <span id="rec-timer" class="rec-timer">00:00.0</span>
+            </div>
+            <audio id="rec-preview" controls class="hidden"></audio>
+            <button id="analyze-rec-btn" class="btn btn-primary" disabled>
+              Analyze Recorded Take
+            </button>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="preset-tab">
+          <p class="helper-text">Load pre-verified benchmark evaluations directly:</p>
+          <div class="preset-list" id="preset-list">
+            <button class="preset-btn" data-preset="kennedy_pause_severe">
+              <strong>Kennedy Inaugural — Severe Pause (+2.5s)</strong>
+              <span>Mid-clause silence between "man" and "holds" &bull; Score: 85.0</span>
+            </button>
+            <button class="preset-btn" data-preset="kennedy_monotone_severe">
+              <strong>Kennedy Inaugural — Severe Monotone (Flat F0)</strong>
+              <span>Pitch spread compressed to 0.56 ST &bull; Score: 81.8</span>
+            </button>
+            <button class="preset-btn" data-preset="eisenhower_volume_severe">
+              <strong>Eisenhower Farewell — Severe Volume Drop (-12 dB)</strong>
+              <span>Sustained gain drop across clause &bull; Score: 76.4</span>
+            </button>
+            <button class="preset-btn" data-preset="own_flawed_moderate">
+              <strong>Real Human Take — Gettysburg (Moderate Flaws)</strong>
+              <span>Cross-speaker validation take &bull; Score: 68.5</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="status-banner" class="status-banner hidden">
+          <div class="spinner" id="status-spinner"></div>
+          <span id="status-text">Aligning words and extracting Praat F0 &amp; energy contours...</span>
+        </div>
+      </div>
+
+      <div class="control-col">
+        <h2>2. Speech Transcript &amp; Reference Baseline Mode</h2>
+        <label for="transcript-input" class="field-label">
+          Transcript (Optional — leave blank for automatic WhisperX transcription, or paste text):
+        </label>
+        <textarea id="transcript-input" rows="4" placeholder="Paste transcript here, or leave blank to auto-transcribe any speech..."></textarea>
+
+        <div class="baseline-player-box">
+          <div class="baseline-header">
+            <span class="field-label">Contrastive Reference Baseline Source</span>
+            <span id="baseline-meta" class="meta-text">Universal Mode</span>
+          </div>
+          <select id="speech-select" class="input-select" style="margin-bottom: 0.5rem;"></select>
+
+          <div id="custom-ref-upload-box" style="margin-bottom: 0.5rem;">
+            <label class="field-label" for="ref-audio-file">
+              Optional Reference Audio (leave empty to auto-synthesize an Ideal Reference):
+            </label>
+            <input type="file" id="ref-audio-file" accept=".wav,.mp3,.m4a,.flac,.ogg,audio/*" class="input-select" />
+          </div>
+
+          <audio id="baseline-audio" controls preload="metadata"></audio>
+        </div>
+      </div>
+    </section>
+
+    <div id="results-wrapper" class="results-wrapper hidden">
+      <section class="score-strip">
+        <div class="card score-overall-card">
+          <span class="score-eyebrow">Overall Delivery Score</span>
+          <div class="score-big-row">
+            <span id="score-overall" class="score-big">--</span>
+            <span class="score-max">/ 100</span>
+          </div>
+          <p id="score-summary-tag" class="score-tag">Reproducible Rubric Evaluation</p>
+        </div>
+
+        <div class="card score-dims-card">
+          <div class="dim-grid">
+            <div class="dim-item">
+              <div class="dim-header">
+                <span>Pace Control</span>
+                <strong id="dim-pace">--</strong>
+              </div>
+              <div class="progress-bar"><div id="bar-pace" class="progress-fill"></div></div>
+              <small>Speaking rate vs. reference cadence</small>
+            </div>
+            <div class="dim-item">
+              <div class="dim-header">
+                <span>Vocal Variety</span>
+                <strong id="dim-variety">--</strong>
+              </div>
+              <div class="progress-bar"><div id="bar-variety" class="progress-fill"></div></div>
+              <small>Pitch spread ratio in semitones</small>
+            </div>
+            <div class="dim-item">
+              <div class="dim-header">
+                <span>Loudness Consistency</span>
+                <strong id="dim-loudness">--</strong>
+              </div>
+              <div class="progress-bar"><div id="bar-loudness" class="progress-fill"></div></div>
+              <small>P90-normalized speech level stability</small>
+            </div>
+            <div class="dim-item">
+              <div class="dim-header">
+                <span>Pauses &amp; Fluency</span>
+                <strong id="dim-fluency">--</strong>
+              </div>
+              <div class="progress-bar"><div id="bar-fluency" class="progress-fill"></div></div>
+              <small>Punctuation-aware gaps &amp; word repeats</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card waveform-section">
+        <div class="section-header">
+          <div>
+            <h2>3. Temporal Flaw Grounding &amp; Interactive Waveform</h2>
+            <p class="helper-text">Click any shaded region on the waveform or in the anomaly list to hear the exact flaw.</p>
+          </div>
+          <div class="legend-pills">
+            <span class="flaw-badge flaw-pace">Pace (Fast)</span>
+            <span class="flaw-badge flaw-slow">Slow</span>
+            <span class="flaw-badge flaw-pause">Pause</span>
+            <span class="flaw-badge flaw-monotone">Monotone</span>
+            <span class="flaw-badge flaw-volume">Volume Drop</span>
+            <span class="flaw-badge flaw-stumble">Stumble</span>
+          </div>
+        </div>
+
+        <div id="waveform" class="waveform-container"></div>
+        <div id="waveform-timeline" class="waveform-timeline"></div>
+
+        <div class="transport-bar">
+          <div class="transport-left">
+            <button id="play-pause-btn" class="btn btn-primary btn-sm">▶ Play / Pause</button>
+            <button id="stop-btn" class="btn btn-secondary btn-sm">■ Reset</button>
+            <span id="time-readout" class="time-readout">00:00.00 / 00:00.00</span>
+          </div>
+          <div class="transport-right">
+            <button id="play-baseline-region-btn" class="btn btn-outline btn-sm" disabled>
+              🎧 Play Matching Reference Phrase
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="split-section">
+        <div class="card">
+          <div class="section-header">
+            <h2>4. Detected Delivery Anomalies (<span id="flaw-count">0</span>)</h2>
+          </div>
+          <div id="flaw-list" class="flaw-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-header">
+            <h2>5. Causal Explainability &amp; Coaching Inspector</h2>
+          </div>
+          <div id="inspector-box" class="inspector-box">
+            <p class="empty-state">Select a highlighted flaw region to inspect its acoustic rationale and coaching advice.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h2>6. Speaker-Normalized Acoustic Contours (Reference vs. Participant)</h2>
+            <p class="helper-text">Pitch in semitones relative to median; energy in dB relative to P90 speech level.</p>
+          </div>
+          <div class="toggle-group">
+            <label class="toggle-label">
+              <input type="checkbox" id="warp-toggle" checked />
+              <span>Time-Warp Reference to Participant Words</span>
+            </label>
+          </div>
+        </div>
+        <div id="f0-plot" class="plot-box"></div>
+        <div id="energy-plot" class="plot-box"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h2>7. Silence-Refined Word Alignment Map</h2>
+            <p class="helper-text">Click any word chip to jump playback to that word.</p>
+          </div>
+        </div>
+        <div id="word-map" class="word-map"></div>
+      </section>
+
+      <section class="card meta-footer-card">
+        <div class="meta-cols">
+          <div>
+            <h3>Active Detector Thresholds</h3>
+            <div id="thresholds-table" class="kv-grid"></div>
+          </div>
+          <div>
+            <h3>Documented System Limitations</h3>
+            <ul id="limitations-list" class="limitations-list"></ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
