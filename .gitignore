@@ -10,4 +10,4 @@ data/**/*.tmp
 # Generated flawed audio (rebuild with: python -m dataset_builder.build_dataset)
 data/perturbed/
 data/**/_custom_ref*
-Vocalis_Contrastive_Dataset.zip
+/Vocalis_Contrastive_Dataset.zip
