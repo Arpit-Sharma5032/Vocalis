@@ -52,6 +52,8 @@
 
 ## 2. Custom Contrastive Dataset & Bad-Mirror Gradient
 
+G Drive link - https://drive.google.com/file/d/1B1Pf7y0hASzi5KbZ-r2Kxu4yFILNRmLC/view?usp=sharing
+
 Rather than relying on unverified synthetic TTS pairs or manual timestamp guessing, Vocalis constructs a **hybrid contrastive corpus** combining **72 programmatic perturbations** (with exact analytical ground-truth timestamps on the output timeline) and **real human-performed cross-speaker recordings**:
 
 1. **Four Public-Domain Reference Baselines (`data/raw_audio/`)**:

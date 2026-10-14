@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vocalis | Contrastive Speech Analytics Studio</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Vocalis — Contrastive Speech Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=7" />
   <script src="https://unpkg.com/wavesurfer.js@7.8.6/dist/wavesurfer.min.js"></script>
   <script src="https://unpkg.com/wavesurfer.js@7.8.6/dist/plugins/regions.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
@@ -12,47 +15,68 @@
 <body>
   <header class="topbar">
     <div class="brand">
-      <div class="brand-logo">V</div>
-      <div>
-        <h1>Vocalis <span class="badge">Track C</span></h1>
-        <p class="subtitle">Contrastive Speech Analytics &amp; Temporal Flaw Grounding</p>
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title-row">
+          <h1>Vocalis</h1>
+          <span class="version-tag">v1.0</span>
+          <span class="divider-dot"></span>
+          <span class="subtitle">Contrastive Prosodic Evaluation &amp; Temporal Grounding</span>
+        </div>
       </div>
     </div>
     <div class="topbar-meta">
-      <span class="pill" id="api-status-pill">API: Checking...</span>
-      <span class="pill pill-outline">16 kHz Mono &bull; Semitone F0 &bull; WhisperX Alignment</span>
+      <span class="spec-tag">16 kHz PCM &middot; Praat PSOLA &middot; WhisperX</span>
+      <span class="status-chip" id="api-status-pill">Connecting...</span>
     </div>
   </header>
 
   <main class="container">
+    <!-- Workstation Input Deck -->
     <section class="card control-grid">
       <div class="control-col">
-        <h2>1. Participant Speech Audio (Any Audio File or Mic)</h2>
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="upload-tab">Upload Audio</button>
-          <button class="tab-btn" data-tab="record-tab">Record Microphone</button>
-          <button class="tab-btn" data-tab="preset-tab">Benchmark Presets</button>
+        <div class="panel-heading">
+          <span class="eyebrow">Signal Input</span>
+          <h2>Participant Recording</h2>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab-btn active" data-tab="upload-tab">Audio File</button>
+          <button class="tab-btn" data-tab="record-tab">Microphone</button>
+          <button class="tab-btn" data-tab="preset-tab">Benchmark Corpus</button>
         </div>
 
         <div class="tab-panel active" id="upload-tab">
           <label class="dropzone" id="dropzone" for="audio-file">
             <input type="file" id="audio-file" accept=".wav,.mp3,.m4a,.flac,.ogg,audio/*" />
             <div class="dropzone-content">
-              <strong id="file-label">Click to choose or drag &amp; drop ANY speech audio</strong>
-              <span>Supports WAV, MP3, M4A, FLAC (converted to 16 kHz mono via FFmpeg)</span>
+              <svg class="upload-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              <strong id="file-label">Select or drop an audio file</strong>
+              <span>WAV, MP3, M4A, FLAC &mdash; resampled to 16 kHz mono</span>
             </div>
           </label>
           <button id="analyze-btn" class="btn btn-primary" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
             Run Contrastive Analysis
           </button>
         </div>
 
         <div class="tab-panel" id="record-tab">
           <div class="recorder-box">
-            <p class="helper-text">Speak freely or read any speech aloud. Captures audio directly in your browser.</p>
+            <p class="helper-text">Capture live speech directly from your audio input device.</p>
             <div class="recorder-controls">
-              <button id="rec-start-btn" class="btn btn-danger">● Start Recording</button>
-              <button id="rec-stop-btn" class="btn btn-secondary" disabled>■ Stop Take</button>
+              <button id="rec-start-btn" class="btn btn-danger btn-sm">
+                <span class="rec-dot"></span> Record
+              </button>
+              <button id="rec-stop-btn" class="btn btn-secondary btn-sm" disabled>Stop</button>
               <span id="rec-timer" class="rec-timer">00:00.0</span>
             </div>
             <audio id="rec-preview" controls class="hidden"></audio>
@@ -63,52 +87,88 @@
         </div>
 
         <div class="tab-panel" id="preset-tab">
-          <p class="helper-text">Load pre-verified benchmark evaluations directly:</p>
+          <p class="helper-text">Controlled severity gradient &amp; cross-speaker validation clips:</p>
           <div class="preset-list" id="preset-list">
+            <button class="preset-btn" data-preset="kennedy_pause_subtle">
+              <div class="preset-top">
+                <strong>JFK Inaugural &mdash; Subtle Pause</strong>
+                <span class="mono-tag">+0.6s</span>
+              </div>
+              <span>Near-baseline cadence &middot; Subtle severity</span>
+            </button>
+            <button class="preset-btn" data-preset="kennedy_pause_moderate">
+              <div class="preset-top">
+                <strong>JFK Inaugural &mdash; Moderate Pause</strong>
+                <span class="mono-tag">+1.2s</span>
+              </div>
+              <span>Mid-clause hesitation &middot; Moderate severity</span>
+            </button>
             <button class="preset-btn" data-preset="kennedy_pause_severe">
-              <strong>Kennedy Inaugural — Severe Pause (+2.5s)</strong>
-              <span>Mid-clause silence between "man" and "holds" &bull; Score: 85.0</span>
+              <div class="preset-top">
+                <strong>JFK Inaugural &mdash; Severe Pause</strong>
+                <span class="mono-tag">+2.5s</span>
+              </div>
+              <span>Disrupted clause boundary &middot; Severe</span>
             </button>
             <button class="preset-btn" data-preset="kennedy_monotone_severe">
-              <strong>Kennedy Inaugural — Severe Monotone (Flat F0)</strong>
-              <span>Pitch spread compressed to 0.56 ST &bull; Score: 81.8</span>
+              <div class="preset-top">
+                <strong>JFK Inaugural &mdash; Monotone</strong>
+                <span class="mono-tag">Flat F0</span>
+              </div>
+              <span>PSOLA flattened pitch contour &middot; Severe</span>
             </button>
             <button class="preset-btn" data-preset="eisenhower_volume_severe">
-              <strong>Eisenhower Farewell — Severe Volume Drop (-12 dB)</strong>
-              <span>Sustained gain drop across clause &bull; Score: 76.4</span>
+              <div class="preset-top">
+                <strong>Eisenhower &mdash; Volume Drop</strong>
+                <span class="mono-tag">-12 dB</span>
+              </div>
+              <span>Sustained gain attenuation &middot; Severe</span>
             </button>
             <button class="preset-btn" data-preset="own_flawed_moderate">
-              <strong>Real Human Take — Gettysburg (Moderate Flaws)</strong>
-              <span>Cross-speaker validation take &bull; Score: 68.5</span>
+              <div class="preset-top">
+                <strong>Gettysburg &mdash; Human Validation</strong>
+                <span class="mono-tag">Multi</span>
+              </div>
+              <span>Real cross-speaker human recording</span>
             </button>
           </div>
         </div>
 
         <div id="status-banner" class="status-banner hidden">
           <div class="spinner" id="status-spinner"></div>
-          <span id="status-text">Aligning words and extracting Praat F0 &amp; energy contours...</span>
+          <span id="status-text">Running forced alignment and acoustic contour extraction...</span>
         </div>
       </div>
 
       <div class="control-col">
-        <h2>2. Speech Transcript &amp; Reference Baseline Mode</h2>
-        <label for="transcript-input" class="field-label">
-          Transcript (Optional — leave blank for automatic WhisperX transcription, or paste text):
-        </label>
-        <textarea id="transcript-input" rows="4" placeholder="Paste transcript here, or leave blank to auto-transcribe any speech..."></textarea>
+        <div class="panel-heading-row">
+          <div class="panel-heading">
+            <span class="eyebrow">Alignment &amp; Baseline</span>
+            <h2>Transcript &amp; Reference Configuration</h2>
+          </div>
+          <label for="transcript-file" class="btn btn-secondary btn-xs">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Load .txt
+            <input type="file" id="transcript-file" accept=".txt,text/plain" style="display:none;" />
+          </label>
+        </div>
+
+        <textarea id="transcript-input" rows="3" placeholder="Optional: paste reference transcript or load a .txt file. Leave blank for automatic WhisperX ASR transcription."></textarea>
 
         <div class="baseline-player-box">
           <div class="baseline-header">
-            <span class="field-label">Contrastive Reference Baseline Source</span>
+            <span class="field-label">Reference Baseline Source</span>
             <span id="baseline-meta" class="meta-text">Universal Mode</span>
           </div>
-          <select id="speech-select" class="input-select" style="margin-bottom: 0.5rem;"></select>
+          <select id="speech-select" class="input-select"></select>
 
-          <div id="custom-ref-upload-box" style="margin-bottom: 0.5rem;">
+          <div id="custom-ref-upload-box" class="ref-upload-row">
             <label class="field-label" for="ref-audio-file">
-              Optional Reference Audio (leave empty to auto-synthesize an Ideal Reference):
+              Custom Reference Audio <span class="muted-inline">(optional &mdash; auto-synthesized if omitted)</span>
             </label>
-            <input type="file" id="ref-audio-file" accept=".wav,.mp3,.m4a,.flac,.ogg,audio/*" class="input-select" />
+            <input type="file" id="ref-audio-file" accept=".wav,.mp3,.m4a,.flac,.ogg,audio/*" class="input-file-compact" />
           </div>
 
           <audio id="baseline-audio" controls preload="metadata"></audio>
@@ -116,15 +176,17 @@
       </div>
     </section>
 
+    <!-- Results Workspace -->
     <div id="results-wrapper" class="results-wrapper hidden">
+      <!-- Rubric & Telemetry Deck -->
       <section class="score-strip">
         <div class="card score-overall-card">
-          <span class="score-eyebrow">Overall Delivery Score</span>
+          <span class="score-eyebrow">Composite Rubric Score</span>
           <div class="score-big-row">
             <span id="score-overall" class="score-big">--</span>
             <span class="score-max">/ 100</span>
           </div>
-          <p id="score-summary-tag" class="score-tag">Reproducible Rubric Evaluation</p>
+          <p id="score-summary-tag" class="score-tag">Deterministic Contrastive Evaluation</p>
         </div>
 
         <div class="card score-dims-card">
@@ -132,51 +194,82 @@
             <div class="dim-item">
               <div class="dim-header">
                 <span>Pace Control</span>
-                <strong id="dim-pace">--</strong>
+                <strong id="dim-pace" class="mono-val">--</strong>
               </div>
               <div class="progress-bar"><div id="bar-pace" class="progress-fill"></div></div>
-              <small>Speaking rate vs. reference cadence</small>
+              <small>Word-pair duration ratio vs. baseline</small>
             </div>
             <div class="dim-item">
               <div class="dim-header">
                 <span>Vocal Variety</span>
-                <strong id="dim-variety">--</strong>
+                <strong id="dim-variety" class="mono-val">--</strong>
               </div>
               <div class="progress-bar"><div id="bar-variety" class="progress-fill"></div></div>
-              <small>Pitch spread ratio in semitones</small>
+              <small>P10&ndash;P90 semitone pitch spread ratio</small>
             </div>
             <div class="dim-item">
               <div class="dim-header">
                 <span>Loudness Consistency</span>
-                <strong id="dim-loudness">--</strong>
+                <strong id="dim-loudness" class="mono-val">--</strong>
               </div>
               <div class="progress-bar"><div id="bar-loudness" class="progress-fill"></div></div>
-              <small>P90-normalized speech level stability</small>
+              <small>P90-referenced RMS dB stability</small>
             </div>
             <div class="dim-item">
               <div class="dim-header">
                 <span>Pauses &amp; Fluency</span>
-                <strong id="dim-fluency">--</strong>
+                <strong id="dim-fluency" class="mono-val">--</strong>
               </div>
               <div class="progress-bar"><div id="bar-fluency" class="progress-fill"></div></div>
-              <small>Punctuation-aware gaps &amp; word repeats</small>
+              <small>Punctuation-aware gaps &amp; lexical repeats</small>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Signal Telemetry Bar -->
+      <section class="card telemetry-card">
+        <div class="telemetry-grid">
+          <div class="metric-tile">
+            <span>FFT Spectral Centroid</span>
+            <strong id="fp-fft">-- Hz</strong>
+          </div>
+          <div class="metric-tile">
+            <span>13-MFCC Cosine Sim.</span>
+            <strong id="fp-mfcc">--</strong>
+          </div>
+          <div class="metric-tile">
+            <span>Vocal Clarity (HNR)</span>
+            <strong id="fp-hnr">-- dB</strong>
+          </div>
+          <div class="metric-tile">
+            <span>Speaking Rate</span>
+            <strong id="fp-wpm">-- WPM</strong>
+          </div>
+          <div class="metric-tile">
+            <span>Pause Intervals (&ge;0.25s)</span>
+            <strong id="fp-pauses">--</strong>
+          </div>
+          <div class="metric-tile">
+            <span>Stress Prominence Peaks</span>
+            <strong id="fp-stress">-- peaks</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- Waveform Timeline -->
       <section class="card waveform-section">
         <div class="section-header">
           <div>
-            <h2>3. Temporal Flaw Grounding &amp; Interactive Waveform</h2>
-            <p class="helper-text">Click any shaded region on the waveform or in the anomaly list to hear the exact flaw.</p>
+            <span class="eyebrow">Temporal Grounding</span>
+            <h2>Waveform &amp; Anomaly Regions</h2>
           </div>
           <div class="legend-pills">
-            <span class="flaw-badge flaw-pace">Pace (Fast)</span>
+            <span class="flaw-badge flaw-pace">Pace</span>
             <span class="flaw-badge flaw-slow">Slow</span>
             <span class="flaw-badge flaw-pause">Pause</span>
             <span class="flaw-badge flaw-monotone">Monotone</span>
-            <span class="flaw-badge flaw-volume">Volume Drop</span>
+            <span class="flaw-badge flaw-volume">Volume</span>
             <span class="flaw-badge flaw-stumble">Stumble</span>
           </div>
         </div>
@@ -186,46 +279,66 @@
 
         <div class="transport-bar">
           <div class="transport-left">
-            <button id="play-pause-btn" class="btn btn-primary btn-sm">▶ Play / Pause</button>
-            <button id="stop-btn" class="btn btn-secondary btn-sm">■ Reset</button>
+            <button id="play-pause-btn" class="btn btn-primary btn-sm">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Play / Pause
+            </button>
+            <button id="stop-btn" class="btn btn-secondary btn-sm">Reset</button>
             <span id="time-readout" class="time-readout">00:00.00 / 00:00.00</span>
           </div>
           <div class="transport-right">
             <button id="play-baseline-region-btn" class="btn btn-outline btn-sm" disabled>
-              🎧 Play Matching Reference Phrase
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+              </svg>
+              Audition Reference Phrase
+            </button>
+            <button id="export-json-btn" class="btn btn-secondary btn-sm">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Export JSON
             </button>
           </div>
         </div>
       </section>
 
+      <!-- Split Diagnostic Log & Inspector -->
       <section class="split-section">
         <div class="card">
           <div class="section-header">
-            <h2>4. Detected Delivery Anomalies (<span id="flaw-count">0</span>)</h2>
+            <div>
+              <span class="eyebrow">Detection Log</span>
+              <h2>Flagged Delivery Anomalies (<span id="flaw-count">0</span>)</h2>
+            </div>
           </div>
           <div id="flaw-list" class="flaw-list"></div>
         </div>
 
         <div class="card">
           <div class="section-header">
-            <h2>5. Causal Explainability &amp; Coaching Inspector</h2>
+            <div>
+              <span class="eyebrow">Causal Explainability</span>
+              <h2>Diagnostic &amp; Coaching Inspector</h2>
+            </div>
           </div>
           <div id="inspector-box" class="inspector-box">
-            <p class="empty-state">Select a highlighted flaw region to inspect its acoustic rationale and coaching advice.</p>
+            <p class="empty-state">Select a flagged region on the waveform or detection log to inspect its acoustic deviation and corrective coaching.</p>
           </div>
         </div>
       </section>
 
+      <!-- Prosodic Contours -->
       <section class="card">
         <div class="section-header">
           <div>
-            <h2>6. Speaker-Normalized Acoustic Contours (Reference vs. Participant)</h2>
-            <p class="helper-text">Pitch in semitones relative to median; energy in dB relative to P90 speech level.</p>
+            <span class="eyebrow">Time-Series Overlay</span>
+            <h2>Speaker-Normalized Pitch ($F_0$) &amp; Energy Contours</h2>
           </div>
           <div class="toggle-group">
             <label class="toggle-label">
               <input type="checkbox" id="warp-toggle" checked />
-              <span>Time-Warp Reference to Participant Words</span>
+              <span>Piecewise Word-Anchor Time Warping</span>
             </label>
           </div>
         </div>
@@ -233,24 +346,29 @@
         <div id="energy-plot" class="plot-box"></div>
       </section>
 
+      <!-- Word Map -->
       <section class="card">
         <div class="section-header">
           <div>
-            <h2>7. Silence-Refined Word Alignment Map</h2>
-            <p class="helper-text">Click any word chip to jump playback to that word.</p>
+            <span class="eyebrow">Forced Alignment</span>
+            <h2>Silence-Refined Word Tokens</h2>
           </div>
+          <span class="helper-text">Click any token to seek playback to its onset</span>
         </div>
         <div id="word-map" class="word-map"></div>
       </section>
 
+      <!-- System Parameters & Limitations -->
       <section class="card meta-footer-card">
         <div class="meta-cols">
           <div>
-            <h3>Active Detector Thresholds</h3>
+            <span class="eyebrow">Configuration</span>
+            <h3>Active Detection Thresholds</h3>
             <div id="thresholds-table" class="kv-grid"></div>
           </div>
           <div>
-            <h3>Documented System Limitations</h3>
+            <span class="eyebrow">Methodology</span>
+            <h3>Scope &amp; Documented Limitations</h3>
             <ul id="limitations-list" class="limitations-list"></ul>
           </div>
         </div>
@@ -258,6 +376,6 @@
     </div>
   </main>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

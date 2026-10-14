@@ -1,7 +1,14 @@
 """Universal speech handler for Vocalis.
 
-Enables contrastive analysis on ANY arbitrary audio recording without depending
-on internal helper names from other modules.
+Enables contrastive analysis on ANY arbitrary audio recording (including long
+10-30 minute speeches) by:
+1. Auto-transcribing audio via WhisperX ASR and caching VAD segment boundaries.
+2. Matching one of the 4 archival benchmark excerpts ONLY if both word overlap
+   AND recording duration/word-count match the excerpt.
+3. Aligning long recordings in 25-second VAD/silence-bounded segments so wav2vec2
+   never compresses words into the start of the timeline.
+4. Synthesizing a syllable-timed, uniform-expressive-pitch, level-normalized Ideal
+   Reference Baseline (`_custom_ref`).
 """
 from __future__ import annotations
 
@@ -23,6 +30,8 @@ DEVICE = getattr(align_mod, "DEVICE", "cpu")
 CUSTOM_ID = "_custom_ref"
 
 _ASR_MODEL = None
+_ALIGN_CACHE: dict[str, tuple] = {}
+_LAST_ASR_SEGMENTS: dict[str, list[dict]] = {}
 
 
 def _norm_word(word: str) -> str:
@@ -41,25 +50,178 @@ def _count_syllables(word: str) -> int:
     return max(1, len(vowels))
 
 
-def _psola_stretch_safe(audio: np.ndarray, rate: float) -> np.ndarray:
-    """Stretch audio by `rate` using Praat PSOLA or librosa fallback."""
-    try:
-        from dataset_builder.perturb import _psola_stretch
-        return _psola_stretch(audio, rate=rate)
-    except Exception:
-        return librosa.effects.time_stretch(audio.astype(np.float32), rate=rate)
+def _fit_exact_duration(chunk: np.ndarray, target_dur_s: float, allow_psola: bool = True) -> np.ndarray:
+    """Stretch or compress `chunk` so its duration equals `target_dur_s`."""
+    target_len = max(int(0.06 * SAMPLE_RATE), int(round(target_dur_s * SAMPLE_RATE)))
+    if len(chunk) < int(0.03 * SAMPLE_RATE):
+        return np.zeros(target_len, dtype=np.float32)
+
+    actual_dur = len(chunk) / SAMPLE_RATE
+    rate = float(np.clip(actual_dur / max(0.06, target_dur_s), 0.45, 2.2))
+
+    out = chunk
+    if allow_psola and abs(rate - 1.0) > 0.08 and len(chunk) >= int(0.08 * SAMPLE_RATE):
+        try:
+            from dataset_builder.perturb import _psola_stretch
+            out = _psola_stretch(chunk, rate=rate)
+        except Exception:
+            try:
+                out = librosa.effects.time_stretch(chunk.astype(np.float32), rate=rate)
+            except Exception:
+                out = chunk
+    elif not allow_psola and abs(rate - 1.0) > 0.08:
+        try:
+            out = librosa.effects.time_stretch(chunk.astype(np.float32), rate=rate)
+        except Exception:
+            out = chunk
+
+    if len(out) != target_len:
+        x_old = np.linspace(0.0, 1.0, num=max(1, len(out)), endpoint=False)
+        x_new = np.linspace(0.0, 1.0, num=target_len, endpoint=False)
+        out = np.interp(x_new, x_old, out).astype(np.float32)
+    return out
 
 
-def _run_align(audio_path: str | Path, transcript: str, align_fn=None) -> list[dict]:
-    """Run word alignment using provided align_fn, pipeline.align_transcript, or alignment.py."""
+def _trim_swallowed_silences(audio: np.ndarray, words: list[dict]) -> list[dict]:
+    """Self-contained silence trimmer so WhisperX swallowed pauses don't corrupt _custom_ref."""
+    hop = int(0.01 * SAMPLE_RATE)
+    frame_len = int(0.025 * SAMPLE_RATE)
+    if len(audio) < frame_len:
+        return words
+
+    rms = librosa.feature.rms(y=audio, frame_length=frame_len, hop_length=hop, center=True)[0]
+    db = 20.0 * np.log10(np.maximum(rms, 1e-7))
+    p5 = float(np.percentile(db, 5))
+    p90 = float(np.percentile(db, 90))
+    sil_thresh = min(max(p5 + 10.0, p90 - 30.0), p90 - 15.0)
+    is_silent = db < sil_thresh
+
+    refined: list[dict] = []
+    min_sil_frames = 20  # 0.20s
+
+    for w in words:
+        w_copy = dict(w)
+        s = w_copy.get("start")
+        e = w_copy.get("end")
+        if s is None or e is None or float(e) <= float(s):
+            refined.append(w_copy)
+            continue
+
+        f_start = max(0, int(round(float(s) / 0.01)))
+        f_end = min(len(is_silent), int(round(float(e) / 0.01)))
+        if f_end - f_start < min_sil_frames:
+            refined.append(w_copy)
+            continue
+
+        window_sil = is_silent[f_start:f_end]
+        max_sil_run = 0
+        cur_sil = 0
+        for flag in window_sil:
+            if flag:
+                cur_sil += 1
+                if cur_sil > max_sil_run:
+                    max_sil_run = cur_sil
+            else:
+                cur_sil = 0
+
+        if max_sil_run >= min_sil_frames:
+            best_v_start, best_v_end = 0, 0
+            cur_v_start = None
+            for idx, flag in enumerate(window_sil):
+                if not flag:
+                    if cur_v_start is None:
+                        cur_v_start = idx
+                    if (idx + 1 - cur_v_start) > (best_v_end - best_v_start):
+                        best_v_start, best_v_end = cur_v_start, idx + 1
+                else:
+                    cur_v_start = None
+            if best_v_end - best_v_start >= 4:
+                w_copy["start"] = round((f_start + best_v_start) * 0.01, 3)
+                w_copy["end"] = round((f_start + best_v_end) * 0.01, 3)
+
+        refined.append(w_copy)
+    return refined
+
+
+def _chunk_long_transcript_into_segments(audio: np.ndarray, transcript: str, chunk_s: float = 25.0) -> list[dict]:
+    """Split a long transcript into ~25s segments snapped to low-energy pause points."""
+    duration = len(audio) / SAMPLE_RATE
+    words = transcript.strip().split()
+    if duration <= 65.0 or len(words) <= 40:
+        return [{"text": transcript.strip(), "start": 0.0, "end": duration}]
+
+    hop = int(0.01 * SAMPLE_RATE)
+    rms = librosa.feature.rms(y=audio, frame_length=int(0.025 * SAMPLE_RATE), hop_length=hop, center=True)[0]
+
+    n_chunks = max(2, int(np.ceil(duration / chunk_s)))
+    boundaries = [0.0]
+    for k in range(1, n_chunks):
+        target_t = k * (duration / n_chunks)
+        # Search +/- 2.5s around target_t for the quietest frame
+        lo_f = max(0, int((target_t - 2.5) / 0.01))
+        hi_f = min(len(rms) - 1, int((target_t + 2.5) / 0.01))
+        best_f = lo_f + int(np.argmin(rms[lo_f : hi_f + 1])) if hi_f > lo_f else int(target_t / 0.01)
+        boundaries.append(round(best_f * 0.01, 2))
+    boundaries.append(round(duration, 2))
+
+    segments = []
+    n_words = len(words)
+    for i in range(len(boundaries) - 1):
+        t0, t1 = boundaries[i], boundaries[i + 1]
+        w0 = int(round((t0 / duration) * n_words))
+        w1 = int(round((t1 / duration) * n_words)) if i < len(boundaries) - 2 else n_words
+        seg_text = " ".join(words[w0:w1]).strip()
+        if seg_text and t1 > t0:
+            segments.append({"text": seg_text, "start": t0, "end": t1})
+    return segments or [{"text": transcript.strip(), "start": 0.0, "end": duration}]
+
+
+def smart_align_transcript(
+    audio_path: str | Path,
+    transcript: str,
+    align_fn=None,
+    language: str = "en",
+) -> list[dict]:
+    """Align transcript across the full duration of short or long (10-30 min) audio."""
     if align_fn is not None:
         return align_fn(str(audio_path), transcript)
-    fn = getattr(pipe_mod, "align_transcript", getattr(align_mod, "align_transcript"))
-    return fn(str(audio_path), transcript)
+
+    import whisperx
+
+    audio = whisperx.load_audio(str(audio_path))
+    duration = len(audio) / SAMPLE_RATE
+
+    # Use cached WhisperX ASR segments if available for this audio file and matching word count
+    cached_segs = _LAST_ASR_SEGMENTS.get(str(Path(audio_path).resolve()))
+    if cached_segs:
+        cached_text = " ".join(s.get("text", "").strip() for s in cached_segs).strip()
+        if abs(len(cached_text.split()) - len(transcript.split())) <= max(5, int(0.1 * len(transcript.split()))):
+            segments = cached_segs
+        else:
+            segments = _chunk_long_transcript_into_segments(audio, transcript)
+    elif duration > 65.0:
+        segments = _chunk_long_transcript_into_segments(audio, transcript)
+    else:
+        # Short clip: use existing alignment function
+        fn = getattr(pipe_mod, "align_transcript", getattr(align_mod, "align_transcript"))
+        return fn(str(audio_path), transcript)
+
+    if language not in _ALIGN_CACHE:
+        _ALIGN_CACHE[language] = whisperx.load_align_model(language_code=language, device=DEVICE)
+    model, metadata = _ALIGN_CACHE[language]
+
+    result = whisperx.align(
+        segments, model, metadata, audio, DEVICE, return_char_alignments=False
+    )
+    return [
+        {"word": w["word"], "start": w.get("start"), "end": w.get("end")}
+        for w in result.get("word_segments", [])
+        if w.get("word")
+    ]
 
 
 def transcribe_audio(audio_path: str | Path, language: str = "en") -> str:
-    """Transcribe arbitrary audio using WhisperX ASR when no transcript is provided."""
+    """Transcribe arbitrary audio using WhisperX ASR and cache timestamped VAD segments."""
     import whisperx
 
     global _ASR_MODEL
@@ -70,20 +232,38 @@ def transcribe_audio(audio_path: str | Path, language: str = "en") -> str:
             compute_type="int8",
         )
     audio = whisperx.load_audio(str(audio_path))
-    result = _ASR_MODEL.transcribe(audio, batch_size=4)
-    segments = result.get("segments", [])
-    text = " ".join(seg.get("text", "").strip() for seg in segments).strip()
-    if not text:
+    result = _ASR_MODEL.transcribe(audio, batch_size=8)
+    segments = [
+        {
+            "text": seg.get("text", "").strip(),
+            "start": float(seg.get("start", 0.0)),
+            "end": float(seg.get("end", 0.0)),
+        }
+        for seg in result.get("segments", [])
+        if seg.get("text", "").strip()
+    ]
+    if not segments:
         raise ValueError("Could not detect any spoken words in the uploaded audio.")
-    return text
+
+    _LAST_ASR_SEGMENTS[str(Path(audio_path).resolve())] = segments
+    return " ".join(s["text"] for s in segments).strip()
 
 
-def _match_benchmark_speech(transcript: str, raw_dir: Path, transcript_dir: Path) -> str | None:
-    """Return benchmark speech_id if transcript has >= 45% word overlap with it."""
+def _match_benchmark_speech(
+    transcript: str,
+    raw_dir: Path,
+    transcript_dir: Path,
+    audio_duration_s: float | None = None,
+) -> str | None:
+    """Return benchmark speech_id ONLY if ordered phrases (bigrams & sequence) match."""
+    import difflib
+
     user_tokens = [_norm_word(w) for w in transcript.split() if _norm_word(w)]
-    if len(user_tokens) < 5 or not raw_dir.exists():
+    if len(user_tokens) < 8 or not raw_dir.exists():
         return None
-    user_set = set(user_tokens)
+    user_bigrams = set(zip(user_tokens, user_tokens[1:]))
+    if not user_bigrams:
+        return None
 
     best_id, best_score = None, 0.0
     for wav_path in sorted(raw_dir.glob("*.wav")):
@@ -93,49 +273,68 @@ def _match_benchmark_speech(transcript: str, raw_dir: Path, transcript_dir: Path
         t_path = transcript_dir / f"{sid}.txt"
         if not t_path.exists():
             continue
+
+        # 1. Check audio duration ratio so long speeches don't match 90s excerpts
+        if audio_duration_s is not None and audio_duration_s > 0:
+            try:
+                ref_dur = float(librosa.get_duration(path=str(wav_path)))
+                dur_ratio = min(audio_duration_s, ref_dur) / max(1.0, max(audio_duration_s, ref_dur))
+                if dur_ratio < 0.55:
+                    continue
+            except Exception:
+                pass
+
         ref_tokens = [_norm_word(w) for w in t_path.read_text(encoding="utf-8").split() if _norm_word(w)]
-        if not ref_tokens:
+        if len(ref_tokens) < 8:
             continue
-        overlap = len(user_set & set(ref_tokens)) / max(1, min(len(user_set), len(set(ref_tokens))))
-        if overlap > best_score:
-            best_score = overlap
-            best_id = sid
 
-    return best_id if best_score >= 0.45 else None
+        # 2. Check word count ratio
+        len_ratio = min(len(user_tokens), len(ref_tokens)) / max(1, max(len(user_tokens), len(ref_tokens)))
+        if len_ratio < 0.60:
+            continue
+
+        # 3. Require both 2-word phrase (bigram) overlap AND ordered sequence similarity
+        ref_bigrams = set(zip(ref_tokens, ref_tokens[1:]))
+        bigram_overlap = len(user_bigrams & ref_bigrams) / max(1, max(len(user_bigrams), len(ref_bigrams)))
+        seq_ratio = difflib.SequenceMatcher(None, user_tokens, ref_tokens).ratio()
+
+        if bigram_overlap >= 0.35 and seq_ratio >= 0.55:
+            score = 0.5 * bigram_overlap + 0.5 * seq_ratio
+            if score > best_score:
+                best_score = score
+                best_id = sid
+
+    return best_id
 
 
-def _ensure_expressive_pitch(audio: np.ndarray, sr: int = SAMPLE_RATE) -> np.ndarray:
-    """Ensure the synthesized ideal reference has healthy (~3.0 ST) pitch variation."""
-    if len(audio) < sr // 2:
+def _impose_uniform_expressive_pitch(audio: np.ndarray, sr: int = SAMPLE_RATE) -> np.ndarray:
+    """Impose a consistent ~3.6 ST P10-P90 prosodic pitch contour on the ideal reference."""
+    dur = len(audio) / sr
+    if dur < 0.5 or dur > 360.0:
+        # Skip heavy Praat resynthesis on very long (>6 min) files to keep latency fast
         return audio
     try:
         call("random_initializeWithSeedUnsafelyButPredictably", 42)
         snd = parselmouth.Sound(audio.astype(np.float64), sampling_frequency=float(sr))
-        pitch = snd.to_pitch(time_step=0.01, pitch_floor=75.0, pitch_ceiling=500.0)
+        pitch = snd.to_pitch(time_step=0.04, pitch_floor=75.0, pitch_ceiling=500.0)
         f0 = pitch.selected_array["frequency"].astype(float)
         voiced = f0[f0 > 0]
         if len(voiced) < 20:
             return audio
         med = float(np.median(voiced))
-        st = 12.0 * np.log2(voiced / med)
-        spread = float(np.percentile(st, 90) - np.percentile(st, 10))
-        if spread >= 2.8:
-            return audio
 
-        manip = call(snd, "To Manipulation", 0.01, 75.0, 500.0)
+        manip = call(snd, "To Manipulation", 0.02, 75.0, 500.0)
         pt = call(manip, "Extract pitch tier")
-        n_pts = call(pt, "Get number of points")
-        if n_pts == 0:
-            return audio
-        times = [call(pt, "Get time from index", i) for i in range(1, n_pts + 1)]
-        freqs = [call(pt, "Get value at index", i) for i in range(1, n_pts + 1)]
         call(pt, "Remove points between", 0.0, snd.xmax)
 
-        gain = min(3.5, 3.2 / max(0.6, spread))
-        for t, f in zip(times, freqs):
-            dev_st = 12.0 * np.log2(max(f, 50.0) / med)
-            arch_st = 1.2 * np.sin(2.0 * np.pi * t / 4.0) if spread < 1.0 else 0.0
-            new_st = np.clip(dev_st * gain + arch_st, -7.0, 7.0)
+        xs = pitch.xs()
+        step = max(1, int(round(0.08 / 0.04)))
+        for idx in range(0, len(xs), step):
+            t = float(xs[idx])
+            f = float(f0[idx]) if f0[idx] > 0 else med
+            orig_st = 12.0 * np.log2(max(f, 50.0) / med)
+            prosodic_wave = 2.1 * np.sin(2.0 * np.pi * t / 1.8) + 0.9 * np.cos(2.0 * np.pi * t / 0.75)
+            new_st = np.clip(0.25 * orig_st + prosodic_wave, -6.5, 6.5)
             new_f = float(np.clip(med * (2.0 ** (new_st / 12.0)), 75.0, 500.0))
             call(pt, "Add point", t, new_f)
 
@@ -159,9 +358,12 @@ def build_ideal_reference_from_participant(
     """Synthesize an Ideal Reference WAV + Alignment from participant audio."""
     audio, _ = librosa.load(str(audio_path), sr=SAMPLE_RATE, mono=True)
     audio = audio.astype(np.float32)
+    is_long_audio = (len(audio) / SAMPLE_RATE) > 180.0
+
+    refined_words = _trim_swallowed_silences(audio, part_words)
 
     clean_items: list[dict] = []
-    for w in part_words:
+    for w in refined_words:
         if w.get("start") is None or w.get("end") is None:
             continue
         nw = _norm_word(w["word"])
@@ -185,8 +387,8 @@ def build_ideal_reference_from_participant(
             if rms > 1e-4:
                 word_rms_list.append(rms)
 
-    target_unit_s = float(np.clip(np.median(unit_durs), 0.14, 0.21))
-    target_rms = float(np.percentile(word_rms_list, 80)) if word_rms_list else 0.08
+    target_unit_s = float(np.clip(np.median(unit_durs), 0.14, 0.20))
+    target_rms = float(np.percentile(word_rms_list, 85)) if word_rms_list else 0.08
 
     ref_chunks: list[np.ndarray] = [np.zeros(int(0.25 * SAMPLE_RATE), dtype=np.float32)]
     cursor_s = 0.25
@@ -196,22 +398,14 @@ def build_ideal_reference_from_participant(
         s_idx = max(0, int(float(w["start"]) * SAMPLE_RATE))
         e_idx = min(len(audio), int(float(w["end"]) * SAMPLE_RATE))
         chunk = audio[s_idx:e_idx].copy()
-        if len(chunk) < int(0.04 * SAMPLE_RATE):
-            chunk = np.zeros(int(0.08 * SAMPLE_RATE), dtype=np.float32)
 
         c_rms = float(np.sqrt(np.mean(chunk ** 2) + 1e-12))
         if c_rms > 1e-4:
-            gain = np.clip(target_rms / c_rms, 0.35, 3.5)
+            gain = np.clip(target_rms / c_rms, 0.25, 8.0)
             chunk = np.clip(chunk * gain, -0.95, 0.95)
 
-        actual_dur = len(chunk) / SAMPLE_RATE
         ideal_dur = (_count_syllables(w["word"]) + 0.35) * target_unit_s
-        rate = float(np.clip(actual_dur / max(0.08, ideal_dur), 0.55, 1.85))
-        if abs(rate - 1.0) > 0.12 and len(chunk) >= int(0.12 * SAMPLE_RATE):
-            try:
-                chunk = _psola_stretch_safe(chunk, rate=rate)
-            except Exception:
-                pass
+        chunk = _fit_exact_duration(chunk, ideal_dur, allow_psola=not is_long_audio)
 
         fade = min(int(0.005 * SAMPLE_RATE), len(chunk) // 4)
         if fade > 1:
@@ -241,7 +435,7 @@ def build_ideal_reference_from_participant(
 
     ref_chunks.append(np.zeros(int(0.25 * SAMPLE_RATE), dtype=np.float32))
     ref_audio = np.concatenate(ref_chunks)
-    ref_audio = _ensure_expressive_pitch(ref_audio, SAMPLE_RATE)
+    ref_audio = _impose_uniform_expressive_pitch(ref_audio, SAMPLE_RATE)
 
     raw_dir.mkdir(parents=True, exist_ok=True)
     align_dir.mkdir(parents=True, exist_ok=True)
@@ -285,7 +479,7 @@ def prepare_reference_and_transcript(
         ref_wav_path = raw_dir / f"{CUSTOM_ID}.wav"
         sf.write(ref_wav_path, ref_audio, SAMPLE_RATE)
         (transcript_dir / f"{CUSTOM_ID}.txt").write_text(clean_transcript, encoding="utf-8")
-        ref_words = _run_align(ref_wav_path, clean_transcript, align_fn=align_fn)
+        ref_words = smart_align_transcript(ref_wav_path, clean_transcript, align_fn=align_fn)
         (align_dir / f"{CUSTOM_ID}_alignment.json").write_text(
             json.dumps(ref_words, indent=2), encoding="utf-8"
         )
@@ -294,18 +488,20 @@ def prepare_reference_and_transcript(
     if sid not in ("auto", "custom", ""):
         return sid, (clean_transcript if clean_transcript else None)
 
-    # Universal "auto" / "custom" mode
     user_supplied_transcript = bool(clean_transcript)
     if not clean_transcript:
         clean_transcript = transcribe_audio(audio_path)
 
-    matched = _match_benchmark_speech(clean_transcript, raw_dir, transcript_dir)
+    try:
+        audio_dur_s = float(librosa.get_duration(path=str(audio_path)))
+    except Exception:
+        audio_dur_s = None
+
+    matched = _match_benchmark_speech(clean_transcript, raw_dir, transcript_dir, audio_duration_s=audio_dur_s)
     if matched is not None and (raw_dir / f"{matched}.wav").exists():
-        # If the user did not supply a custom transcript (e.g. they uploaded moderate_recording.m4a),
-        # return None so pipeline.py uses the exact canonical transcript for 1-to-1 alignment!
         return matched, (clean_transcript if user_supplied_transcript else None)
 
-    part_words = _run_align(audio_path, clean_transcript, align_fn=align_fn)
+    part_words = smart_align_transcript(audio_path, clean_transcript, align_fn=align_fn)
     return build_ideal_reference_from_participant(
         audio_path, part_words, raw_dir, align_dir, transcript_dir
     )
